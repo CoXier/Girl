@@ -8,7 +8,6 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.util.Log;
 import android.view.View;
 
 import com.hackerli.retrofit.data.entity.Girl;
@@ -109,7 +108,6 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                 lastVisiblePositions = layoutManager.findLastCompletelyVisibleItemPositions(lastVisiblePositions);
                 int right = lastVisiblePositions[1];
                 boolean isBttom = right > girlAdapter.getItemCount() - 7;
-                Log.d("TAG",girlAdapter.getItemCount()+"");
                 if (isBttom && !swipeRefreshLayout.isRefreshing()) {
                     if (!mIsFirstTouchedBttom) {
                         onRefresh();
