@@ -25,6 +25,12 @@ public class GirlAdapter extends RecyclerView.Adapter<GirlAdapter.ViewHolder> {
     private Context mContext;
     private List<Girl> mList;
 
+    public void setOnClickListener(GirlOnClickListener mOnClickListenr) {
+        this.mOnClickListenr = mOnClickListenr;
+    }
+
+    private GirlOnClickListener mOnClickListenr;
+
 
     public GirlAdapter(Context mContext, List<Girl> mList) {
         this.mContext = mContext;
@@ -35,6 +41,7 @@ public class GirlAdapter extends RecyclerView.Adapter<GirlAdapter.ViewHolder> {
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.gril_layout, parent, false);
         ViewHolder viewHolder = new ViewHolder(v);
+
         return viewHolder;
     }
 
@@ -50,6 +57,7 @@ public class GirlAdapter extends RecyclerView.Adapter<GirlAdapter.ViewHolder> {
         String title = desc.length() > 40 ? desc.substring(0, 40) + "......" : desc;
         holder.textView.setText(title);
 
+        setOnClickListener(holder,girl.getUrl());
     }
 
     @Override
@@ -71,10 +79,32 @@ public class GirlAdapter extends RecyclerView.Adapter<GirlAdapter.ViewHolder> {
             imageView.setOriginalSize(50, originalHeight);
         }
 
+
     }
 
     @Override
     public void onViewRecycled(ViewHolder holder) {
         super.onViewRecycled(holder);
     }
+
+    public void setOnClickListener(ViewHolder viewHolder, final String photoUrl) {
+        viewHolder.imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mOnClickListenr!=null){
+                    mOnClickListenr.viewGirlPhoto(photoUrl);
+                }
+            }
+        });
+
+        viewHolder.textView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mOnClickListenr!=null){
+                    mOnClickListenr.viewCSMaterial();
+                }
+            }
+        });
+    }
+
 }

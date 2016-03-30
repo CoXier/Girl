@@ -2,15 +2,19 @@ package com.hackerli.retrofit;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.util.Log;
 import android.view.View;
 
 import com.hackerli.retrofit.data.entity.Girl;
 import com.hackerli.retrofit.modle.GirlModle;
 import com.hackerli.retrofit.ui.GirlAdapter;
+import com.hackerli.retrofit.ui.GirlOnClickListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,6 +51,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         swipeRefreshLayout.setOnRefreshListener(this);
     }
 
+
     private void setSwipeRefeshLayout() {
         swipeRefreshLayout.setColorSchemeResources(R.color.refresh_process1, R.color.refresh_process2, R.color.refresh_process3);
     }
@@ -57,8 +62,30 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         StaggeredGridLayoutManager gridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(gridLayoutManager);
         recyclerView.addOnScrollListener(getOnBttomListener(gridLayoutManager));
+
+
+        girlAdapter.setOnClickListener(new GirlOnClickListener() {
+            @Override
+            public void viewGirlPhoto(String photoUrl) {
+               FragmentManager fragmentManager = getSupportFragmentManager();
+                GirlPhotoFragment fragment = GirlPhotoFragment.newInstance(photoUrl);
+                fragment.show(fragmentManager,"fragment_girl_photo");
+                fragment.setStyle(DialogFragment.STYLE_NORMAL, R.style.Dialog_FullScreen);
+
+//                Intent intent = new Intent(MainActivity.this,PhotoActivity.class);
+//                intent.putExtra(PhotoActivity.EXTRA_IAMGE_URL,photoUrl);
+//                startActivity(intent);
+            }
+
+            @Override
+            public void viewCSMaterial() {
+
+            }
+        });
     }
 
+
+    // swipelayout uses this method to refresh
     @Override
     public void onRefresh() {
         page++;
@@ -72,11 +99,17 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         girlModle.getGirs(page, recyclerView, girls);
     }
 
+
+    // if user have reached bttom ,we should load more
     RecyclerView.OnScrollListener getOnBttomListener(final StaggeredGridLayoutManager layoutManager) {
         RecyclerView.OnScrollListener bttomListener = new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                boolean isBttom = layoutManager.findLastVisibleItemPositions(new int[2])[1] > girlAdapter.getItemCount() - 6;
+                int[] lastVisiblePositions = new int[2];
+                lastVisiblePositions = layoutManager.findLastCompletelyVisibleItemPositions(lastVisiblePositions);
+                int right = lastVisiblePositions[1];
+                boolean isBttom = right > girlAdapter.getItemCount() - 7;
+                Log.d("TAG",girlAdapter.getItemCount()+"");
                 if (isBttom && !swipeRefreshLayout.isRefreshing()) {
                     if (!mIsFirstTouchedBttom) {
                         onRefresh();

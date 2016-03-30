@@ -28,7 +28,6 @@ public class GirlModle {
                 .build();
         GirlsApi girlsApi = retrofit.create(GirlsApi.class);
         final Call<GirlData> girlDataCall = girlsApi.getGrils(page);
-        Log.d("TAG",page+"");
         girlDataCall.enqueue(new Callback<GirlData>() {
             @Override
             public void onResponse(Call<GirlData> call, Response<GirlData> response) {
@@ -36,6 +35,7 @@ public class GirlModle {
                 List<Girl> newGirls = girlData.getGirls();
                 for (Girl girl:newGirls){
                     girlList.add(girl);
+                    recyclerView.requestLayout();
                     recyclerView.getAdapter().notifyDataSetChanged();
                 }
             }
