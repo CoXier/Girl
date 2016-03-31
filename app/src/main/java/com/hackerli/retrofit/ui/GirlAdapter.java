@@ -25,9 +25,6 @@ public class GirlAdapter extends RecyclerView.Adapter<GirlAdapter.ViewHolder> {
     private Context mContext;
     private List<Girl> mList;
 
-    public void setOnClickListener(GirlOnClickListener mOnClickListenr) {
-        this.mOnClickListenr = mOnClickListenr;
-    }
 
     private GirlOnClickListener mOnClickListenr;
 
@@ -35,6 +32,7 @@ public class GirlAdapter extends RecyclerView.Adapter<GirlAdapter.ViewHolder> {
     public GirlAdapter(Context mContext, List<Girl> mList) {
         this.mContext = mContext;
         this.mList = mList;
+        mOnClickListenr = (GirlOnClickListener) mContext;
     }
 
     @Override
@@ -57,13 +55,14 @@ public class GirlAdapter extends RecyclerView.Adapter<GirlAdapter.ViewHolder> {
         String title = desc.length() > 40 ? desc.substring(0, 40) + "......" : desc;
         holder.textView.setText(title);
 
-        setOnClickListener(holder,girl.getUrl());
+        setOnClickListener(holder, girl.getUrl());
     }
 
     @Override
     public int getItemCount() {
         return mList.size();
     }
+
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         @Bind(R.id.iv_girl)
@@ -91,20 +90,17 @@ public class GirlAdapter extends RecyclerView.Adapter<GirlAdapter.ViewHolder> {
         viewHolder.imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mOnClickListenr!=null){
-                    mOnClickListenr.viewGirlPhoto(photoUrl);
-                }
+                mOnClickListenr.viewGirlPhoto(photoUrl);
             }
         });
 
         viewHolder.textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mOnClickListenr!=null){
-                    mOnClickListenr.viewCSMaterial();
-                }
+                mOnClickListenr.viewCSMaterial();
             }
         });
     }
+
 
 }

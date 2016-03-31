@@ -159,7 +159,8 @@ Picasso.with(getActivity())
        .into(photoView);
 ```
 然后接下来我用了两种方式来展示大图片（也就是用户对小图片有兴趣了，点了看看）。一种是DialogFragment,一个是Activity。DialogFragment这个之前没怎么用过，记一下这个细节：
-![](http://7xra01.com1.z0.glb.clouddn.com/fragment.PNG)，传参数这个地方需要注意，不能写成内部变量，使用Bundle.
+![](http://7xra01.com1.z0.glb.clouddn.com/fragment.PNG)
+传参数这个地方需要注意，不能写成内部变量，使用Bundle.
 做到这里我又有问题了，怎么把这个DialogFragment设置成full screen呢？google之后找到可行之法：
 Step1:
 

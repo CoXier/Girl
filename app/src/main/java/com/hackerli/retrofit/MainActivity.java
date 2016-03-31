@@ -21,7 +21,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
+public class MainActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener,GirlOnClickListener {
     @Bind(R.id.recl)
     RecyclerView recyclerView;
     @Bind(R.id.swipe_refresh_layout)
@@ -62,25 +62,6 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         recyclerView.setLayoutManager(gridLayoutManager);
         recyclerView.addOnScrollListener(getOnBttomListener(gridLayoutManager));
 
-
-        girlAdapter.setOnClickListener(new GirlOnClickListener() {
-            @Override
-            public void viewGirlPhoto(String photoUrl) {
-               FragmentManager fragmentManager = getSupportFragmentManager();
-                GirlPhotoFragment fragment = GirlPhotoFragment.newInstance(photoUrl);
-                fragment.show(fragmentManager,"fragment_girl_photo");
-                fragment.setStyle(DialogFragment.STYLE_NORMAL, R.style.Dialog_FullScreen);
-
-//                Intent intent = new Intent(MainActivity.this,PhotoActivity.class);
-//                intent.putExtra(PhotoActivity.EXTRA_IAMGE_URL,photoUrl);
-//                startActivity(intent);
-            }
-
-            @Override
-            public void viewCSMaterial() {
-
-            }
-        });
     }
 
 
@@ -119,4 +100,16 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     }
 
 
+    @Override
+    public void viewGirlPhoto(String photoUrl) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        GirlPhotoFragment fragment = GirlPhotoFragment.newInstance(photoUrl);
+        fragment.show(fragmentManager,"fragment_girl_photo");
+        fragment.setStyle(DialogFragment.STYLE_NORMAL, R.style.Dialog_FullScreen);
+    }
+
+    @Override
+    public void viewCSMaterial() {
+
+    }
 }
