@@ -1,6 +1,5 @@
-package com.hackerli.retrofit.modle;
+package com.hackerli.retrofit.presenter;
 
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
 import com.hackerli.retrofit.api.GirlsApi;
@@ -18,10 +17,16 @@ import retrofit2.converter.gson.GsonConverterFactory;
 /**
  * Created by Administrator on 2016/3/20.
  */
-public class GirlModle {
-    GirlData girlData = null;
+public class GirlPresenter {
 
-    public void getGirs(int page, final RecyclerView recyclerView, final List<Girl> girlList){
+    private GirlData girlData = null;
+    private GirlView girlView;
+
+    public GirlPresenter(GirlView girlView) {
+        this.girlView = girlView;
+    }
+
+    public void showMoreGirls(int page){
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("http://gank.io/api/")
                 .addConverterFactory(GsonConverterFactory.create())
@@ -33,11 +38,7 @@ public class GirlModle {
             public void onResponse(Call<GirlData> call, Response<GirlData> response) {
                 girlData = response.body();
                 List<Girl> newGirls = girlData.getGirls();
-                for (Girl girl:newGirls){
-                    girlList.add(girl);
-                    recyclerView.requestLayout();
-                    recyclerView.getAdapter().notifyDataSetChanged();
-                }
+                girlView.loadMore(newGirls);
             }
 
             @Override
