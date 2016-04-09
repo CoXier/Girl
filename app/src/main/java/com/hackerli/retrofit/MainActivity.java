@@ -1,8 +1,8 @@
 package com.hackerli.retrofit;
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -91,12 +91,6 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     public void onRefresh() {
         page++;
         swipeRefreshLayout.setRefreshing(true);
-        (new Handler()).postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                swipeRefreshLayout.setRefreshing(false);
-            }
-        }, 1000);
         girlPresenter.showMoreGirls(page);
     }
 
@@ -120,5 +114,22 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
          mGirls.add(girl);
         }
         recyclerView.requestLayout();
+    }
+
+    @Override
+    public void finishRefresh() {
+        swipeRefreshLayout.setRefreshing(false);
+    }
+
+    @Override
+    public void showSnackBar() {
+        Snackbar.make(recyclerView,"加载失败，请重试",Snackbar.LENGTH_LONG)
+                .setAction("重试", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        onRefresh();
+                    }
+                })
+                .show();
     }
 }

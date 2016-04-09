@@ -11,4 +11,8 @@ import java.util.List;
  */
 public interface GirlView {
     public void loadMore(@Nullable List<Girl> girls);
+
+    public void finishRefresh();
+
+    public void showSnackBar();
 }

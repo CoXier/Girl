@@ -3,11 +3,13 @@ package com.hackerli.retrofit;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 
+import com.hackerli.retrofit.util.NetWordUtils;
 import com.squareup.picasso.Picasso;
 
 import butterknife.Bind;
@@ -64,6 +66,8 @@ public class GirlPhotoFragment extends DialogFragment {
         photoView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
+                NetWordUtils netWordUtils = new NetWordUtils(getActivity());
+                Log.d("NET",netWordUtils.getSubbNetType());
                 return false;
             }
         });

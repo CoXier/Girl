@@ -39,11 +39,14 @@ public class GirlPresenter {
                 girlData = response.body();
                 List<Girl> newGirls = girlData.getGirls();
                 girlView.loadMore(newGirls);
+                girlView.finishRefresh();
             }
 
             @Override
             public void onFailure(Call<GirlData> call, Throwable t) {
                 Log.e("TAG","failure");
+                girlView.finishRefresh();
+                girlView.showSnackBar();
             }
         });
 
