@@ -29,6 +29,7 @@
         android:src="@drawable/ic_add_white_24dp"
         app:layout_anchor="@id/swipe_refresh_layout"
         app:layout_anchorGravity="bottom|right|end"
+        app:layout_behavior="com.hackerli.retrofit.widget.ScrollAwareFABBehavior"
         />
 
 </android.support.design.widget.CoordinatorLayout>

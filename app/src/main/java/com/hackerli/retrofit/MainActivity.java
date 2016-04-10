@@ -96,9 +96,9 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 
 
     @Override
-    public void viewGirlPhoto(String photoUrl) {
+    public void viewGirlPhoto(Girl girl) {
         FragmentManager fragmentManager = getSupportFragmentManager();
-        GirlPhotoFragment fragment = GirlPhotoFragment.newInstance(photoUrl);
+        GirlPhotoFragment fragment = GirlPhotoFragment.newInstance(girl.getUrl(),girl.getDesc());
         fragment.show(fragmentManager,"fragment_girl_photo");
         fragment.setStyle(DialogFragment.STYLE_NORMAL, R.style.Dialog_FullScreen);
     }

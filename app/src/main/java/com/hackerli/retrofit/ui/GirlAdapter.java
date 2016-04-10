@@ -55,7 +55,7 @@ public class GirlAdapter extends RecyclerView.Adapter<GirlAdapter.ViewHolder> {
         String title = desc.length() > 40 ? desc.substring(0, 40) + "......" : desc;
         holder.textView.setText(title);
 
-        setOnClickListener(holder, girl.getUrl());
+        setOnClickListener(holder, girl);
     }
 
     @Override
@@ -86,11 +86,11 @@ public class GirlAdapter extends RecyclerView.Adapter<GirlAdapter.ViewHolder> {
         super.onViewRecycled(holder);
     }
 
-    public void setOnClickListener(ViewHolder viewHolder, final String photoUrl) {
+    public void setOnClickListener(ViewHolder viewHolder, final Girl girl) {
         viewHolder.imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mOnClickListenr.viewGirlPhoto(photoUrl);
+                mOnClickListenr.viewGirlPhoto(girl);
             }
         });
 
