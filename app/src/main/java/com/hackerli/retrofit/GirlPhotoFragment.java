@@ -1,13 +1,17 @@
 package com.hackerli.retrofit;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -79,14 +83,12 @@ public class GirlPhotoFragment extends DialogFragment {
             public boolean onLongClick(View v) {
                 NetWordUtils netWordUtils = new NetWordUtils(getActivity());
                 if (netWordUtils.isNetConnected()) {
-                    File appDir = new File(Environment.getExternalStorageDirectory(), "Retrofit");
-                    if (!appDir.exists()) {
-                        appDir.mkdir();
+                    // 获取存储权限
+                    if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED){
+                        requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},1);
+                    }else {
+                        new SaveBitmapTask().execute(getArguments().getString("photoUrl"));
                     }
-                    File file = new File(appDir, getArguments().getString("desc")+".jpg");
-                    SaveBitmapTask saveBitmapTask = new SaveBitmapTask();
-                    saveBitmapTask.execute(getArguments().getString("photoUrl"), file.toString());
-
                 }
                 return false;
             }
@@ -106,6 +108,19 @@ public class GirlPhotoFragment extends DialogFragment {
         super.onResume();
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode==1){
+            if (grantResults[0]== PackageManager.PERMISSION_GRANTED){
+                new SaveBitmapTask().execute(getArguments().getString("photoUrl"));
+            }else {
+                Log.d("TAG","failure");
+            }
+
+        }
+    }
+
     class SaveBitmapTask extends AsyncTask<String,Void,Boolean>{
         @Override
         protected void onPostExecute(Boolean aBoolean) {
@@ -116,13 +131,17 @@ public class GirlPhotoFragment extends DialogFragment {
         @Override
         protected Boolean doInBackground(String... params) {
             Bitmap bitmap = null;
+            File appDir = new File(Environment.getExternalStorageDirectory(), "Retrofit");
+            if (!appDir.exists()) {
+                appDir.mkdir();
+            }
+            File file = new File(appDir, getArguments().getString("desc")+".jpg");
             try {
                 bitmap = Picasso.with(getActivity()).load(params[0]).get();
             } catch (IOException e) {
                 e.printStackTrace();
                 return false;
             }
-            File file = new File(params[1]);
             try {
                 FileOutputStream fos = new FileOutputStream(file);
                 assert bitmap != null;
@@ -143,4 +162,5 @@ public class GirlPhotoFragment extends DialogFragment {
             return true;
         }
     }
+
 }
