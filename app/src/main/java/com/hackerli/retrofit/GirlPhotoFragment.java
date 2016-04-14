@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 
 import com.hackerli.retrofit.util.NetWordUtils;
+import com.hackerli.retrofit.util.RxGirl;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
@@ -37,6 +38,7 @@ import uk.co.senab.photoview.PhotoViewAttacher;
 public class GirlPhotoFragment extends DialogFragment {
     @Bind(R.id.iv_fr_girl)
     PhotoView photoView;
+
 
 
     public GirlPhotoFragment() {
@@ -87,7 +89,8 @@ public class GirlPhotoFragment extends DialogFragment {
                     if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED){
                         requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},1);
                     }else {
-                        new SaveBitmapTask().execute(getArguments().getString("photoUrl"));
+                        //new SaveBitmapTask().execute(getArguments().getString("photoUrl"));
+                        RxGirl.saveBitamp(getActivity(),getArguments().getString("photoUrl"),getArguments().getString("desc"));
                     }
                 }
                 return false;
