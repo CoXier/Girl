@@ -1,13 +1,8 @@
 package com.hackerli.retrofit;
 
 import android.Manifest;
-import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
@@ -22,11 +17,6 @@ import com.hackerli.retrofit.util.NetWordUtils;
 import com.hackerli.retrofit.util.RxGirl;
 import com.squareup.picasso.Picasso;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import uk.co.senab.photoview.PhotoView;
@@ -38,7 +28,6 @@ import uk.co.senab.photoview.PhotoViewAttacher;
 public class GirlPhotoFragment extends DialogFragment {
     @Bind(R.id.iv_fr_girl)
     PhotoView photoView;
-
 
 
     public GirlPhotoFragment() {
@@ -86,11 +75,10 @@ public class GirlPhotoFragment extends DialogFragment {
                 NetWordUtils netWordUtils = new NetWordUtils(getActivity());
                 if (netWordUtils.isNetConnected()) {
                     // 获取存储权限
-                    if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED){
-                        requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},1);
-                    }else {
-                        //new SaveBitmapTask().execute(getArguments().getString("photoUrl"));
-                        RxGirl.saveBitamp(getActivity(),getArguments().getString("photoUrl"),getArguments().getString("desc"));
+                    if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                        requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+                    } else {
+                        RxGirl.saveBitmap(getActivity(), getArguments().getString("photoUrl"), getArguments().getString("desc"));
                     }
                 }
                 return false;
@@ -114,55 +102,13 @@ public class GirlPhotoFragment extends DialogFragment {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode==1){
-            if (grantResults[0]== PackageManager.PERMISSION_GRANTED){
-                new SaveBitmapTask().execute(getArguments().getString("photoUrl"));
-            }else {
-                Log.d("TAG","failure");
+        if (requestCode == 1) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                RxGirl.saveBitmap(getActivity(), getArguments().getString("photoUrl"), getArguments().getString("desc"));
+            } else {
+                Log.d("TAG", "failure");
             }
 
-        }
-    }
-
-    class SaveBitmapTask extends AsyncTask<String,Void,Boolean>{
-        @Override
-        protected void onPostExecute(Boolean aBoolean) {
-            super.onPostExecute(aBoolean);
-            Log.d("TAG","saved");
-        }
-
-        @Override
-        protected Boolean doInBackground(String... params) {
-            Bitmap bitmap = null;
-            File appDir = new File(Environment.getExternalStorageDirectory(), "Retrofit");
-            if (!appDir.exists()) {
-                appDir.mkdir();
-            }
-            File file = new File(appDir, getArguments().getString("desc")+".jpg");
-            try {
-                bitmap = Picasso.with(getActivity()).load(params[0]).get();
-            } catch (IOException e) {
-                e.printStackTrace();
-                return false;
-            }
-            try {
-                FileOutputStream fos = new FileOutputStream(file);
-                assert bitmap != null;
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
-                fos.flush();
-                fos.close();
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            Log.d("TAG",file.toString());
-            Uri uri = Uri.fromFile(file);
-            // 通知图库更新
-            Intent scannerIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, uri);
-            getActivity().sendBroadcast(scannerIntent);
-            return true;
         }
     }
 

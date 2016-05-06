@@ -1,8 +1,6 @@
 package com.hackerli.retrofit.presenter;
 
-import android.util.Log;
-
-import com.hackerli.retrofit.api.GirlsApi;
+import com.hackerli.retrofit.api.GankioService;
 import com.hackerli.retrofit.data.GirlData;
 import com.hackerli.retrofit.data.entity.Girl;
 
@@ -15,38 +13,38 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
- * Created by Administrator on 2016/3/20.
+ * Created by XoCier on 2016/3/20.
  */
-public class GirlPresenter {
+public class GirlPresenter extends BasePresenter{
 
     private GirlData girlData = null;
-    private GirlView girlView;
+    private BaseView baseView;
 
-    public GirlPresenter(GirlView girlView) {
-        this.girlView = girlView;
+    public GirlPresenter(BaseView baseView) {
+        this.baseView = baseView;
     }
 
-    public void showMoreGirls(int page){
+    @Override
+    public void loadMore(int page) {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("http://gank.io/api/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
-        GirlsApi girlsApi = retrofit.create(GirlsApi.class);
-        final Call<GirlData> girlDataCall = girlsApi.getGrils(page);
+        GankioService gankioService = retrofit.create(GankioService.class);
+        final Call<GirlData> girlDataCall = gankioService.getGirls(page);
         girlDataCall.enqueue(new Callback<GirlData>() {
             @Override
             public void onResponse(Call<GirlData> call, Response<GirlData> response) {
                 girlData = response.body();
                 List<Girl> newGirls = girlData.getGirls();
-                girlView.loadMore(newGirls);
-                girlView.finishRefresh();
+                baseView.showMore(newGirls);
+                baseView.finishRefresh();
             }
 
             @Override
             public void onFailure(Call<GirlData> call, Throwable t) {
-                Log.e("TAG","failure");
-                girlView.finishRefresh();
-                girlView.showSnackBar();
+                baseView.finishRefresh();
+                baseView.showSnackBar();
             }
         });
 

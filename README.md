@@ -74,8 +74,8 @@ public void getGirs(int page, final RecyclerView recyclerView, final List<Girl> 
                 .baseUrl("http://gank.io/api/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
-        GirlsApi girlsApi = retrofit.create(GirlsApi.class);
-        final Call<GirlData> girlDataCall = girlsApi.getGrils(page);
+        GirlsApi gankioApi = retrofit.create(GirlsApi.class);
+        final Call<GirlData> girlDataCall = gankioApi.getGrils(page);
         girlDataCall.enqueue(new Callback<GirlData>() {
             @Override
             public void onResponse(Call<GirlData> call, Response<GirlData> response) {

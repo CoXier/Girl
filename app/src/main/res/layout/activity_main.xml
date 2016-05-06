@@ -2,23 +2,21 @@
 <android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/colayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true">
 
-    <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/swipe_refresh_layout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+    <include layout="@layout/view_head"/>
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recl"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingLeft="2.5dp"
-            android:paddingRight="2.5dp"></android.support.v7.widget.RecyclerView>
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-    </android.support.v4.widget.SwipeRefreshLayout>
+    </android.support.v4.view.ViewPager>
+
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fla_add"
@@ -27,7 +25,7 @@
         android:layout_gravity="right|bottom"
         android:layout_margin="16dp"
         android:src="@drawable/ic_add_white_24dp"
-        app:layout_anchor="@id/swipe_refresh_layout"
+        app:layout_anchor="@id/vp"
         app:layout_anchorGravity="bottom|right|end"
         app:layout_behavior="com.hackerli.retrofit.widget.ScrollAwareFABBehavior"
         />

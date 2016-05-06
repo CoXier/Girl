@@ -1,4 +1,4 @@
-package com.hackerli.retrofit.ui;
+package com.hackerli.retrofit.ui.listener;
 
 import com.hackerli.retrofit.data.entity.Girl;
 
@@ -7,6 +7,4 @@ import com.hackerli.retrofit.data.entity.Girl;
  */
 public interface GirlOnClickListener {
     public void viewGirlPhoto(Girl girl);
-
-    public void viewCSMaterial();
 }
