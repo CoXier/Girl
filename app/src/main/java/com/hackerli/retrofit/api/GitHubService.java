@@ -1,6 +1,6 @@
 package com.hackerli.retrofit.api;
 
-import com.hackerli.retrofit.ui.author.GitUser;
+import com.hackerli.retrofit.data.entity.GitUser;
 
 import retrofit2.http.GET;
 import retrofit2.http.Path;

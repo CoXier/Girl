@@ -1,4 +1,4 @@
-package com.hackerli.retrofit;
+package com.hackerli.retrofit.main;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -8,10 +8,11 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
-import com.hackerli.retrofit.content.GankFragment;
-import com.hackerli.retrofit.content.GirlFragment;
-import com.hackerli.retrofit.content.VideoFragment;
-import com.hackerli.retrofit.ui.TabsPagerAdapter;
+import com.hackerli.retrofit.R;
+import com.hackerli.retrofit.module.showgank.GankFragment;
+import com.hackerli.retrofit.module.showgirl.GirlFragment;
+import com.hackerli.retrofit.module.showvideo.VideoFragment;
+import com.hackerli.retrofit.ui.adapter.TabsPagerAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +30,6 @@ public class MainActivity extends AppCompatActivity {
     FloatingActionButton flaAdd;
     @Bind(R.id.toolbar)
     Toolbar toolbar;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

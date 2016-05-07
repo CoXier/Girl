@@ -1,4 +1,4 @@
-package com.hackerli.retrofit.content;
+package com.hackerli.retrofit.module.showgirl;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -11,11 +11,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.hackerli.retrofit.GirlPhotoFragment;
+import com.hackerli.retrofit.BaseFragment;
 import com.hackerli.retrofit.R;
 import com.hackerli.retrofit.data.entity.Girl;
-import com.hackerli.retrofit.presenter.GirlPresenter;
-import com.hackerli.retrofit.ui.GirlAdapter;
+import com.hackerli.retrofit.module.showgank.GirlPhotoFragment;
+import com.hackerli.retrofit.ui.adapter.GirlAdapter;
 import com.hackerli.retrofit.ui.listener.GirlOnClickListener;
 import com.hackerli.retrofit.util.SnackBarUtil;
 
@@ -28,7 +28,7 @@ import butterknife.ButterKnife;
 /**
  * Created by CoXier on 2016/5/2.
  */
-public class GirlFragment extends BaseFragment implements GirlOnClickListener {
+public class GirlFragment extends BaseFragment implements GirlOnClickListener ,GirlContract.View{
 
     @Bind(R.id.recl)
     RecyclerView recyclerView;
@@ -38,7 +38,7 @@ public class GirlFragment extends BaseFragment implements GirlOnClickListener {
     private int page = 1;
     private List<Girl> mGirls = new ArrayList<>();
     private GirlAdapter girlAdapter;
-    private final GirlPresenter girlPresenter = new GirlPresenter(this);
+    private GirlContract.Presenter mPresenter = new GirlPresenter(this);
 
     private boolean mIsFirstTouchedBottom = true;
     private boolean mIsFirstCreated = true;
@@ -101,7 +101,7 @@ public class GirlFragment extends BaseFragment implements GirlOnClickListener {
     @Override
     public void onRefresh() {
         swipeRefreshLayout.setRefreshing(true);
-        girlPresenter.loadMore(page);
+        mPresenter.loadMore(page);
         mIsFirstCreated = false;
     }
 
@@ -137,4 +137,11 @@ public class GirlFragment extends BaseFragment implements GirlOnClickListener {
         };
         return bottomListener;
     }
+
+    @Override
+    public void setPresenter(GirlContract.Presenter presenter) {
+        mPresenter = presenter;
+    }
+
+
 }

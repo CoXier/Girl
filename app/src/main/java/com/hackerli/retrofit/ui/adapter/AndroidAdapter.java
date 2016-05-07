@@ -1,4 +1,4 @@
-package com.hackerli.retrofit.ui;
+package com.hackerli.retrofit.ui.adapter;
 
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
@@ -13,7 +13,7 @@ import com.hackerli.retrofit.R;
 import com.hackerli.retrofit.api.GitHubService;
 import com.hackerli.retrofit.data.entity.Android;
 import com.hackerli.retrofit.data.entity.AndroidWrapper;
-import com.hackerli.retrofit.ui.author.GitUser;
+import com.hackerli.retrofit.data.entity.GitUser;
 import com.hackerli.retrofit.ui.listener.GankOnClickListener;
 
 import org.jsoup.Jsoup;
@@ -310,4 +310,5 @@ public class AndroidAdapter extends RecyclerView.Adapter<AndroidAdapter.GankHold
             this.itemView = itemView;
         }
     }
+
 }

@@ -1,4 +1,6 @@
-package com.hackerli.retrofit.presenter;
+package com.hackerli.retrofit.module.showgank;
+
+import android.support.annotation.NonNull;
 
 import com.hackerli.retrofit.api.GankioService;
 import com.hackerli.retrofit.data.AndroidData;
@@ -17,25 +19,33 @@ import retrofit2.converter.gson.GsonConverterFactory;
 /**
  * Created by CoXier on 2016/5/2.
  */
-public class GankPresenter extends BasePresenter {
+public class GankPresenter implements GankContract.Presenter {
 
     // 从gank.io获取干货
-    Retrofit retfGank ;
+    Retrofit retfGank;
+    GankioService gankioService;
 
-    private BaseView baseView;
+    private GankContract.View mGankView;
     private AndroidData androidData;
 
-    public GankPresenter(BaseView baseView) {
-        this.baseView = baseView;
+
+    public GankPresenter(@NonNull GankContract.View baseView) {
+        this.mGankView = baseView;
+        init();
     }
 
-    @Override
-    public void loadMore(int page) {
+    private void init() {
         retfGank = new Retrofit.Builder()
                 .baseUrl("http://gank.io/api/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
-        GankioService gankioService = retfGank.create(GankioService.class);
+        gankioService = retfGank.create(GankioService.class);
+        mGankView.setPresenter(this);
+    }
+
+    @Override
+    public void loadMore(int page) {
+        init();
         final Call<AndroidData> androidDataCall = gankioService.getAndroidData(page);
         androidDataCall.enqueue(new Callback<AndroidData>() {
             @Override
@@ -43,18 +53,18 @@ public class GankPresenter extends BasePresenter {
                 androidData = response.body();
                 int size = androidData.getData().size();
                 List<AndroidWrapper> wrapperList = new ArrayList<AndroidWrapper>(size);
-                for (Android android:androidData.getData()){
-                    AndroidWrapper wrapper = new AndroidWrapper(android,null);
+                for (Android android : androidData.getData()) {
+                    AndroidWrapper wrapper = new AndroidWrapper(android, null);
                     wrapperList.add(wrapper);
                 }
-                baseView.showMore(wrapperList);
-                baseView.finishRefresh();
+                mGankView.showMore(wrapperList);
+                mGankView.finishRefresh();
             }
 
             @Override
             public void onFailure(Call<AndroidData> call, Throwable t) {
-                baseView.finishRefresh();
-                baseView.showSnackBar();
+                mGankView.finishRefresh();
+                mGankView.showSnackBar();
             }
         });
     }

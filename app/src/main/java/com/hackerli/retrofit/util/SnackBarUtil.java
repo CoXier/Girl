@@ -3,7 +3,7 @@ package com.hackerli.retrofit.util;
 import android.support.design.widget.Snackbar;
 import android.view.View;
 
-import com.hackerli.retrofit.content.BaseFragment;
+import com.hackerli.retrofit.BaseFragment;
 
 /**
  * Created by CoXier on 2016/5/2.

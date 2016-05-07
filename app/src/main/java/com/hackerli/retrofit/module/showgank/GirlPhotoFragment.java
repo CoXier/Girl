@@ -1,4 +1,4 @@
-package com.hackerli.retrofit;
+package com.hackerli.retrofit.module.showgank;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
@@ -13,7 +13,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 
-import com.hackerli.retrofit.util.NetWordUtils;
+import com.hackerli.retrofit.R;
+import com.hackerli.retrofit.util.NetWordUtil;
 import com.hackerli.retrofit.util.RxGirl;
 import com.squareup.picasso.Picasso;
 
@@ -72,8 +73,8 @@ public class GirlPhotoFragment extends DialogFragment {
         photoView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                NetWordUtils netWordUtils = new NetWordUtils(getActivity());
-                if (netWordUtils.isNetConnected()) {
+                NetWordUtil netWordUtil = new NetWordUtil(getActivity());
+                if (netWordUtil.isNetConnected()) {
                     // 获取存储权限
                     if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                         requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);

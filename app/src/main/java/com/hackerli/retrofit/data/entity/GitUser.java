@@ -1,4 +1,4 @@
-package com.hackerli.retrofit.ui.author;
+package com.hackerli.retrofit.data.entity;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -9,7 +9,6 @@ public class GitUser {
 
     @SerializedName("avatar_url")
     private String imageUrl;
-
     public String getImageUrl() {
         return imageUrl;
     }
