@@ -14,7 +14,7 @@ Girl是我的第一个开源项目，声明[LiJianxinChina](https://github.com/L
 
 <img src="/screenshots/s0.png" alt="screenshot" title="screenshot" width="270" height="486" />   <img src="/screenshots/s1.png" alt="screenshot" title="screenshot" width="270" height="486" />
 
-<img src="/screenshots/s2.jpg" alt="screenshot" title="screenshot" width="270" height="486" />   <img src="/screenshots/s3.png" alt="screenshot" title="screenshot" width="270" height="486" />
+<img src="/screenshots/s2.png" alt="screenshot" title="screenshot" width="270" height="486" />   <img src="/screenshots/s3.png" alt="screenshot" title="screenshot" width="270" height="486" />
 
 <img src="/screenshots/s4.png" alt="screenshot" title="screenshot" width="270" height="486" />
 
