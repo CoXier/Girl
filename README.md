@@ -1,3 +1,6 @@
+
+# 源代码在 GPL v3 协议下发布, 使用前, 请确保你了解这个协议!
+
 # 感谢
 
 * [drakeet](https://github.com/drakeet)的开源项目
