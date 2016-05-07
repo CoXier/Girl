@@ -17,7 +17,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 /**
  * Created by CoXier on 2016/5/2.
  */
-public class AndroidPresenter extends BasePresenter {
+public class GankPresenter extends BasePresenter {
 
     // 从gank.io获取干货
     Retrofit retfGank ;
@@ -25,7 +25,7 @@ public class AndroidPresenter extends BasePresenter {
     private BaseView baseView;
     private AndroidData androidData;
 
-    public AndroidPresenter(BaseView baseView) {
+    public GankPresenter(BaseView baseView) {
         this.baseView = baseView;
     }
 

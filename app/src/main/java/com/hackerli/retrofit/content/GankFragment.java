@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 import com.hackerli.retrofit.R;
 import com.hackerli.retrofit.WebActivity;
 import com.hackerli.retrofit.data.entity.AndroidWrapper;
-import com.hackerli.retrofit.presenter.AndroidPresenter;
+import com.hackerli.retrofit.presenter.GankPresenter;
 import com.hackerli.retrofit.ui.AndroidAdapter;
 import com.hackerli.retrofit.ui.listener.GankOnClickListener;
 import com.hackerli.retrofit.util.SnackBarUtil;
@@ -36,7 +36,7 @@ public class GankFragment extends BaseFragment implements GankOnClickListener {
     private int page = 1;
     private List<AndroidWrapper> androidWrappers = new ArrayList<>();
     private AndroidAdapter androidAdapter;
-    private AndroidPresenter androidPresenter = new AndroidPresenter(this);
+    private GankPresenter gankPresenter = new GankPresenter(this);
 
     private boolean mIsFirstTouchedBottom = true;
     private boolean mIsFirstCreated = true;
@@ -93,7 +93,7 @@ public class GankFragment extends BaseFragment implements GankOnClickListener {
     @Override
     public void onRefresh() {
         swipeRefreshLayout.setRefreshing(true);
-        androidPresenter.loadMore(page);
+        gankPresenter.loadMore(page);
         mIsFirstCreated = false;
     }
 
