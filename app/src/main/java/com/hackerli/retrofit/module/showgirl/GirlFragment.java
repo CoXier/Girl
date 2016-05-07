@@ -119,7 +119,13 @@ public class GirlFragment extends BaseFragment implements GirlOnClickListener ,G
         super.onDestroyView();
     }
 
-    // if user have reached bottom ,we should load more
+    /**
+     * The code segment is I learn from Meizhi which was created by drakeet
+     * Meizhi is under the terms of the GNU General Public License as published by
+     * the Free Software Foundation, either version 3 of the License, or
+     * (at your option) any later version.
+     *
+     */
     RecyclerView.OnScrollListener getOnBottomListener(final StaggeredGridLayoutManager layoutManager) {
         RecyclerView.OnScrollListener bottomListener = new RecyclerView.OnScrollListener() {
             @Override

@@ -14,7 +14,11 @@ import android.view.animation.AnimationUtils;
 import android.view.animation.Interpolator;
 
 /**
- * Created by Administrator on 2016/4/10.
+ * The code segment is I learn from Meizhi which was created by drakeet
+ * Meizhi is under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
  */
 public class ScrollAwareFABBehavior extends FloatingActionButton.Behavior {
     private static final Interpolator INTERPOLATOR = new FastOutSlowInInterpolator();

@@ -5,7 +5,11 @@ import android.util.AttributeSet;
 import android.widget.ImageView;
 
 /**
- * Created by Administrator on 2016/3/25.
+ * The code segment is I learn from Meizhi which was created by drakeet
+ * Meizhi is under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
  */
 public class RatioImageview extends ImageView {
     private int originalWidth;

@@ -21,7 +21,11 @@ import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 /**
- * Created by CoXier on 2016/4/11.
+ * The code segment is I learn from Meizhi which was created by drakeet
+ * Meizhi is under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
  */
 public class RxGirl {
 
