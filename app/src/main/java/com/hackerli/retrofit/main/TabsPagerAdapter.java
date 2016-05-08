@@ -1,4 +1,4 @@
-package com.hackerli.retrofit.ui.adapter;
+package com.hackerli.retrofit.main;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;

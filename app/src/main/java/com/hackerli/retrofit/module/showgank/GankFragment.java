@@ -14,8 +14,6 @@ import com.hackerli.retrofit.R;
 import com.hackerli.retrofit.web.WebActivity;
 import com.hackerli.retrofit.BaseFragment;
 import com.hackerli.retrofit.data.entity.AndroidWrapper;
-import com.hackerli.retrofit.ui.adapter.AndroidAdapter;
-import com.hackerli.retrofit.ui.listener.GankOnClickListener;
 import com.hackerli.retrofit.util.SnackBarUtil;
 
 import java.util.ArrayList;

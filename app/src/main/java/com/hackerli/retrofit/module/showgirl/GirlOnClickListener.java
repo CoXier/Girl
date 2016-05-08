@@ -1,4 +1,4 @@
-package com.hackerli.retrofit.ui.listener;
+package com.hackerli.retrofit.module.showgirl;
 
 import com.hackerli.retrofit.data.entity.Girl;
 

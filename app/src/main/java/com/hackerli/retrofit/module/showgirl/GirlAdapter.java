@@ -1,4 +1,4 @@
-package com.hackerli.retrofit.ui.adapter;
+package com.hackerli.retrofit.module.showgirl;
 
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
@@ -10,7 +10,6 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.hackerli.retrofit.R;
 import com.hackerli.retrofit.data.entity.Girl;
-import com.hackerli.retrofit.ui.listener.GirlOnClickListener;
 import com.hackerli.retrofit.widget.RatioImageview;
 
 import java.util.List;

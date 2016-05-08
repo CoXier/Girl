@@ -12,7 +12,6 @@ import com.hackerli.retrofit.R;
 import com.hackerli.retrofit.module.showgank.GankFragment;
 import com.hackerli.retrofit.module.showgirl.GirlFragment;
 import com.hackerli.retrofit.module.showvideo.VideoFragment;
-import com.hackerli.retrofit.ui.adapter.TabsPagerAdapter;
 
 import java.util.ArrayList;
 import java.util.List;

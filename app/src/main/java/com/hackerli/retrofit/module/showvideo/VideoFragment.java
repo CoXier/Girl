@@ -16,8 +16,6 @@ import com.hackerli.retrofit.web.WebActivity;
 import com.hackerli.retrofit.api.VideoApiService;
 import com.hackerli.retrofit.data.VideoData;
 import com.hackerli.retrofit.data.entity.Video;
-import com.hackerli.retrofit.ui.adapter.VideoAdapter;
-import com.hackerli.retrofit.ui.listener.VideoOnClickListener;
 
 import java.util.ArrayList;
 import java.util.List;

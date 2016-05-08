@@ -15,8 +15,6 @@ import com.hackerli.retrofit.BaseFragment;
 import com.hackerli.retrofit.R;
 import com.hackerli.retrofit.data.entity.Girl;
 import com.hackerli.retrofit.module.showgank.GirlPhotoFragment;
-import com.hackerli.retrofit.ui.adapter.GirlAdapter;
-import com.hackerli.retrofit.ui.listener.GirlOnClickListener;
 import com.hackerli.retrofit.util.SnackBarUtil;
 
 import java.util.ArrayList;

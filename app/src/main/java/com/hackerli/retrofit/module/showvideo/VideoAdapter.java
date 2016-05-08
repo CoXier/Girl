@@ -1,4 +1,4 @@
-package com.hackerli.retrofit.ui.adapter;
+package com.hackerli.retrofit.module.showvideo;
 
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
@@ -12,7 +12,6 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.hackerli.retrofit.R;
 import com.hackerli.retrofit.data.entity.Video;
-import com.hackerli.retrofit.ui.listener.VideoOnClickListener;
 
 import java.util.List;
 
