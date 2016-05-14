@@ -40,7 +40,6 @@ dependencies {
     compile 'io.reactivex:rxjava:1.1.0'
     compile 'me.gujun.android.taggroup:library:1.4@aar'
     compile 'de.hdodenhof:circleimageview:2.0.0'
-    compile 'com.devbrackets.android:exomedia:2.5.6'
     compile files('libs/jsoup-1.9.1.jar')
 }
 
