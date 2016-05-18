@@ -1,4 +1,4 @@
-package com.hackerli.retrofit.module.showgank;
+package com.hackerli.retrofit.module.showgank.adapter;
 
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;

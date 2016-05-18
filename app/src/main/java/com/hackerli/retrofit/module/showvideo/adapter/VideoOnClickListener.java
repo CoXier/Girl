@@ -1,4 +1,4 @@
-package com.hackerli.retrofit.module.showvideo;
+package com.hackerli.retrofit.module.showvideo.adapter;
 
 import com.hackerli.retrofit.data.entity.Video;
 

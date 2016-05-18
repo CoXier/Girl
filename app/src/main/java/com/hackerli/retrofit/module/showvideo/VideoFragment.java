@@ -6,16 +6,17 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.hackerli.retrofit.R;
-import com.hackerli.retrofit.web.WebActivity;
 import com.hackerli.retrofit.api.VideoApiService;
 import com.hackerli.retrofit.data.VideoData;
 import com.hackerli.retrofit.data.entity.Video;
+import com.hackerli.retrofit.module.showvideo.adapter.VideoAdapter;
+import com.hackerli.retrofit.module.showvideo.adapter.VideoOnClickListener;
+import com.hackerli.retrofit.web.WebActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +34,7 @@ import rx.schedulers.Schedulers;
 /**
  * Created by CoXier on 2016/5/2.
  */
-public class VideoFragment extends Fragment implements VideoOnClickListener{
+public class VideoFragment extends Fragment implements VideoOnClickListener {
 
 
     @Bind(R.id.recycle_video)
@@ -88,7 +89,6 @@ public class VideoFragment extends Fragment implements VideoOnClickListener{
             @Override
             public void onNext(VideoData videoData) {
                 List<Video> videos = videoData.getVideoList();
-                Log.d("TAG",videos.size()+"");
                 for (Video video:videos){
                     mVideoList.add(video);
                 }

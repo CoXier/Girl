@@ -11,6 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.hackerli.retrofit.R;
+import com.hackerli.retrofit.module.showgank.adapter.AndroidAdapter;
+import com.hackerli.retrofit.module.showgank.adapter.GankOnClickListener;
 import com.hackerli.retrofit.web.WebActivity;
 import com.hackerli.retrofit.BaseFragment;
 import com.hackerli.retrofit.data.entity.AndroidWrapper;

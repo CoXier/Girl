@@ -14,7 +14,9 @@ import android.view.ViewGroup;
 import com.hackerli.retrofit.BaseFragment;
 import com.hackerli.retrofit.R;
 import com.hackerli.retrofit.data.entity.Girl;
-import com.hackerli.retrofit.module.showgank.GirlPhotoFragment;
+import com.hackerli.retrofit.module.showgirl.adapter.GirlAdapter;
+import com.hackerli.retrofit.module.showgirl.adapter.GirlOnClickListener;
+import com.hackerli.retrofit.module.showgirl.viewgirlphoto.GirlPhotoFragment;
 import com.hackerli.retrofit.util.SnackBarUtil;
 
 import java.util.ArrayList;
@@ -26,7 +28,7 @@ import butterknife.ButterKnife;
 /**
  * Created by CoXier on 2016/5/2.
  */
-public class GirlFragment extends BaseFragment implements GirlOnClickListener ,GirlContract.View{
+public class GirlFragment extends BaseFragment implements GirlOnClickListener,GirlContract.View{
 
     @Bind(R.id.recl)
     RecyclerView recyclerView;
