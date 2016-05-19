@@ -1,5 +1,6 @@
 package com.hackerli.retrofit.main;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
@@ -9,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
 import com.hackerli.retrofit.R;
+import com.hackerli.retrofit.entry.EntryActivity;
 import com.hackerli.retrofit.module.showgank.GankFragment;
 import com.hackerli.retrofit.module.showgirl.GirlFragment;
 import com.hackerli.retrofit.module.showvideo.VideoFragment;
@@ -40,7 +42,8 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("gank.io");
         setTabs();
 
-
+        Intent intent = new Intent(MainActivity.this, EntryActivity.class);
+        startActivity(intent);
     }
 
     private void setTabs() {
