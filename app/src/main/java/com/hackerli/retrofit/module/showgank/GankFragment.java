@@ -27,13 +27,14 @@ import butterknife.ButterKnife;
 /**
  * Created by CoXier on 2016/5/2.
  */
-public class GankFragment extends BaseFragment implements GankOnClickListener,GankContract.View {
+public class GankFragment extends BaseFragment implements GankOnClickListener, GankContract.View {
     @Bind(R.id.gank_refresh_layout)
     SwipeRefreshLayout swipeRefreshLayout;
     @Bind(R.id.recycle_gank)
     RecyclerView recyclerView;
 
     private int page = 1;
+    private int limt = 10;
     private List<AndroidWrapper> mWrappers = new ArrayList<>();
     private AndroidAdapter mAdapter;
     private GankContract.Presenter mPresenter = new GankPresenter(this);
@@ -66,7 +67,7 @@ public class GankFragment extends BaseFragment implements GankOnClickListener,Ga
             mWrappers.add((AndroidWrapper) wrapper);
         }
         recyclerView.requestLayout();
-        if (mWrappers.size()-size==10){
+        if (mWrappers.size() - size == 10) {
             page++;
         }
     }
@@ -89,9 +90,11 @@ public class GankFragment extends BaseFragment implements GankOnClickListener,Ga
 
     @Override
     public void onRefresh() {
-        swipeRefreshLayout.setRefreshing(true);
-        mPresenter.loadMore(page);
-        mIsFirstCreated = false;
+        if (page < limt) {
+            swipeRefreshLayout.setRefreshing(true);
+            mPresenter.loadMore(page);
+            mIsFirstCreated = false;
+        }
     }
 
     @Override
@@ -128,7 +131,7 @@ public class GankFragment extends BaseFragment implements GankOnClickListener,Ga
     @Override
     public void viewGankOnWebView(String url) {
         Intent intent = new Intent(getActivity(), WebActivity.class);
-        intent.putExtra("url",url);
+        intent.putExtra("url", url);
         startActivity(intent);
     }
 

@@ -30,7 +30,7 @@ import butterknife.ButterKnife;
 /**
  * Created by CoXier on 2016/5/2.
  */
-public class GirlFragment extends BaseFragment implements GirlOnClickListener,GirlContract.View{
+public class GirlFragment extends BaseFragment implements GirlOnClickListener, GirlContract.View {
 
     @Bind(R.id.recl)
     RecyclerView recyclerView;
@@ -38,6 +38,7 @@ public class GirlFragment extends BaseFragment implements GirlOnClickListener,Gi
     SwipeRefreshLayout swipeRefreshLayout;
 
     private int page = 1;
+    private int limt = 10;
     private List<Girl> mGirls = new ArrayList<>();
     private GirlAdapter girlAdapter;
     private GirlContract.Presenter mPresenter = new GirlPresenter(this);
@@ -56,7 +57,7 @@ public class GirlFragment extends BaseFragment implements GirlOnClickListener,Gi
 
         // 进入之后先加载，故refresh
         swipeRefreshLayout.measure(View.MEASURED_SIZE_MASK, View.MEASURED_HEIGHT_STATE_SHIFT);
-        if (mIsFirstCreated){
+        if (mIsFirstCreated) {
             onRefresh();
         }
         swipeRefreshLayout.setOnRefreshListener(this);
@@ -85,7 +86,7 @@ public class GirlFragment extends BaseFragment implements GirlOnClickListener,Gi
             mGirls.add((Girl) girl);
         }
         recyclerView.requestLayout();
-        if (mGirls.size()-size==10){
+        if (mGirls.size() - size == 10) {
             page++;
         }
     }
@@ -102,9 +103,11 @@ public class GirlFragment extends BaseFragment implements GirlOnClickListener,Gi
 
     @Override
     public void onRefresh() {
-        swipeRefreshLayout.setRefreshing(true);
-        mPresenter.loadMore(page);
-        mIsFirstCreated = false;
+        if (page < limt) {
+            swipeRefreshLayout.setRefreshing(true);
+            mPresenter.loadMore(page);
+            mIsFirstCreated = false;
+        }
     }
 
     @Override
@@ -126,7 +129,6 @@ public class GirlFragment extends BaseFragment implements GirlOnClickListener,Gi
      * Meizhi is under the terms of the GNU General Public License as published by
      * the Free Software Foundation, either version 3 of the License, or
      * (at your option) any later version.
-     *
      */
     RecyclerView.OnScrollListener getOnBottomListener(final StaggeredGridLayoutManager layoutManager) {
         RecyclerView.OnScrollListener bottomListener = new RecyclerView.OnScrollListener() {
@@ -135,7 +137,7 @@ public class GirlFragment extends BaseFragment implements GirlOnClickListener,Gi
                 int[] lastVisiblePositions = new int[2];
                 lastVisiblePositions = layoutManager.findLastCompletelyVisibleItemPositions(lastVisiblePositions);
                 int right = lastVisiblePositions[1];
-                if (right%15==0){
+                if (right % 15 == 0) {
                     Glide.get(getActivity()).
                             trimMemory(ComponentCallbacks2.TRIM_MEMORY_RUNNING_LOW);
                 }
