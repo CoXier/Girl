@@ -50,6 +50,7 @@ public class GirlAdapter extends RecyclerView.Adapter<GirlAdapter.GirlHolder> {
                 .load(girl.getUrl())
                 .centerCrop()
                 .into(holder.imageView);
+
         String desc = girl.getDesc();
         holder.textView.setText(desc);
         setOnClickListener(holder, girl);
