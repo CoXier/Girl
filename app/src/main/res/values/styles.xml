@@ -6,6 +6,12 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowBackground">@null</item>
+
+    </style>
+
+    <style name="AppTheme.LogoAnimation">
+        <item name="android:windowBackground">@drawable/ll_logo</item>
     </style>
     
     

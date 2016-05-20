@@ -6,6 +6,8 @@ import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.hackerli.retrofit.R;
@@ -18,21 +20,42 @@ public class EntryActivity extends AppCompatActivity {
 
     @Bind(R.id.text_label)
     TextView textLabel;
+    @Bind(R.id.iv_logo)
+    ImageView ivLogo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setTheme(R.style.AppTheme);
+        getWindow().getDecorView().setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_entry);
         ButterKnife.bind(this);
+    }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+
+        if (!hasFocus) {
+            return;
+        }
         startAnim();
+
+        super.onWindowFocusChanged(hasFocus);
     }
 
     private void startAnim() {
-        ObjectAnimator moveUp = ObjectAnimator.ofFloat(textLabel, "translationY", 150f, 0f);
+        ObjectAnimator moveUp = ObjectAnimator.ofFloat(ivLogo,"translationY",0f,-150f);
+        moveUp.setDuration(1000);
+        moveUp.setStartDelay(500);
+        moveUp.start();
+
+        ObjectAnimator moveDown = ObjectAnimator.ofFloat(textLabel, "translationY", 200f, 510f);
         ObjectAnimator fadeInOut = ObjectAnimator.ofFloat(textLabel, "alpha", 0f, 1f);
         AnimatorSet animatorSet = new AnimatorSet();
-        animatorSet.play(moveUp).with(fadeInOut);
-        animatorSet.setDuration(2000);
+        animatorSet.play(moveDown).with(fadeInOut);
+        animatorSet.setDuration(1500);
+        animatorSet.setStartDelay(700);
         animatorSet.addListener(new Animator.AnimatorListener() {
             @Override
             public void onAnimationStart(Animator animation) {
