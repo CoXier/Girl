@@ -9,7 +9,6 @@ import android.os.Bundle;
  */
 public class MyLifecycleHandler implements Application.ActivityLifecycleCallbacks {
     private static int started = 0;
-    private static int stopped = 0;
 
     @Override
     public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
@@ -18,7 +17,7 @@ public class MyLifecycleHandler implements Application.ActivityLifecycleCallback
 
     @Override
     public void onActivityStarted(Activity activity) {
-        ++started;
+        started++;
     }
 
     @Override
@@ -33,7 +32,6 @@ public class MyLifecycleHandler implements Application.ActivityLifecycleCallback
 
     @Override
     public void onActivityStopped(Activity activity) {
-        ++stopped;
     }
 
     @Override
@@ -46,8 +44,8 @@ public class MyLifecycleHandler implements Application.ActivityLifecycleCallback
 
     }
 
-    public static boolean isBackground(){
-        if (stopped == started)
+    public static boolean isBackground() {
+        if (started != 0)
             return true;
         return false;
     }

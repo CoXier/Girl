@@ -6,6 +6,7 @@ import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -26,6 +27,14 @@ public class EntryActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        if (MyApp.isBackground()) {
+            Log.d("TAG","isBack");
+            Intent intent = new Intent(EntryActivity.this, MainActivity.class);
+            startActivity(intent);
+            EntryActivity.this.finish();
+        }
+
         setTheme(R.style.AppTheme);
         getWindow().getDecorView().setSystemUiVisibility(
                 View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION);
@@ -40,16 +49,10 @@ public class EntryActivity extends AppCompatActivity {
         if (!hasFocus) {
             return;
         }
-
-        if (MyApp.isBackground()) {
-            Intent intent = new Intent(EntryActivity.this, MainActivity.class);
-            startActivity(intent);
-            EntryActivity.this.finish();
-        } else
-            startAnim();
-
+        startAnim();
         super.onWindowFocusChanged(hasFocus);
     }
+
 
     private void startAnim() {
         ObjectAnimator moveUp = ObjectAnimator.ofFloat(ivLogo, "translationY", 0f, -150f);
