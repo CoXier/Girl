@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.hackerli.retrofit.R;
+import com.hackerli.retrofit.app.MyApp;
 import com.hackerli.retrofit.main.MainActivity;
 
 import butterknife.Bind;
@@ -39,13 +40,19 @@ public class EntryActivity extends AppCompatActivity {
         if (!hasFocus) {
             return;
         }
-        startAnim();
+
+        if (MyApp.isBackground()) {
+            Intent intent = new Intent(EntryActivity.this, MainActivity.class);
+            startActivity(intent);
+            EntryActivity.this.finish();
+        } else
+            startAnim();
 
         super.onWindowFocusChanged(hasFocus);
     }
 
     private void startAnim() {
-        ObjectAnimator moveUp = ObjectAnimator.ofFloat(ivLogo,"translationY",0f,-150f);
+        ObjectAnimator moveUp = ObjectAnimator.ofFloat(ivLogo, "translationY", 0f, -150f);
         moveUp.setDuration(1000);
         moveUp.setStartDelay(500);
         moveUp.start();
