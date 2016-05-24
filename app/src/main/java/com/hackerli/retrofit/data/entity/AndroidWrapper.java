@@ -5,19 +5,19 @@ package com.hackerli.retrofit.data.entity;
  */
 public class AndroidWrapper {
     Android android;
-    String avatar;
+    String avatarUrl;
 
-    public AndroidWrapper(Android android, String avatar) {
+    public AndroidWrapper(Android android, String avatarUrl) {
         this.android = android;
-        this.avatar = avatar;
+        this.avatarUrl = avatarUrl;
     }
 
-    public String getAvatar() {
-        return avatar;
+    public String getAvatarUrl() {
+        return avatarUrl;
     }
 
-    public void setAvatar(String avatar) {
-        this.avatar = avatar;
+    public void setAvatarUrl(String avatarUrl) {
+        this.avatarUrl = avatarUrl;
     }
 
     public Android getAndroid() {

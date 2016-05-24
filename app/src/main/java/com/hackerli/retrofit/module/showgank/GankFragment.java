@@ -10,13 +10,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.hackerli.retrofit.BaseFragment;
 import com.hackerli.retrofit.R;
+import com.hackerli.retrofit.data.entity.AndroidWrapper;
 import com.hackerli.retrofit.module.showgank.adapter.AndroidAdapter;
 import com.hackerli.retrofit.module.showgank.adapter.GankOnClickListener;
-import com.hackerli.retrofit.web.WebActivity;
-import com.hackerli.retrofit.BaseFragment;
-import com.hackerli.retrofit.data.entity.AndroidWrapper;
 import com.hackerli.retrofit.util.SnackBarUtil;
+import com.hackerli.retrofit.web.WebActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -94,6 +94,8 @@ public class GankFragment extends BaseFragment implements GankOnClickListener, G
             swipeRefreshLayout.setRefreshing(true);
             mPresenter.loadMore(page);
             mIsFirstCreated = false;
+        }else {
+            swipeRefreshLayout.setRefreshing(false);
         }
     }
 

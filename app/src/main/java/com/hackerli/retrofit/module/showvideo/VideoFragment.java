@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.hackerli.retrofit.R;
+import com.hackerli.retrofit.api.ApiServiceFactory;
 import com.hackerli.retrofit.api.VideoApiService;
 import com.hackerli.retrofit.data.VideoData;
 import com.hackerli.retrofit.data.entity.Video;
@@ -23,9 +24,6 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
-import retrofit2.converter.gson.GsonConverterFactory;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -42,14 +40,17 @@ public class VideoFragment extends Fragment implements VideoOnClickListener {
 
     private VideoAdapter videoAdapter;
     private List<Video> mVideoList = new ArrayList<>();
+    private boolean isFirstCreated = true;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_video, container, false);
         ButterKnife.bind(this, view);
-        setUpRecycleView();
-        loadVideoData();
+        if (isFirstCreated) {
+            setUpRecycleView();
+            loadVideoData();
+        }
         return view;
     }
 
@@ -67,17 +68,14 @@ public class VideoFragment extends Fragment implements VideoOnClickListener {
     }
 
     private void loadVideoData() {
-        Retrofit retrofit = new Retrofit.Builder().baseUrl("https://api.bmob.cn/1/classes/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                .build();
-        VideoApiService apiService = retrofit.create(VideoApiService.class);
+        VideoApiService apiService = ApiServiceFactory.buildVideoApiService();
         Observable observable = apiService.getVideoList()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
         observable.subscribe(new Subscriber<VideoData>() {
             @Override
             public void onCompleted() {
+                isFirstCreated = false;
                 recycleView.requestLayout();
             }
 
@@ -89,7 +87,7 @@ public class VideoFragment extends Fragment implements VideoOnClickListener {
             @Override
             public void onNext(VideoData videoData) {
                 List<Video> videos = videoData.getVideoList();
-                for (Video video:videos){
+                for (Video video : videos) {
                     mVideoList.add(video);
                 }
             }
@@ -99,7 +97,7 @@ public class VideoFragment extends Fragment implements VideoOnClickListener {
     @Override
     public void playVideo(Video video) {
         Intent intent = new Intent(getActivity(), WebActivity.class);
-        intent.putExtra("url",video.getVideoUrl());
+        intent.putExtra("url", video.getVideoUrl());
         startActivity(intent);
     }
 }

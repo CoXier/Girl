@@ -1,33 +1,47 @@
 package com.hackerli.retrofit.module.showgank;
 
 import android.support.annotation.NonNull;
+import android.util.Log;
 
+import com.hackerli.retrofit.api.ApiServiceFactory;
 import com.hackerli.retrofit.api.GankioService;
+import com.hackerli.retrofit.api.GitHubService;
 import com.hackerli.retrofit.data.AndroidData;
 import com.hackerli.retrofit.data.entity.Android;
 import com.hackerli.retrofit.data.entity.AndroidWrapper;
+import com.hackerli.retrofit.data.entity.GitUser;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
+import rx.Observable;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by CoXier on 2016/5/2.
  */
 public class GankPresenter implements GankContract.Presenter {
 
-    // 从gank.io获取干货
-    Retrofit retfGank;
-    GankioService gankioService;
+    private GankioService mGankioService;
 
     private GankContract.View mGankView;
-    private AndroidData androidData;
+    private AndroidData mAndroidData;
 
+    private String clientID = "b78af009a1b1cfe46317";
+    private String clientSecret = "6d96f809338d479ed86614dd09983195119d338c";
+    private Object CSDNAvatar;
 
     public GankPresenter(@NonNull GankContract.View baseView) {
         this.mGankView = baseView;
@@ -35,30 +49,19 @@ public class GankPresenter implements GankContract.Presenter {
     }
 
     private void init() {
-        retfGank = new Retrofit.Builder()
-                .baseUrl("http://gank.io/api/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-        gankioService = retfGank.create(GankioService.class);
+        mGankioService = ApiServiceFactory.buildGankioService();
         mGankView.setPresenter(this);
     }
 
     @Override
     public void loadMore(int page) {
         init();
-        final Call<AndroidData> androidDataCall = gankioService.getAndroidData(page);
+        final Call<AndroidData> androidDataCall = mGankioService.getAndroidData(page);
         androidDataCall.enqueue(new Callback<AndroidData>() {
             @Override
             public void onResponse(Call<AndroidData> call, Response<AndroidData> response) {
-                androidData = response.body();
-                int size = androidData.getData().size();
-                List<AndroidWrapper> wrapperList = new ArrayList<AndroidWrapper>(size);
-                for (Android android : androidData.getData()) {
-                    AndroidWrapper wrapper = new AndroidWrapper(android, null);
-                    wrapperList.add(wrapper);
-                }
-                mGankView.showMore(wrapperList);
-                mGankView.finishRefresh();
+                mAndroidData = response.body();
+                setAvatarUrlAndShow(mAndroidData);
             }
 
             @Override
@@ -67,6 +70,192 @@ public class GankPresenter implements GankContract.Presenter {
                 mGankView.showSnackBar();
             }
         });
+    }
+
+    private void setAvatarUrlAndShow(AndroidData mAndroidData) {
+        List<Android> androidList = mAndroidData.getData();
+        final int size = androidList.size();
+        final List<AndroidWrapper> wrapperList = new ArrayList<AndroidWrapper>(size);
+        for (int i = 0; i < size; i++) {
+            final Android android = androidList.get(i);
+            String url = android.getUrl();
+            if (url.contains("https://github.com/")) {
+                setGitHubAvatar(url, android, wrapperList, size);
+            } else if (url.contains("http://blog.csdn.net/")) {
+                setCSDNAvatar(url,android,wrapperList,size);
+            } else if (url.contains("http://www.jianshu.com")) {
+                setJianShuAvatar(url,android,wrapperList,size);
+            } else if (url.contains("http://android.jobbole.com")) {
+                setJobboleAvatar(url,android,wrapperList,size);
+            }
+            else {
+                AndroidWrapper wrapper = new AndroidWrapper(android, null);
+                wrapperList.add(wrapper);
+            }
+        }
+
+    }
+
+    private void setJobboleAvatar(final String url, final Android android, final List<AndroidWrapper> wrapperList, final int size) {
+
+        Observable observable = Observable.create(new Observable.OnSubscribe<String>() {
+            @Override
+            public void call(Subscriber<? super String> subscriber) {
+                try {
+                    Document document = Jsoup.connect(url)
+                            .userAgent("Mozilla")
+                            .timeout(8000)
+                            .get();
+                    Element container = document.getElementsByClass("copyright-area").get(0);
+                    String author = container.select("a[href]").get(1).text();
+                    android.setWho(author);
+                    subscriber.onNext(author);
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+
+        observable.subscribe(new Action1<String>() {
+            @Override
+            public void call(final String s) {
+                Observable avatarObsevable =  Observable.create(new Observable.OnSubscribe<String>() {
+                    @Override
+                    public void call(Subscriber<? super String> subscriber) {
+                        String baseUrl = "http://www.jobbole.com/members/";
+                        try {
+                            Document document = Jsoup.connect(baseUrl + s)
+                                    .userAgent("Mozilla")
+                                    .timeout(8000)
+                                    .get();
+                            Element profileImg = document.getElementsByClass("profile-img").get(0);
+                            String avatarUrl = profileImg.select("[src]").get(0).toString();
+                            avatarUrl = avatarUrl.substring(51,avatarUrl.length()-2);
+                           AndroidWrapper androidWrapper = new AndroidWrapper(android,avatarUrl);
+                            subscriber.onNext(avatarUrl);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+
+                avatarObsevable.subscribe(new Action1<String>() {
+                    @Override
+                    public void call(String s) {
+                        if (wrapperList.size()==size){
+                            mGankView.showMore(wrapperList);
+                            mGankView.finishRefresh();
+                        }
+                    }
+                });
+
+            }
+        });
+    }
+
+    private void setJianShuAvatar(final String url, final Android android, final List<AndroidWrapper> wrapperList, final int size) {
+        Observable observable = Observable.create(new Observable.OnSubscribe<String>() {
+            @Override
+            public void call(Subscriber<? super String> subscriber) {
+                try {
+                    Document document = Jsoup.connect(url)
+                            .userAgent("Mozilla")
+                            .timeout(8000)
+                            .get();
+                    Element container = document.getElementsByClass("container").get(0);
+                    Element avatar = container.getElementsByClass("avatar").get(0);
+                    String imgSrc = avatar.select("[src]").toString();
+                    int end = imgSrc.indexOf("\"", 10);
+                    String avatarUrl = imgSrc.substring(10, end);
+                    android.setWho(container.select("a[class^=author-name blue-link]").text());
+                    AndroidWrapper androidWrapper = new AndroidWrapper(android,avatarUrl);
+                    wrapperList.add(androidWrapper);
+                    subscriber.onNext(avatarUrl);
+
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+        observable.subscribe(new Action1<String>() {
+            @Override
+            public void call(String s) {
+                if (wrapperList.size()==size){
+                    mGankView.showMore(wrapperList);
+                    mGankView.finishRefresh();
+                }
+            }
+        });
+    }
+
+    private void setCSDNAvatar(final String url, final Android android, final List<AndroidWrapper> wrapperList, final int size) {
+        Observable observable = Observable.create(new Observable.OnSubscribe<String>() {
+            @Override
+            public void call(Subscriber<? super String> subscriber) {
+                try {
+                    Document document = Jsoup.connect(url)
+                            .userAgent("Mozilla")
+                            .timeout(8000)
+                            .get();
+                    Element author = document.getElementById("blog_title");
+                    Element avatar = document.getElementById("blog_userface");
+                    android.setWho(author.select("a[href]").text().toString());
+                    String imgSrc = avatar.select("[src]").toString();
+                    int end = imgSrc.indexOf("\"", 10);
+                    String avatarUrl = imgSrc.substring(10, end);
+                    AndroidWrapper  androidWrapper = new AndroidWrapper(android,avatarUrl);
+                    wrapperList.add(androidWrapper);
+                    subscriber.onNext(avatarUrl);
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+        observable.subscribe(new Action1<String>() {
+            @Override
+            public void call(String s) {
+                if (wrapperList.size()==size){
+                    mGankView.showMore(wrapperList);
+                    mGankView.finishRefresh();
+                }
+            }
+        });
+    }
+
+    private void setGitHubAvatar(String url, final Android android, final List<AndroidWrapper> wrapperList, final int size) {
+        GitHubService gitHubService = ApiServiceFactory.buildGitHubService();
+        int start = url.indexOf("/", 19);
+        String author = url.substring(19, start);
+        android.setWho(author);
+        gitHubService.getAvatar(author, clientID, clientSecret)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<GitUser>() {
+                    @Override
+                    public void onCompleted() {
+                        if (wrapperList.size() == size) {
+                            mGankView.showMore(wrapperList);
+                            mGankView.finishRefresh();
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e("TAG", e.toString());
+                    }
+
+                    @Override
+                    public void onNext(GitUser gitUser) {
+                        AndroidWrapper wrapper = new AndroidWrapper(android, gitUser.getImageUrl());
+                        wrapperList.add(wrapper);
+                    }
+                });
     }
 
 }
