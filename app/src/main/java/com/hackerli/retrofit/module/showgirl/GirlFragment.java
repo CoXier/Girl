@@ -101,7 +101,7 @@ public class GirlFragment extends BaseFragment implements GirlOnClickListener, G
 
     @Override
     public void onRefresh() {
-        if (page < limit) {
+        if (page <= limit) {
             swipeRefreshLayout.setRefreshing(true);
             mPresenter.loadMore(page);
             mIsFirstCreated = false;

@@ -6,7 +6,6 @@ import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -14,6 +13,7 @@ import android.widget.TextView;
 import com.hackerli.retrofit.R;
 import com.hackerli.retrofit.app.MyApp;
 import com.hackerli.retrofit.main.MainActivity;
+import com.hackerli.retrofit.module.showgirl.GirlPresenter;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -29,7 +29,6 @@ public class EntryActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         if (MyApp.isBackground()) {
-            Log.d("TAG","isBack");
             Intent intent = new Intent(EntryActivity.this, MainActivity.class);
             startActivity(intent);
             EntryActivity.this.finish();
@@ -41,6 +40,8 @@ public class EntryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_entry);
         ButterKnife.bind(this);
+
+        GirlPresenter.setLocalGirl();
     }
 
     @Override

@@ -27,9 +27,6 @@ public class AndroidAdapter extends RecyclerView.Adapter<AndroidAdapter.GankHold
     private Fragment mFragment;
     private GankOnClickListener gankListener;
 
-    private String clientID = "b78af009a1b1cfe46317";
-    private String clientSecret = "6d96f809338d479ed86614dd09983195119d338c";
-
     public AndroidAdapter(Fragment mFragment, List<AndroidWrapper> mAndroidWrappers) {
         this.mFragment = mFragment;
         this.mAndroidWrappers = mAndroidWrappers;
