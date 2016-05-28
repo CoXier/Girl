@@ -26,8 +26,9 @@
         <activity
             android:name=".main.MainActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity android:name=".web.WebActivity" />
+        <activity android:name=".module.postphoto.PostPhotoActivity"></activity>
     </application>
 
 </manifest>

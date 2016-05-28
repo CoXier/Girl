@@ -41,7 +41,9 @@ public class EntryActivity extends AppCompatActivity {
         setContentView(R.layout.activity_entry);
         ButterKnife.bind(this);
 
+        // load data from db while app is starting
         GirlPresenter.setLocalGirl();
+
     }
 
     @Override
@@ -78,6 +80,7 @@ public class EntryActivity extends AppCompatActivity {
                 Intent intent = new Intent(EntryActivity.this, MainActivity.class);
                 startActivity(intent);
                 EntryActivity.this.finish();
+
             }
 
             @Override

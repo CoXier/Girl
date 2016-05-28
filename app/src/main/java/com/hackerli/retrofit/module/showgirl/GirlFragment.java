@@ -24,6 +24,7 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import jp.wasabeef.recyclerview.adapters.ScaleInAnimationAdapter;
 
 /**
  * Created by CoXier on 2016/5/2.
@@ -65,7 +66,7 @@ public class GirlFragment extends BaseFragment implements GirlOnClickListener, G
     @Override
     public void setRecyclerView() {
         girlAdapter = new GirlAdapter(this, mGirls);
-        recyclerView.setAdapter(girlAdapter);
+        recyclerView.setAdapter(new ScaleInAnimationAdapter(girlAdapter));
         StaggeredGridLayoutManager gridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(gridLayoutManager);
         recyclerView.addOnScrollListener(getOnBottomListener(gridLayoutManager));
@@ -147,6 +148,7 @@ public class GirlFragment extends BaseFragment implements GirlOnClickListener, G
         };
         return bottomListener;
     }
+
 
     @Override
     public void setPresenter(GirlContract.Presenter presenter) {

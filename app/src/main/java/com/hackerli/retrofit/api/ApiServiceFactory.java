@@ -8,41 +8,40 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * Created by CoXier on 2016/5/24.
  */
 public class ApiServiceFactory {
-    private static GankioService gankioService;
-    private static GitHubService gitHubService;
-    private static VideoApiService videoApiService;
+    private static GankioService mGankioService;
+    private static GitHubService mGitHubService;
+    private static VideoApiService mVideoApiService;
 
-    public static GankioService buildGankioService(){
-        if (gankioService==null){
+    public static GankioService buildGankioService() {
+        if (mGankioService == null) {
             Retrofit retfGank = new Retrofit.Builder()
                     .baseUrl("http://gank.io/api/")
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
-            gankioService = retfGank.create(GankioService.class);
+            mGankioService = retfGank.create(GankioService.class);
         }
-        return gankioService;
+        return mGankioService;
     }
 
-    public static GitHubService buildGitHubService(){
-        if (gitHubService==null){
+    public static GitHubService buildGitHubService() {
+        if (mGitHubService == null) {
             Retrofit retroGithub = new Retrofit.Builder().baseUrl("https://api.github.com/")
                     .addConverterFactory(GsonConverterFactory.create())
                     .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                     .build();
-            gitHubService = retroGithub.create(GitHubService.class);
+            mGitHubService = retroGithub.create(GitHubService.class);
         }
-        return gitHubService;
+        return mGitHubService;
     }
 
-    public static VideoApiService buildVideoApiService(){
-        if (videoApiService==null){
+    public static VideoApiService buildVideoApiService() {
+        if (mVideoApiService == null) {
             Retrofit retrofit = new Retrofit.Builder().baseUrl("https://api.bmob.cn/1/classes/")
                     .addConverterFactory(GsonConverterFactory.create())
                     .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                     .build();
-            videoApiService = retrofit.create(VideoApiService.class);
+            mVideoApiService = retrofit.create(VideoApiService.class);
         }
-        return videoApiService;
+        return mVideoApiService;
     }
-
 }

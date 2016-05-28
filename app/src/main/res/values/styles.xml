@@ -20,4 +20,25 @@
         <item name="android:windowBackground">@android:color/black</item>
     </style>
 
+    <style name="MSV_ImageButton">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">?android:attr/selectableItemBackgroundBorderless</item>
+        <item name="android:paddingLeft">12dp</item>
+        <item name="android:paddingRight">12dp</item>
+    </style>
+
+    <style name="ToolBarStyle" parent="">
+        <item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>
+        <item name="android:theme">@style/ToolbarControlStyle</item>
+    </style>
+
+    <style name="ToolbarControlStyle" parent="@style/ThemeOverlay.AppCompat.Dark">
+        <item name="colorControlNormal">#FFF</item>
+    </style>
+
+    <style name="ToolbarTitle" parent="@style/TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <item name="android:textSize">18sp</item>
+    </style>
+
 </resources>

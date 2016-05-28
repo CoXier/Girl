@@ -1,33 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/colayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fitsSystemWindows="true">
+    android:layout_height="match_parent">
 
-    <include layout="@layout/view_head"/>
-
-    <android.support.v4.view.ViewPager
-        android:id="@+id/vp"
+    <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/colayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        android:fitsSystemWindows="true">
 
-    </android.support.v4.view.ViewPager>
+        <include layout="@layout/view_head" />
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/vp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        </android.support.v4.view.ViewPager>
 
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fla_add"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="right|bottom"
-        android:layout_margin="16dp"
-        android:src="@drawable/ic_add_white_24dp"
-        app:layout_anchor="@id/vp"
-        app:layout_anchorGravity="bottom|right|end"
-        app:layout_behavior="com.hackerli.retrofit.widget.ScrollAwareFABBehavior"
-        />
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fla_add"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|bottom"
+            android:layout_margin="16dp"
+            android:src="@drawable/ic_add_white_24dp"
+            app:borderWidth="0dp"
+            app:fabSize="normal"
+            app:layout_anchor="@id/vp"
+            app:layout_anchorGravity="bottom|right|end"
+            app:layout_behavior="com.hackerli.retrofit.ui.ScrollAwareFABBehavior"
+            app:rippleColor="@color/colorAccent" />
+    </android.support.design.widget.CoordinatorLayout>
 
-</android.support.design.widget.CoordinatorLayout>
+    <com.github.fabtransitionactivity.SheetLayout
+        android:id="@+id/bottom_sheet"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="bottom"
+        android:elevation="2dp"
+        app:ft_color="@color/colorPrimary"
+        app:ft_container_gravity="center" />
+</RelativeLayout>
+
+

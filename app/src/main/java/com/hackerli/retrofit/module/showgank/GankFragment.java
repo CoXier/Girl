@@ -23,6 +23,7 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import jp.wasabeef.recyclerview.adapters.SlideInBottomAnimationAdapter;
 
 /**
  * Created by CoXier on 2016/5/2.
@@ -102,7 +103,9 @@ public class GankFragment extends BaseFragment implements GankOnClickListener, G
     @Override
     public void setRecyclerView() {
         mAdapter = new AndroidAdapter(this, mWrappers);
-        recyclerView.setAdapter(mAdapter);
+        SlideInBottomAnimationAdapter animationAdapter = new SlideInBottomAnimationAdapter(mAdapter);
+        animationAdapter.setDuration(800);
+        recyclerView.setAdapter(animationAdapter);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.addOnScrollListener(getOnBottomListener(layoutManager));

@@ -1,4 +1,4 @@
-package com.hackerli.retrofit.widget;
+package com.hackerli.retrofit.ui;
 
 import android.content.Context;
 import android.os.Build;
