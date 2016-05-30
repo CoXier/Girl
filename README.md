@@ -13,9 +13,11 @@ Girl是我的第一个开源项目，声明[LiJianxinChina](https://github.com/L
 
 这个APP是用来学习Retrofit和RxJava的，学习的过程中也尝试使用了MVP模式，在解析html时使用了jsoup。
 
+## 下载
+<img src="/screenshots/link.png" alt="screenshot" title="screenshot" width="250" height="436" />  
+
 ### Girl特色
 应用截图：
-
 <img src="/screenshots/s0.png" alt="screenshot" title="screenshot" width="250" height="436" />   <img src="/screenshots/s1.png" alt="screenshot" title="screenshot" width="250" height="436" />
 
 <img src="/screenshots/s2.png" alt="screenshot" title="screenshot" width="250" height="436" />   <img src="/screenshots/s3.png" alt="screenshot" title="screenshot" width="250" height="436" />
