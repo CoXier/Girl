@@ -338,9 +338,8 @@ public class MaterialSearchView extends FrameLayout {
     }
 
     public void setSuggestions(final List suggestions) {
+        mTintView.setVisibility(VISIBLE);
         if (suggestions != null && suggestions.size() > 0) {
-            mTintView.setVisibility(VISIBLE);
-
             mAdapter = new SearchAdapter(suggestions);
             mSuggestionsListView.setAdapter(mAdapter);
             showSuggestions();
@@ -353,8 +352,6 @@ public class MaterialSearchView extends FrameLayout {
                     mContext.startActivity(intent);
                 }
             });
-        } else {
-            mTintView.setVisibility(GONE);
         }
     }
 
@@ -433,10 +430,10 @@ public class MaterialSearchView extends FrameLayout {
      */
     public void showSearch(boolean animate) {
         this.setVisibility(VISIBLE);
-//        if (isSearchOpen()) {
-//            mSearchLayout.setVisibility(VISIBLE);
-//            return;
-//        }
+        if (isSearchOpen()) {
+            mSearchLayout.setVisibility(VISIBLE);
+            return;
+        }
         mSearchSrcTextView.setText(null);
         mSearchSrcTextView.requestFocus();
         if (animate) {

@@ -38,26 +38,25 @@ public class VideoFragment extends Fragment implements VideoOnClickListener {
     @Bind(R.id.recycle_video)
     RecyclerView recycleView;
 
-    private VideoAdapter videoAdapter;
+    private VideoAdapter mVideoAdapter;
     private List<Video> mVideoList = new ArrayList<>();
-    private boolean isFirstCreated = true;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_video, container, false);
         ButterKnife.bind(this, view);
-        if (isFirstCreated) {
-            setUpRecycleView();
+        setUpRecycleView();
+        if (mVideoList.size()==0) {
             loadVideoData();
         }
         return view;
     }
 
     private void setUpRecycleView() {
-        videoAdapter = new VideoAdapter(this, mVideoList);
+        mVideoAdapter = new VideoAdapter(this, mVideoList);
         LinearLayoutManager manager = new LinearLayoutManager(getActivity());
-        recycleView.setAdapter(videoAdapter);
+        recycleView.setAdapter(mVideoAdapter);
         recycleView.setLayoutManager(manager);
     }
 
@@ -75,8 +74,8 @@ public class VideoFragment extends Fragment implements VideoOnClickListener {
         observable.subscribe(new Subscriber<VideoData>() {
             @Override
             public void onCompleted() {
-                isFirstCreated = false;
-                recycleView.requestLayout();
+                //recycleView.requestLayout();
+                mVideoAdapter.notifyDataSetChanged();
             }
 
             @Override

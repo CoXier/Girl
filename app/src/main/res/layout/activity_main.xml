@@ -23,12 +23,12 @@
 
 
         <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fla_add"
+            android:id="@+id/fla_upload"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right|bottom"
             android:layout_margin="16dp"
-            android:src="@drawable/ic_add_white_24dp"
+            android:src="@drawable/ic_cloud_upload_white_24dp"
             app:borderWidth="0dp"
             app:fabSize="normal"
             app:layout_anchor="@id/vp"

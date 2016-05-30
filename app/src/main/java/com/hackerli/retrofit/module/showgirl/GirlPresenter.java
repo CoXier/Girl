@@ -62,9 +62,9 @@ public class GirlPresenter implements GirlContract.Presenter {
     @Override
     public void loadMore(int page) {
 
-        if (shouldLoadFromInternet) {
+        if (shouldLoadFromInternet || mLocalGirls.size()<100) {
             loadFromInternet(page);
-        }else if (mLocalGirls.size()>=100){
+        }else {
             loadFromLocal(page);
         }
 

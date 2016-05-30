@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:orientation="vertical"
+    tools:context=".main.MainActivity">
+
+    <android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/toolbar_actionbar"
+        style="@style/ToolBarStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:elevation="2dp"
+        android:minHeight="56dp"
+        app:popupTheme="@style/AlertDialog.AppCompat.Light"
+        app:titleTextAppearance="@style/ToolbarTitle" />
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/cardView_wrapper"
+        android:visibility="invisible"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="80dp"
+        android:layout_marginTop="40dp"
+        app:cardCornerRadius="2dp">
+
+        <ImageView
+            android:id="@+id/imageView_pick"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+             />
+    </android.support.v7.widget.CardView>
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="25dp"
+        android:layout_marginTop="10dp"
+       >
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/text_photo_desc"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:hint="desc"
+           />
+    </android.support.design.widget.TextInputLayout>
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="15dp">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/text_photo_name"
+                android:maxLength="16"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:hint="your name"
+                />
+        </android.support.design.widget.TextInputLayout>
+
+        <ImageView
+            android:id="@+id/imageView_send"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:padding="5dp"
+            android:layout_marginLeft="3dp"
+            android:layout_marginTop="38dp"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:src="@drawable/inline_reply_dialog_send"
+             />
+    </LinearLayout>
+
+
+</LinearLayout>

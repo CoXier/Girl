@@ -28,7 +28,7 @@
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="portrait" />
         <activity android:name=".web.WebActivity" />
-        <activity android:name=".module.postphoto.PostPhotoActivity"></activity>
+        <activity android:name=".module.sendphoto.SendPhotoActivity"></activity>
     </application>
 
 </manifest>

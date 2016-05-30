@@ -18,7 +18,7 @@ import com.github.fabtransitionactivity.SheetLayout;
 import com.google.gson.Gson;
 import com.hackerli.retrofit.R;
 import com.hackerli.retrofit.data.entity.SearchResult;
-import com.hackerli.retrofit.module.postphoto.PostPhotoActivity;
+import com.hackerli.retrofit.module.sendphoto.SendPhotoActivity;
 import com.hackerli.retrofit.module.seachgank.MaterialSearchView;
 import com.hackerli.retrofit.module.showgank.GankFragment;
 import com.hackerli.retrofit.module.showgirl.GirlFragment;
@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity implements SheetLayout.OnFab
     TabLayout mTab;
     @Bind(R.id.vp)
     ViewPager mVP;
-    @Bind(R.id.fla_add)
+    @Bind(R.id.fla_upload)
     FloatingActionButton mFab;
     @Bind(R.id.toolbar)
     Toolbar mToolbar;
@@ -122,6 +122,7 @@ public class MainActivity extends AppCompatActivity implements SheetLayout.OnFab
             @Override
             public void onSearchViewClosed() {
                 mFab.show();
+                mSearchView.clearData();
             }
         });
 
@@ -136,6 +137,8 @@ public class MainActivity extends AppCompatActivity implements SheetLayout.OnFab
                 // search data by keyword
                 if (!newText.isEmpty()) {
                     searchData(newText);
+                }else{
+                    mSearchView.clearData();
                 }
                 return false;
             }
@@ -179,7 +182,9 @@ public class MainActivity extends AppCompatActivity implements SheetLayout.OnFab
 
             @Override
             public void onNext(List<SearchResult> searchResults) {
-                mSearchView.setSuggestions(searchResults);
+                if (searchResults.size()!=0){
+                    mSearchView.setSuggestions(searchResults);
+                }
             }
         });
     }
@@ -196,7 +201,7 @@ public class MainActivity extends AppCompatActivity implements SheetLayout.OnFab
 
     @Override
     public void onFabAnimationEnd() {
-        Intent intent = new Intent(MainActivity.this, PostPhotoActivity.class);
+        Intent intent = new Intent(MainActivity.this, SendPhotoActivity.class);
         startActivityForResult(intent,REQUEST_CODE);
     }
 
