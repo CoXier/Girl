@@ -56,6 +56,8 @@ public class MainActivity extends AppCompatActivity implements SheetLayout.OnFab
     @Bind(R.id.bottom_sheet)
     SheetLayout mSheetLayout;
 
+    List<Fragment> mFragments = new ArrayList<>();
+
     private static final int REQUEST_CODE = 1;
 
 
@@ -87,12 +89,12 @@ public class MainActivity extends AppCompatActivity implements SheetLayout.OnFab
     }
 
     private void setTabs() {
-        List<Fragment> fragments = new ArrayList<>();
-        fragments.add(new GirlFragment());
-        fragments.add(new GankFragment());
-        fragments.add(new VideoFragment());
 
-        TabsPagerAdapter adapter = new TabsPagerAdapter(getSupportFragmentManager(), fragments);
+        mFragments.add(new GirlFragment());
+        mFragments.add(new GankFragment());
+        mFragments.add(new VideoFragment());
+
+        TabsPagerAdapter adapter = new TabsPagerAdapter(getSupportFragmentManager(), mFragments);
         mVP.setAdapter(adapter);
         mTab.setupWithViewPager(mVP);
     }
@@ -129,17 +131,18 @@ public class MainActivity extends AppCompatActivity implements SheetLayout.OnFab
         mSearchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                return false;
+                // search data by keyword
+                if (!query.isEmpty()) {
+                    searchData(query);
+                }else{
+                    mSearchView.clearData();
+                }
+                return true;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                // search data by keyword
-                if (!newText.isEmpty()) {
-                    searchData(newText);
-                }else{
-                    mSearchView.clearData();
-                }
+
                 return false;
             }
         });

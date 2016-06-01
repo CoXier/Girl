@@ -67,7 +67,7 @@ public class GankFragment extends BaseFragment implements GankOnClickListener, G
         for (Object wrapper : list) {
             mWrappers.add((AndroidWrapper) wrapper);
         }
-        recyclerView.requestLayout();
+        mAdapter.notifyDataSetChanged();
         if (mWrappers.size() - size == 10) {
             page++;
         }
@@ -81,7 +81,9 @@ public class GankFragment extends BaseFragment implements GankOnClickListener, G
 
     @Override
     public void finishRefresh() {
-        swipeRefreshLayout.setRefreshing(false);
+        if (swipeRefreshLayout!=null) {
+            swipeRefreshLayout.setRefreshing(false);
+        }
     }
 
     @Override

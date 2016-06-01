@@ -82,13 +82,12 @@ public class GankPresenter implements GankContract.Presenter {
             if (url.contains("https://github.com/")) {
                 setGitHubAvatar(url, android, wrapperList, size);
             } else if (url.contains("http://blog.csdn.net/")) {
-                setCSDNAvatar(url,android,wrapperList,size);
+                setCSDNAvatar(url, android, wrapperList, size);
             } else if (url.contains("http://www.jianshu.com")) {
-                setJianShuAvatar(url,android,wrapperList,size);
+                setJianShuAvatar(url, android, wrapperList, size);
             } else if (url.contains("http://android.jobbole.com")) {
-                setJobboleAvatar(url,android,wrapperList,size);
-            }
-            else {
+                setJobboleAvatar(url, android, wrapperList, size);
+            } else {
                 AndroidWrapper wrapper = new AndroidWrapper(android, null);
                 wrapperList.add(wrapper);
             }
@@ -121,7 +120,7 @@ public class GankPresenter implements GankContract.Presenter {
         observable.subscribe(new Action1<String>() {
             @Override
             public void call(final String s) {
-                Observable avatarObsevable =  Observable.create(new Observable.OnSubscribe<String>() {
+                Observable avatarObsevable = Observable.create(new Observable.OnSubscribe<String>() {
                     @Override
                     public void call(Subscriber<? super String> subscriber) {
                         String baseUrl = "http://www.jobbole.com/members/";
@@ -132,8 +131,8 @@ public class GankPresenter implements GankContract.Presenter {
                                     .get();
                             Element profileImg = document.getElementsByClass("profile-img").get(0);
                             String avatarUrl = profileImg.select("[src]").get(0).toString();
-                            avatarUrl = avatarUrl.substring(51,avatarUrl.length()-2);
-                           AndroidWrapper androidWrapper = new AndroidWrapper(android,avatarUrl);
+                            avatarUrl = avatarUrl.substring(51, avatarUrl.length() - 2);
+                            AndroidWrapper androidWrapper = new AndroidWrapper(android, avatarUrl);
                             subscriber.onNext(avatarUrl);
                         } catch (IOException e) {
                             e.printStackTrace();
@@ -144,7 +143,7 @@ public class GankPresenter implements GankContract.Presenter {
                 avatarObsevable.subscribe(new Action1<String>() {
                     @Override
                     public void call(String s) {
-                        if (wrapperList.size()==size){
+                        if (wrapperList.size() == size) {
                             mGankView.showMore(wrapperList);
                             mGankView.finishRefresh();
                         }
@@ -170,7 +169,7 @@ public class GankPresenter implements GankContract.Presenter {
                     int end = imgSrc.indexOf("\"", 10);
                     String avatarUrl = imgSrc.substring(10, end);
                     android.setWho(container.select("a[class^=author-name blue-link]").text());
-                    AndroidWrapper androidWrapper = new AndroidWrapper(android,avatarUrl);
+                    AndroidWrapper androidWrapper = new AndroidWrapper(android, avatarUrl);
                     wrapperList.add(androidWrapper);
                     subscriber.onNext(avatarUrl);
 
@@ -184,7 +183,7 @@ public class GankPresenter implements GankContract.Presenter {
         observable.subscribe(new Action1<String>() {
             @Override
             public void call(String s) {
-                if (wrapperList.size()==size){
+                if (wrapperList.size() == size) {
                     mGankView.showMore(wrapperList);
                     mGankView.finishRefresh();
                 }
@@ -207,7 +206,7 @@ public class GankPresenter implements GankContract.Presenter {
                     String imgSrc = avatar.select("[src]").toString();
                     int end = imgSrc.indexOf("\"", 10);
                     String avatarUrl = imgSrc.substring(10, end);
-                    AndroidWrapper  androidWrapper = new AndroidWrapper(android,avatarUrl);
+                    AndroidWrapper androidWrapper = new AndroidWrapper(android, avatarUrl);
                     wrapperList.add(androidWrapper);
                     subscriber.onNext(avatarUrl);
                 } catch (MalformedURLException e) {
@@ -220,7 +219,7 @@ public class GankPresenter implements GankContract.Presenter {
         observable.subscribe(new Action1<String>() {
             @Override
             public void call(String s) {
-                if (wrapperList.size()==size){
+                if (wrapperList.size() == size) {
                     mGankView.showMore(wrapperList);
                     mGankView.finishRefresh();
                 }

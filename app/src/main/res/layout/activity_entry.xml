@@ -13,7 +13,7 @@
         android:textColor="@android:color/white"
         android:textSize="22sp"
         android:layout_gravity="center"
-        android:layout_marginTop="230dp"
+        android:layout_marginTop="240dp"
         android:alpha="0"
         android:text="Girl  &amp;  Gank"
         android:layout_width="wrap_content"
@@ -23,8 +23,8 @@
         android:id="@+id/iv_logo"
         android:src="@drawable/img_face"
         android:layout_gravity="center"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         />
 
 </LinearLayout>

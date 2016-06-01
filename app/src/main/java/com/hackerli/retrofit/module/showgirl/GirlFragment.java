@@ -39,7 +39,7 @@ public class GirlFragment extends BaseFragment implements GirlOnClickListener, G
     private int page = 1;
     private int limit = 10;
     private List<Girl> mGirls = new ArrayList<>();
-    private GirlAdapter girlAdapter;
+    private GirlAdapter mGirlAdapter;
     private GirlContract.Presenter mPresenter = new GirlPresenter(this);
 
     private boolean mIsFirstTouchedBottom = true;
@@ -65,8 +65,8 @@ public class GirlFragment extends BaseFragment implements GirlOnClickListener, G
 
     @Override
     public void setRecyclerView() {
-        girlAdapter = new GirlAdapter(this, mGirls);
-        recyclerView.setAdapter(new ScaleInAnimationAdapter(girlAdapter));
+        mGirlAdapter = new GirlAdapter(this, mGirls);
+        recyclerView.setAdapter(new ScaleInAnimationAdapter(mGirlAdapter));
         StaggeredGridLayoutManager gridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(gridLayoutManager);
         recyclerView.addOnScrollListener(getOnBottomListener(gridLayoutManager));
@@ -84,7 +84,9 @@ public class GirlFragment extends BaseFragment implements GirlOnClickListener, G
         for (Object girl : list) {
             mGirls.add((Girl) girl);
         }
-        recyclerView.requestLayout();
+        if (recyclerView!=null) {
+            recyclerView.requestLayout();
+        }
         if (mGirls.size() - size == 10) {
             page++;
         }
@@ -138,7 +140,7 @@ public class GirlFragment extends BaseFragment implements GirlOnClickListener, G
                 int[] lastVisiblePositions = new int[2];
                 lastVisiblePositions = layoutManager.findLastCompletelyVisibleItemPositions(lastVisiblePositions);
                 int right = lastVisiblePositions[1];
-                boolean isBottom = right > girlAdapter.getItemCount() - 7;
+                boolean isBottom = right > mGirlAdapter.getItemCount() - 7;
                 if (isBottom && !swipeRefreshLayout.isRefreshing()) {
                     if (!mIsFirstTouchedBottom) {
                             onRefresh();
