@@ -1,4 +1,4 @@
-package com.hackerli.retrofit;
+package com.hackerli.retrofit.base;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;

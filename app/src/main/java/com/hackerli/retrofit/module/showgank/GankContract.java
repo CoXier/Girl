@@ -2,8 +2,8 @@ package com.hackerli.retrofit.module.showgank;
 
 import android.support.annotation.Nullable;
 
-import com.hackerli.retrofit.BasePresenter;
-import com.hackerli.retrofit.BaseView;
+import com.hackerli.retrofit.base.BasePresenter;
+import com.hackerli.retrofit.base.BaseView;
 
 import java.util.List;
 

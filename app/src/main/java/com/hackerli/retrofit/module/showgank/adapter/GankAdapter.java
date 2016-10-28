@@ -22,12 +22,12 @@ import me.gujun.android.taggroup.TagGroup;
 /**
  * Created by CoXier on 2016/5/2.
  */
-public class AndroidAdapter extends RecyclerView.Adapter<AndroidAdapter.GankHolder> {
+public class GankAdapter extends RecyclerView.Adapter<GankAdapter.GankHolder> {
     private List<AndroidWrapper> mAndroidWrappers;
     private Fragment mFragment;
     private GankOnClickListener gankListener;
 
-    public AndroidAdapter(Fragment mFragment, List<AndroidWrapper> mAndroidWrappers) {
+    public GankAdapter(Fragment mFragment, List<AndroidWrapper> mAndroidWrappers) {
         this.mFragment = mFragment;
         this.mAndroidWrappers = mAndroidWrappers;
         gankListener = (GankOnClickListener) mFragment;
@@ -36,7 +36,7 @@ public class AndroidAdapter extends RecyclerView.Adapter<AndroidAdapter.GankHold
 
     @Override
     public GankHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.gank_layout, parent, false);
+        View v = LayoutInflater.from(parent.getContext  ()).inflate(R.layout.gank_layout, parent, false);
         GankHolder gankHolder = new GankHolder(v);
         return gankHolder;
     }

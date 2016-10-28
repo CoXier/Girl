@@ -9,11 +9,11 @@ import android.telephony.TelephonyManager;
 /**
  * Created by Administrator on 2016/4/8.
  */
-public class NetWordUtil {
+public class NetWorkUtil {
     ConnectivityManager manager;
     NetworkInfo networkInfo;
 
-    public NetWordUtil(Context context) {
+    public NetWorkUtil(Context context) {
         this.manager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         networkInfo = manager.getActiveNetworkInfo();
     }

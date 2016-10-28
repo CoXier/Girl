@@ -2,7 +2,7 @@ package com.hackerli.retrofit.module.sendphoto;
 
 import android.graphics.Bitmap;
 
-import com.hackerli.retrofit.BaseView;
+import com.hackerli.retrofit.base.BaseView;
 
 /**
  * Created by CoXier on 2016/5/29.

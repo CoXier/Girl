@@ -1,4 +1,4 @@
-package com.hackerli.retrofit.module.seachgank;
+package com.hackerli.retrofit.ui;
 
 /**
  * Created by CoXier on 2016/5/27.
@@ -33,6 +33,7 @@ import android.widget.TextView;
 
 import com.hackerli.retrofit.R;
 import com.hackerli.retrofit.data.entity.SearchResult;
+import com.hackerli.retrofit.module.seachgank.SearchAdapter;
 import com.hackerli.retrofit.util.AnimationUtil;
 import com.hackerli.retrofit.web.WebActivity;
 

@@ -3,7 +3,6 @@ package com.hackerli.retrofit.module.showgirl.viewgirlphoto;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -16,23 +15,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 
+import com.bumptech.glide.Glide;
 import com.hackerli.retrofit.R;
-import com.hackerli.retrofit.util.NetWordUtil;
+import com.hackerli.retrofit.util.NetWorkUtil;
 import com.hackerli.retrofit.util.ToastUtil;
-import com.squareup.picasso.Picasso;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import rx.Observable;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
-import rx.functions.Func1;
-import rx.schedulers.Schedulers;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Response;
 import uk.co.senab.photoview.PhotoView;
 import uk.co.senab.photoview.PhotoViewAttacher;
 
@@ -67,7 +63,7 @@ public class GirlPhotoFragment extends DialogFragment {
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
-        Picasso.with(getActivity())
+        Glide.with(getActivity())
                 .load(getArguments().getString("photoUrl"))
                 .into(photoView);
         setupPhotoEvent();
@@ -86,8 +82,8 @@ public class GirlPhotoFragment extends DialogFragment {
         photoView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                NetWordUtil netWordUtil = new NetWordUtil(getActivity());
-                if (netWordUtil.isNetConnected()) {
+                NetWorkUtil netWorkUtil = new NetWorkUtil(getActivity());
+                if (netWorkUtil.isNetConnected()) {
                     // 获取存储权限
                     if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                         requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
@@ -101,54 +97,36 @@ public class GirlPhotoFragment extends DialogFragment {
     }
 
     private void saveBitmap(String photoUrl, final String desc) {
-        Observable observable = Observable.just(photoUrl).map(new Func1<String, Bitmap>() {
+        OkHttpClient client = new OkHttpClient();
+        okhttp3.Request request = new okhttp3.Request.Builder().url(photoUrl).build();
+        client.newCall(request).enqueue(new Callback() {
             @Override
-            public Bitmap call(String s) {
-                try {
-                    return Picasso.with(getActivity()).load(s).get();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                return null;
+            public void onFailure(Call call, IOException e) {
+
             }
-        }).map(new Func1<Bitmap, Uri>() {
+
             @Override
-            public Uri call(Bitmap bitmap) {
-                if (bitmap != null) {
-                    File appDir = new File(Environment.getExternalStorageDirectory(), "Girl");
-                    if (!appDir.exists()) {
-                        appDir.mkdir();
-                    }
-                    File file = new File(appDir, desc + ".jpg");
-                    try {
-                        FileOutputStream fos = new FileOutputStream(file);
-                        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
-                        fos.flush();
-                        fos.close();
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-
-                    Uri uri = Uri.fromFile(file);
-                    // 通知图库更新
-                    Intent scannerIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, uri);
-                    getActivity().sendBroadcast(scannerIntent);
-
-                    return uri;
+            public void onResponse(Call call, Response response) throws IOException {
+                File appDir = new File(Environment.getExternalStorageDirectory(), "Girl");
+                if (!appDir.exists()) {
+                    appDir.mkdir();
                 }
-                return null;
-            }
-        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
-
-        observable.subscribe(new Action1<Uri>() {
-            @Override
-            public void call(Uri uri) {
-                ToastUtil.showToast(getActivity(),"保存至" + uri.toString());
+                final File file = new File(appDir, desc + ".jpg");
+                okio.BufferedSink bufferedSink = okio.Okio.buffer(okio.Okio.sink(file));
+                bufferedSink.writeAll(response.body().source());
+                bufferedSink.close();
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Uri uri = Uri.fromFile(file);
+                        // 通知图库更新
+                        Intent scannerIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, uri);
+                        getActivity().sendBroadcast(scannerIntent);
+                        ToastUtil.showToast(getActivity(),"保存至" + uri.toString());
+                    }
+                });
             }
         });
-
     }
 
 

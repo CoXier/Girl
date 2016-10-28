@@ -11,7 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.hackerli.retrofit.BaseFragment;
+import com.hackerli.retrofit.base.BaseFragment;
 import com.hackerli.retrofit.R;
 import com.hackerli.retrofit.data.entity.Girl;
 import com.hackerli.retrofit.module.showgirl.adapter.GirlAdapter;

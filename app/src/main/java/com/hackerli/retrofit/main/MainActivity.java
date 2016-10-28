@@ -9,7 +9,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,8 +17,8 @@ import com.github.fabtransitionactivity.SheetLayout;
 import com.google.gson.Gson;
 import com.hackerli.retrofit.R;
 import com.hackerli.retrofit.data.entity.SearchResult;
+import com.hackerli.retrofit.ui.MaterialSearchView;
 import com.hackerli.retrofit.module.sendphoto.SendPhotoActivity;
-import com.hackerli.retrofit.module.seachgank.MaterialSearchView;
 import com.hackerli.retrofit.module.showgank.GankFragment;
 import com.hackerli.retrofit.module.showgirl.GirlFragment;
 import com.hackerli.retrofit.module.showvideo.VideoFragment;
@@ -31,15 +30,13 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import okhttp3.Call;
+import okhttp3.Callback;
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
-import rx.Observable;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 public class MainActivity extends AppCompatActivity implements SheetLayout.OnFabAnimationEndListener{
 
@@ -150,46 +147,35 @@ public class MainActivity extends AppCompatActivity implements SheetLayout.OnFab
     }
 
     private void searchData(final String newText) {
-        Observable observable = Observable.create(new Observable.OnSubscribe<List<SearchResult>>() {
-            @Override
-            public void call(Subscriber<? super List<SearchResult>> subscriber) {
-                OkHttpClient client = new OkHttpClient();
-                RequestBody requestBody = new FormBody.Builder().add("keyword", newText).build();
-                Request request = new Request.Builder()
-                        .url("http://gankio.herokuapp.com/search")
-                        .post(requestBody)
-                        .build();
-                try {
-                    Response response = client.newCall(request).execute();
+        OkHttpClient client = new OkHttpClient();
+        RequestBody requestBody = new FormBody.Builder().add("keyword", newText).build();
+        Request request = new Request.Builder()
+                .url("http://gankio.herokuapp.com/search")
+                .post(requestBody)
+                .build();
+            client.newCall(request).enqueue(new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+
+                }
+
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
                     String json = response.body().string();
                     Gson gson = new Gson();
                     SearchResult[] searchResultData = gson.fromJson(json,SearchResult[].class);
-                    List<SearchResult> searchResults = new ArrayList<>();
+                    final List<SearchResult> searchResults = new ArrayList<>();
                     Collections.addAll(searchResults,searchResultData);
-                    subscriber.onNext(searchResults);
-                } catch (IOException e) {
-                    e.printStackTrace();
+                    if (searchResults.size()!=0){
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                mSearchView.setSuggestions(searchResults);
+                            }
+                        });
+                    }
                 }
-            }
-        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
-        observable.subscribe(new Subscriber<List<SearchResult>>() {
-            @Override
-            public void onCompleted() {
-
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                Log.d("TAG",e.toString());
-            }
-
-            @Override
-            public void onNext(List<SearchResult> searchResults) {
-                if (searchResults.size()!=0){
-                    mSearchView.setSuggestions(searchResults);
-                }
-            }
-        });
+            });
     }
 
     @Override

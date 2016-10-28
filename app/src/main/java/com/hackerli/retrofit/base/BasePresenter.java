@@ -1,4 +1,4 @@
-package com.hackerli.retrofit;
+package com.hackerli.retrofit.base;
 
 /**
  * Created by CoXier on 2016/5/2.

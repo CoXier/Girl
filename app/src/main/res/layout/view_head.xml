@@ -24,11 +24,11 @@
             ></android.support.v7.widget.Toolbar>
 
 
-        <com.hackerli.retrofit.module.seachgank.MaterialSearchView
+        <com.hackerli.retrofit.ui.MaterialSearchView
             android:id="@+id/search_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="gone"></com.hackerli.retrofit.module.seachgank.MaterialSearchView>
+            android:visibility="gone"></com.hackerli.retrofit.ui.MaterialSearchView>
     </FrameLayout>
 
 

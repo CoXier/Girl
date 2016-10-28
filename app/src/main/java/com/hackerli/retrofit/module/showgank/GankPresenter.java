@@ -81,9 +81,7 @@ public class GankPresenter implements GankContract.Presenter {
             String url = android.getUrl();
             if (url.contains("https://github.com/")) {
                 setGitHubAvatar(url, android, wrapperList, size);
-            } else if (url.contains("http://blog.csdn.net/")) {
-                setCSDNAvatar(url, android, wrapperList, size);
-            } else if (url.contains("http://www.jianshu.com")) {
+            }  else if (url.contains("http://www.jianshu.com")) {
                 setJianShuAvatar(url, android, wrapperList, size);
             } else if (url.contains("http://android.jobbole.com")) {
                 setJobboleAvatar(url, android, wrapperList, size);
@@ -196,19 +194,23 @@ public class GankPresenter implements GankContract.Presenter {
             @Override
             public void call(Subscriber<? super String> subscriber) {
                 try {
-                    Document document = Jsoup.connect(url)
-                            .userAgent("Mozilla")
-                            .timeout(8000)
-                            .get();
-                    Element author = document.getElementById("blog_title");
-                    Element avatar = document.getElementById("blog_userface");
-                    android.setWho(author.select("a[href]").text().toString());
-                    String imgSrc = avatar.select("[src]").toString();
-                    int end = imgSrc.indexOf("\"", 10);
-                    String avatarUrl = imgSrc.substring(10, end);
-                    AndroidWrapper androidWrapper = new AndroidWrapper(android, avatarUrl);
-                    wrapperList.add(androidWrapper);
-                    subscriber.onNext(avatarUrl);
+
+                    if (!url.contains("http://blog.csdn.net/qq_22329521/")) {
+                        Document document = Jsoup.connect(url)
+                                .userAgent("Mozilla")
+                                .timeout(8000)
+                                .get();
+                        Element author = document.getElementById("blog_title");
+                        Log.d("TAG",author.toString());
+                        Element avatar = document.getElementById("blog_userface");
+                        android.setWho(author.select("a[href]").text().toString());
+                        String imgSrc = avatar.select("[src]").toString();
+                        int end = imgSrc.indexOf("\"", 10);
+                        String avatarUrl = imgSrc.substring(10, end);
+                        AndroidWrapper androidWrapper = new AndroidWrapper(android, avatarUrl);
+                        wrapperList.add(androidWrapper);
+                        subscriber.onNext(avatarUrl);
+                    }
                 } catch (MalformedURLException e) {
                     e.printStackTrace();
                 } catch (IOException e) {

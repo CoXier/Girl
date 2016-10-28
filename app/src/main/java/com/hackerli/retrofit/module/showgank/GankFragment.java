@@ -10,10 +10,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.hackerli.retrofit.BaseFragment;
+import com.hackerli.retrofit.base.BaseFragment;
 import com.hackerli.retrofit.R;
 import com.hackerli.retrofit.data.entity.AndroidWrapper;
-import com.hackerli.retrofit.module.showgank.adapter.AndroidAdapter;
+import com.hackerli.retrofit.module.showgank.adapter.GankAdapter;
 import com.hackerli.retrofit.module.showgank.adapter.GankOnClickListener;
 import com.hackerli.retrofit.util.SnackBarUtil;
 import com.hackerli.retrofit.web.WebActivity;
@@ -37,7 +37,7 @@ public class GankFragment extends BaseFragment implements GankOnClickListener, G
     private int page = 1;
     private int limt = 10;
     private List<AndroidWrapper> mWrappers = new ArrayList<>();
-    private AndroidAdapter mAdapter;
+    private GankAdapter mAdapter;
     private GankContract.Presenter mPresenter = new GankPresenter(this);
 
     private boolean mIsFirstTouchedBottom = true;
@@ -104,7 +104,7 @@ public class GankFragment extends BaseFragment implements GankOnClickListener, G
 
     @Override
     public void setRecyclerView() {
-        mAdapter = new AndroidAdapter(this, mWrappers);
+        mAdapter = new GankAdapter(this, mWrappers);
         SlideInBottomAnimationAdapter animationAdapter = new SlideInBottomAnimationAdapter(mAdapter);
         animationAdapter.setDuration(800);
         recyclerView.setAdapter(animationAdapter);
