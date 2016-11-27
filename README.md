@@ -48,10 +48,10 @@
    compile 'me.gujun.android.taggroup:library:1.4@aar'
    compile 'de.hdodenhof:circleimageview:2.0.0'
    compile 'com.devbrackets.android:exomedia:2.5.6'
-   compile files('libs/jsoup-1.9.1.jar')
+   compile 'org.jsoup:jsoup:1.9.1'
 
 ```
 各个库具体的功能可以在github查一查，比较实用。
 
 ## 关于我
-我是华科的在读大学生，现在在学习Android和Java的相关知识，喜欢开源，欢迎小伙伴们和我交流，我的邮箱：TmWorkCC@yahoo.com
+我是华科的在读大学生，现在在学习Android和Java的相关知识，喜欢开源，欢迎小伙伴们和我交流，我的邮箱：justcoxier@gmail.com
