@@ -55,8 +55,8 @@ dependencies {
     compile "com.github.Raizlabs.DBFlow:dbflow-sqlcipher:${dbflow_version}"
     compile 'jp.wasabeef:recyclerview-animators:2.2.1'
     compile 'com.github.coyarzun89:fabtransitionactivity:0.2.0'
+    compile 'org.jsoup:jsoup:1.9.1'
     compile ('cn.leancloud.android:avoscloud-sdk:v3.+')
-    compile files('libs/jsoup-1.9.1.jar')
 }
 
 
