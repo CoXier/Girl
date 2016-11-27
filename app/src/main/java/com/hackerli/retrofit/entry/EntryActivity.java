@@ -33,10 +33,6 @@ public class EntryActivity extends AppCompatActivity {
             startActivity(intent);
             EntryActivity.this.finish();
         }
-
-        setTheme(R.style.AppTheme);
-        getWindow().getDecorView().setSystemUiVisibility(
-                View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_entry);
         ButterKnife.bind(this);
@@ -63,7 +59,7 @@ public class EntryActivity extends AppCompatActivity {
         moveUp.setStartDelay(500);
         moveUp.start();
 
-        ObjectAnimator moveDown = ObjectAnimator.ofFloat(textLabel, "translationY", 200f, 510f);
+        ObjectAnimator moveDown = ObjectAnimator.ofFloat(textLabel, "translationY", -100f, 210f);
         ObjectAnimator fadeInOut = ObjectAnimator.ofFloat(textLabel, "alpha", 0f, 1f);
         AnimatorSet animatorSet = new AnimatorSet();
         animatorSet.play(moveDown).with(fadeInOut);
