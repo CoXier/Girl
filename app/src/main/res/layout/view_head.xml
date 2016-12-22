@@ -7,29 +7,16 @@
     android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
     app:elevation="3dp">
 
-    <FrameLayout
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            android:title="gank.io"
-            android:titleTextColor="@android:color/black"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-            app:popupTheme="@style/AlertDialog.AppCompat.Light"
-            app:layout_scrollFlags="scroll|enterAlways"
-            ></android.support.v7.widget.Toolbar>
-
-
-        <com.hackerli.retrofit.ui.MaterialSearchView
-            android:id="@+id/search_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="gone"></com.hackerli.retrofit.ui.MaterialSearchView>
-    </FrameLayout>
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        android:title="gank.io"
+        android:titleTextColor="@android:color/black"
+        app:layout_scrollFlags="scroll|enterAlways"
+        app:popupTheme="@style/AlertDialog.AppCompat.Light" />
 
 
     <android.support.design.widget.TabLayout

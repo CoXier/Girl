@@ -12,6 +12,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.os.SystemClock;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -20,7 +21,9 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
@@ -28,6 +31,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -42,12 +46,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-/**
- * @author Miguel Catalan Bañuls
- */
 public class MaterialSearchView extends FrameLayout {
 
-    private MenuItem mMenuItem;
+    private PopupWindow mPopupWindow;
+
     private boolean mIsSearchOpen = false;
     private int mAnimationDuration;
     private boolean mClearingFocus;
@@ -140,7 +142,12 @@ public class MaterialSearchView extends FrameLayout {
     private void initiateView() {
         View view = LayoutInflater.from(mContext).inflate(R.layout.view_search, this, true);
         mSearchLayout = view.findViewById(R.id.search_layout);
-
+        view.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("TAG","tmmt");
+            }
+        });
         mSearchTopBar = (RelativeLayout) mSearchLayout.findViewById(R.id.search_top_bar);
         mSuggestionsListView = (ListView) mSearchLayout.findViewById(R.id.suggestion_list);
         mSearchSrcTextView = (EditText) mSearchLayout.findViewById(R.id.searchTextView);
@@ -152,6 +159,8 @@ public class MaterialSearchView extends FrameLayout {
         mBackBtn.setOnClickListener(mOnClickListener);
         mEmptyBtn.setOnClickListener(mOnClickListener);
         mTintView.setOnClickListener(mOnClickListener);
+
+
 
         initSearchView();
 
@@ -204,13 +213,14 @@ public class MaterialSearchView extends FrameLayout {
             if (v == mBackBtn) {
                 closeSearch();
                 clearData();
+                mPopupWindow.dismiss();
             } else if (v == mEmptyBtn) {
                 mSearchSrcTextView.setText(null);
                 clearData();
             } else if (v == mSearchSrcTextView) {
                 showSuggestions();
             } else if (v == mTintView) {
-                closeSearch();
+                mPopupWindow.dismiss();
             }
         }
     };
@@ -242,6 +252,10 @@ public class MaterialSearchView extends FrameLayout {
         }
     }
 
+    public void hideKeyboard(){
+        hideKeyboard(mSearchSrcTextView);
+    }
+
     public void hideKeyboard(View view) {
         InputMethodManager imm = (InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
@@ -253,7 +267,7 @@ public class MaterialSearchView extends FrameLayout {
         }
         view.requestFocus();
         InputMethodManager imm = (InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.showSoftInput(view, 0);
+        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
     }
 
 
@@ -329,7 +343,7 @@ public class MaterialSearchView extends FrameLayout {
         mSuggestionsListView.setOnItemClickListener(listener);
     }
 
-    public void setListViewVisible(){
+    public void setListViewVisible() {
         mSuggestionsListView.setVisibility(VISIBLE);
     }
 
@@ -349,14 +363,14 @@ public class MaterialSearchView extends FrameLayout {
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     Intent intent = new Intent(mContext, WebActivity.class);
                     SearchResult searchResult = (SearchResult) suggestions.get(position);
-                    intent.putExtra("url",searchResult.getUrl());
+                    intent.putExtra("url", searchResult.getUrl());
                     mContext.startActivity(intent);
                 }
             });
         }
     }
 
-    public void clearData(){
+    public void clearData() {
         mAdapter = new SearchAdapter(emptyList);
         mSuggestionsListView.setAdapter(mAdapter);
     }
@@ -384,22 +398,6 @@ public class MaterialSearchView extends FrameLayout {
 
 
     /**
-     * Call this method and pass the menu item so this class can handle click events for the Menu Item.
-     *
-     * @param menuItem
-     */
-    public void setMenuItem(MenuItem menuItem) {
-        this.mMenuItem = menuItem;
-        mMenuItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                showSearch();
-                return true;
-            }
-        });
-    }
-
-    /**
      * Return true if search is open
      *
      * @return
@@ -421,7 +419,8 @@ public class MaterialSearchView extends FrameLayout {
      * Open Search View. This will animate the showing of the view.
      */
     public void showSearch() {
-        showSearch(true);
+        if (!isSearchOpen())
+            showSearch(true);
     }
 
     /**
@@ -515,6 +514,10 @@ public class MaterialSearchView extends FrameLayout {
      */
     public void setOnSearchViewListener(SearchViewListener listener) {
         mSearchViewListener = listener;
+    }
+
+    public void setPopupWindow(PopupWindow popupWindow) {
+        this.mPopupWindow = popupWindow;
     }
 
     /**
@@ -636,6 +639,4 @@ public class MaterialSearchView extends FrameLayout {
 
         void onSearchViewClosed();
     }
-
-
 }
