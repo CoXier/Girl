@@ -10,12 +10,13 @@ import java.util.List;
  * Created by CoXier on 2016/5/2.
  */
 public class TabsPagerAdapter extends FragmentPagerAdapter {
-    List<Fragment>  mFragments;
-    String[] titles = {"Girl","Gank","Video"};
+    private List<Fragment>  mFragments;
+    private String[] titles ;
 
-    public TabsPagerAdapter(FragmentManager fm, List<Fragment> mFragments) {
+    TabsPagerAdapter(FragmentManager fm, List<Fragment> mFragments, String[] titles) {
         super(fm);
         this.mFragments = mFragments;
+        this.titles = titles;
     }
 
     @Override
