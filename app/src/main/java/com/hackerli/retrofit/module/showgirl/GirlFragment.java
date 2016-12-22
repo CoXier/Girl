@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,7 +44,6 @@ public class GirlFragment extends BaseFragment implements GirlOnClickListener, G
     private GirlContract.Presenter mPresenter = new GirlPresenter(this);
 
     private boolean mIsFirstTouchedBottom = true;
-    private boolean mIsFirstCreated = true;
 
     @Nullable
     @Override
@@ -56,9 +56,7 @@ public class GirlFragment extends BaseFragment implements GirlOnClickListener, G
 
         // 进入之后先加载，故refresh
         swipeRefreshLayout.measure(View.MEASURED_SIZE_MASK, View.MEASURED_HEIGHT_STATE_SHIFT);
-        if (mIsFirstCreated) {
-            onRefresh();
-        }
+        onRefresh();
         swipeRefreshLayout.setOnRefreshListener(this);
         return view;
     }
@@ -84,7 +82,7 @@ public class GirlFragment extends BaseFragment implements GirlOnClickListener, G
         for (Object girl : list) {
             mGirls.add((Girl) girl);
         }
-        if (recyclerView!=null) {
+        if (recyclerView != null) {
             recyclerView.requestLayout();
         }
         if (mGirls.size() - size == 10) {
@@ -107,8 +105,7 @@ public class GirlFragment extends BaseFragment implements GirlOnClickListener, G
         if (page <= limit) {
             swipeRefreshLayout.setRefreshing(true);
             mPresenter.loadMore(page);
-            mIsFirstCreated = false;
-        }else {
+        } else {
             swipeRefreshLayout.setRefreshing(false);
         }
     }
@@ -143,7 +140,7 @@ public class GirlFragment extends BaseFragment implements GirlOnClickListener, G
                 boolean isBottom = right > mGirlAdapter.getItemCount() - 7;
                 if (isBottom && !swipeRefreshLayout.isRefreshing()) {
                     if (!mIsFirstTouchedBottom) {
-                            onRefresh();
+                        onRefresh();
                     } else mIsFirstTouchedBottom = false;
                 }
             }

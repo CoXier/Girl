@@ -35,13 +35,11 @@ public class GankFragment extends BaseFragment implements GankOnClickListener, G
     RecyclerView recyclerView;
 
     private int page = 1;
-    private int limt = 10;
     private List<AndroidWrapper> mWrappers = new ArrayList<>();
     private GankAdapter mAdapter;
     private GankContract.Presenter mPresenter = new GankPresenter(this);
 
     private boolean mIsFirstTouchedBottom = true;
-    private boolean mIsFirstCreated = true;
 
     @Nullable
     @Override
@@ -54,9 +52,8 @@ public class GankFragment extends BaseFragment implements GankOnClickListener, G
 
         swipeRefreshLayout.measure(View.MEASURED_SIZE_MASK, View.MEASURED_HEIGHT_STATE_SHIFT);
         // 第一次调用createView
-        if (mIsFirstCreated) {
-            onRefresh();
-        }
+
+        onRefresh();
         swipeRefreshLayout.setOnRefreshListener(this);
         return v;
     }
@@ -81,7 +78,7 @@ public class GankFragment extends BaseFragment implements GankOnClickListener, G
 
     @Override
     public void finishRefresh() {
-        if (swipeRefreshLayout!=null) {
+        if (swipeRefreshLayout != null) {
             swipeRefreshLayout.setRefreshing(false);
         }
     }
@@ -93,11 +90,11 @@ public class GankFragment extends BaseFragment implements GankOnClickListener, G
 
     @Override
     public void onRefresh() {
-        if (page < limt) {
+        // we limit page size < 10
+        if (page < 10) {
             swipeRefreshLayout.setRefreshing(true);
             mPresenter.loadMore(page);
-            mIsFirstCreated = false;
-        }else {
+        } else {
             swipeRefreshLayout.setRefreshing(false);
         }
     }

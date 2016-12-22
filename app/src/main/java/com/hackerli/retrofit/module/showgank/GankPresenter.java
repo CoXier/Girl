@@ -35,21 +35,21 @@ import rx.schedulers.Schedulers;
 public class GankPresenter implements GankContract.Presenter {
 
     private GankioService mGankioService;
+    private GitHubService mGitHubService;
 
     private GankContract.View mGankView;
     private AndroidData mAndroidData;
 
-    private String clientID = "b78af009a1b1cfe46317";
-    private String clientSecret = "6d96f809338d479ed86614dd09983195119d338c";
     private Object CSDNAvatar;
 
     public GankPresenter(@NonNull GankContract.View baseView) {
-        this.mGankView = baseView;
+        mGankView = baseView;
         init();
     }
 
     private void init() {
         mGankioService = ApiServiceFactory.buildGankioService();
+        mGitHubService = ApiServiceFactory.buildGitHubService();
         mGankView.setPresenter(this);
     }
 
@@ -230,11 +230,15 @@ public class GankPresenter implements GankContract.Presenter {
     }
 
     private void setGitHubAvatar(String url, final Android android, final List<AndroidWrapper> wrapperList, final int size) {
-        GitHubService gitHubService = ApiServiceFactory.buildGitHubService();
+        String author;
         int start = url.indexOf("/", 19);
-        String author = url.substring(19, start);
+        if (start == -1){
+            author = url.substring(19);
+        }else {
+            author = url.substring(19, start);
+        }
         android.setWho(author);
-        gitHubService.getAvatar(author, clientID, clientSecret)
+        mGitHubService.getAvatar(author, GitHubService.clientID, GitHubService.clientSecret)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<GitUser>() {
