@@ -1,13 +1,3 @@
-
-# 源代码在 GPL v3 协议下发布, 使用前, 请确保你了解这个协议!
-
-# 感谢
-
-* [drakeet](https://github.com/drakeet)的开源项目
-
-* [daimajia](https://github.com/daimajia)提供的干货和妹子
-* [hujiaweibujidao](https://github.com/hujiaweibujidao/)提供的搜索接口
-
 ## Girl
 
 这个APP是用来学习Retrofit和RxJava的，学习的过程中也尝试使用了MVP模式，在解析html时使用了jsoup。
@@ -53,5 +43,6 @@
 ```
 各个库具体的功能可以在github查一查，比较实用。
 
-## 关于我
-我是华科的在读大学生，现在在学习Android和Java的相关知识，喜欢开源，欢迎小伙伴们和我交流，我的邮箱：justcoxier@gmail.com
+## LICENSE
+
+GLP V3
