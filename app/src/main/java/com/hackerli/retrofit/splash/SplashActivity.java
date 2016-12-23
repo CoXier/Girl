@@ -1,4 +1,4 @@
-package com.hackerli.retrofit.entry;
+package com.hackerli.retrofit.splash;
 
 import android.animation.Animator;
 import android.animation.AnimatorSet;
@@ -6,7 +6,6 @@ import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -18,7 +17,7 @@ import com.hackerli.retrofit.module.showgirl.GirlPresenter;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class EntryActivity extends AppCompatActivity {
+public class SplashActivity extends AppCompatActivity {
 
     @Bind(R.id.text_label)
     TextView textLabel;
@@ -29,9 +28,9 @@ public class EntryActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         if (MyApp.isBackground()) {
-            Intent intent = new Intent(EntryActivity.this, MainActivity.class);
+            Intent intent = new Intent(SplashActivity.this, MainActivity.class);
             startActivity(intent);
-            EntryActivity.this.finish();
+            SplashActivity.this.finish();
         }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_entry);
@@ -73,9 +72,9 @@ public class EntryActivity extends AppCompatActivity {
 
             @Override
             public void onAnimationEnd(Animator animation) {
-                Intent intent = new Intent(EntryActivity.this, MainActivity.class);
+                Intent intent = new Intent(SplashActivity.this, MainActivity.class);
                 startActivity(intent);
-                EntryActivity.this.finish();
+                SplashActivity.this.finish();
 
             }
 

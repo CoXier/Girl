@@ -50,4 +50,10 @@ public class WebActivity extends AppCompatActivity {
         }
         return super.onKeyDown(keyCode, event);
     }
+
+    @Override
+    protected void onDestroy() {
+        webview.destroy();
+        super.onDestroy();
+    }
 }
