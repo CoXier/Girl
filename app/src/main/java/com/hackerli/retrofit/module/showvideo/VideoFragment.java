@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -95,6 +96,7 @@ public class VideoFragment extends Fragment implements VideoOnClickListener {
 
     @Override
     public void playVideo(Video video) {
+        Log.d("TAG",video.getVideoUrl());
         Intent intent = new Intent(getActivity(), WebActivity.class);
         intent.putExtra("url", video.getVideoUrl());
         startActivity(intent);

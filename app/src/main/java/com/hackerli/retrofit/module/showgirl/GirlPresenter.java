@@ -132,5 +132,4 @@ public class GirlPresenter implements GirlContract.Presenter {
         return true;
     }
 
-
 }

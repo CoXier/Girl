@@ -9,9 +9,8 @@
         <item name="android:windowBackground">@null</item>
     </style>
 
-    <style name="AppTheme.LogoAnimation" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="AppTheme.Splash" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowBackground">@drawable/ll_logo</item>
-        <item name="android:windowFullscreen">true</item>
     </style>
     
     

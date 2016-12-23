@@ -6,24 +6,4 @@
     android:background="@color/colorPrimary"
     tools:context=".splash.SplashActivity">
 
-    <TextView
-        android:id="@+id/text_label"
-        android:textAppearance="@style/TextAppearance.AppCompat.Widget.ActionBar.Title.Inverse"
-        android:textColor="@android:color/white"
-        android:textSize="22sp"
-        android:layout_centerInParent="true"
-        android:layout_marginTop="240dp"
-        android:alpha="0"
-        android:text="Girl  &amp;  Gank"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
-    <ImageView
-        android:id="@+id/iv_logo"
-        android:src="@drawable/img_face"
-        android:layout_centerInParent="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        />
-
 </RelativeLayout>
