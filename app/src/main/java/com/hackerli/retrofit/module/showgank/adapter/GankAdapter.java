@@ -36,7 +36,7 @@ public class GankAdapter extends RecyclerView.Adapter<GankAdapter.GankHolder> {
 
     @Override
     public GankHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext  ()).inflate(R.layout.gank_layout, parent, false);
+        View v = LayoutInflater.from(parent.getContext  ()).inflate(R.layout.item_gank, parent, false);
         GankHolder gankHolder = new GankHolder(v);
         return gankHolder;
     }

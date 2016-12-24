@@ -56,7 +56,7 @@ public class GirlPhotoFragment extends DialogFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.girl_photo_fragment, container);
+        View view = inflater.inflate(R.layout.fragment_girl_photo, container);
         ButterKnife.bind(this, view);
         return view;
     }

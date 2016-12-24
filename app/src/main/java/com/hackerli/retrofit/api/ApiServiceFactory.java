@@ -10,7 +10,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class ApiServiceFactory {
     private static GankioService mGankioService;
     private static GitHubService mGitHubService;
-    private static VideoApiService mVideoApiService;
 
     public static GankioService buildGankioService() {
         if (mGankioService == null) {
@@ -34,14 +33,4 @@ public class ApiServiceFactory {
         return mGitHubService;
     }
 
-    public static VideoApiService buildVideoApiService() {
-        if (mVideoApiService == null) {
-            Retrofit retrofit = new Retrofit.Builder().baseUrl("https://api.bmob.cn/1/classes/")
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                    .build();
-            mVideoApiService = retrofit.create(VideoApiService.class);
-        }
-        return mVideoApiService;
-    }
 }
