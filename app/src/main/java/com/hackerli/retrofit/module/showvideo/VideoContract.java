@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface VideoContract {
     interface View{
-        void showVideos(List<Video> videos);
+        void showVideos(List<Video> videos,String head);
     }
 
     interface Presenter{

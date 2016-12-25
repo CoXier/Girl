@@ -13,13 +13,17 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.hackerli.retrofit.R;
+import com.hackerli.retrofit.data.VideoData;
 import com.hackerli.retrofit.data.entity.Video;
 import com.hackerli.retrofit.module.showvideo.adapter.VideoAdapter;
 import com.hackerli.retrofit.module.showvideo.adapter.VideoOnClickListener;
 import com.hackerli.retrofit.web.WebActivity;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -33,7 +37,8 @@ public class VideoFragment extends Fragment implements VideoOnClickListener,Vide
     @Bind(R.id.recycle_video)
     RecyclerView recycleView;
 
-    private List<Video> mVideoList = new ArrayList<>();
+    private ArrayList<VideoData> mVideoList;
+
     private VideoAdapter mVideoAdapter;
 
     private VideoContract.Presenter mPresenter;
@@ -48,7 +53,9 @@ public class VideoFragment extends Fragment implements VideoOnClickListener,Vide
     }
 
     private void initRecycleView() {
-        mVideoAdapter = new VideoAdapter(this, mVideoList);
+        mVideoAdapter = new VideoAdapter(this);
+        mVideoList = new ArrayList<>();
+        mVideoAdapter.setVideoDatas(mVideoList);
         GridLayoutManager manager = new GridLayoutManager(getActivity(),2);
         recycleView.setLayoutManager(manager);
         recycleView.setAdapter(mVideoAdapter);
@@ -72,8 +79,19 @@ public class VideoFragment extends Fragment implements VideoOnClickListener,Vide
     }
 
     @Override
-    public void showVideos(List<Video> videos) {
-        mVideoList.addAll(videos);
+    public void refreshCategory(int index) {
+        long time = System.nanoTime();
+        Collections.shuffle(mVideoList.get(index).getVideos(),new Random(time));
+        mVideoAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void showVideos(List<Video> videos,String head) {
+        ArrayList<Video> videoArrayList = new ArrayList<>();
+        videoArrayList.addAll(videos);
+        VideoData videoData = new VideoData(videoArrayList,head);
+        mVideoList.add(videoData);
+        mVideoAdapter.setVideoDatas(mVideoList);
         mVideoAdapter.notifyDataSetChanged();
     }
 }
