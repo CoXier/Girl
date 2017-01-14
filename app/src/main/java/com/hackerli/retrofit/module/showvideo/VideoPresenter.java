@@ -137,7 +137,7 @@ public class VideoPresenter implements VideoContract.Presenter {
                     Pattern pattern = Pattern.compile("(?<=<a href=\")[^\"]*");
                     Matcher matcher = pattern.matcher(child.child(0).toString());
                     matcher.find();
-                    String url = matcher.group(0).contains("https:") ? matcher.group(0) : "https:" + matcher.group(0);
+                    String url = matcher.group(0).contains("http:") ? matcher.group(0) : "http:" + matcher.group(0);
                     mHeadUrlList.add(url);
                     LoadYoukuVideosTask loadYoukuVideosTask = new LoadYoukuVideosTask();
                     mTasks.add(loadYoukuVideosTask);

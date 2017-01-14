@@ -33,6 +33,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoHolder>
     private VideoOnClickListener mClickListener;
     private ArrayList<VideoData> mVideoDatas;
 
+
     private static int VIDEO_NORMAL = 0;
     private static int VIDEO_HEAD = 1;
     private static int VIDEO_FOOT = 2;

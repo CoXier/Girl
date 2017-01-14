@@ -157,11 +157,12 @@ public class GankPresenter implements GankContract.Presenter {
             @Override
             public void call(Subscriber<? super String> subscriber) {
                 try {
+                    Log.d("TAG",url);
                     Document document = Jsoup.connect(url)
                             .userAgent("Mozilla")
                             .timeout(8000)
                             .get();
-                    Element container = document.getElementsByClass("container").get(0);
+                    Element container = document.getElementsByClass("author").get(0);
                     Element avatar = container.getElementsByClass("avatar").get(0);
                     String imgSrc = avatar.select("[src]").toString();
                     int end = imgSrc.indexOf("\"", 10);
@@ -201,7 +202,6 @@ public class GankPresenter implements GankContract.Presenter {
                                 .timeout(8000)
                                 .get();
                         Element author = document.getElementById("blog_title");
-                        Log.d("TAG",author.toString());
                         Element avatar = document.getElementById("blog_userface");
                         android.setWho(author.select("a[href]").text().toString());
                         String imgSrc = avatar.select("[src]").toString();
