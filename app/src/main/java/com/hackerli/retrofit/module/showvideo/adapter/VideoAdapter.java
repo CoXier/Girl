@@ -4,6 +4,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -63,7 +64,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoHolder>
         int type = getItemViewType(position);
         final int index = position / 6;
         if (type == VIDEO_NORMAL) {
-            Video video = mVideoDatas.get(index).getVideos().get(position - index - 1);
+            Video video = mVideoDatas.get(index).getVideos().get(position - index * 6 - 1);
             holder.tvTitle.setText(video.getVideoTitle());
             Glide.with(mFragment).load(video.getVideoPhotoUrl()).into(holder.imageView);
 
@@ -75,7 +76,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoHolder>
                 @Override
                 public void onClick(View v) {
 
-                    refreshCategory(index, holder.footImageView,holder.footTextView);
+                    refreshCategory(index, holder.footImageView, holder.footTextView);
 
                 }
             });

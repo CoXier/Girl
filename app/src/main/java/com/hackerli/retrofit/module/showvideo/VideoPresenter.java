@@ -14,6 +14,7 @@ import org.jsoup.select.Elements;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -50,11 +51,6 @@ public class VideoPresenter implements VideoContract.Presenter {
 
         LoadYoukuChannelTask channelTask = new LoadYoukuChannelTask();
         channelTask.execute("http://fun.youku.com/?spm=a2hfu.20023297.topNav.5~1~3!21~A");
-    }
-
-    @Override
-    public String extractRealUrl(String url) {
-        return null;
     }
 
     class LoadYoukuVideosTask extends AsyncTask<String, Void, Void> {
@@ -106,12 +102,13 @@ public class VideoPresenter implements VideoContract.Presenter {
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
 
-            mView.showVideos(mVideos,mHeads.get(0));
+            if (mVideos.size() != 0)
+                mView.showVideos(mVideos, mHeads.get(0));
             mHeads.remove(0);
             mTasks.remove(0);
             mHeadUrlList.remove(0);
 
-            if (!mTasks.isEmpty()){
+            if (!mTasks.isEmpty()) {
                 mVideos.clear();
                 mTasks.get(0).execute(mHeadUrlList.get(0));
             }
@@ -128,7 +125,7 @@ public class VideoPresenter implements VideoContract.Presenter {
                         .header("Cookie", "__ysuid=1479897238517wnV; ysestep=5; yseidcount=2; ystep=6; juid=01b4najpfp6mt; __aysid=1482546604362PFc; __ayspstp=6; __ali=14825466062231u8; __aliCount=1; cna=jPa7ECWH9FUCAd4UA4/SyKVz")
                         .timeout(7000)
                         .get();
-                Elements elements = document.getElementsByClass("yk-content");
+                Elements elements = document.getElementsByClass("g-content");
                 Element element = elements.get(1).child(0);
                 Elements children = element.children();
                 children.remove(0);

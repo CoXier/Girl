@@ -157,7 +157,6 @@ public class GankPresenter implements GankContract.Presenter {
             @Override
             public void call(Subscriber<? super String> subscriber) {
                 try {
-                    Log.d("TAG",url);
                     Document document = Jsoup.connect(url)
                             .userAgent("Mozilla")
                             .timeout(8000)

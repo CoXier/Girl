@@ -15,8 +15,6 @@ public interface VideoContract {
 
     interface Presenter{
         void loadYoukuVideos();
-
-        String extractRealUrl(String url);
     }
 
 
