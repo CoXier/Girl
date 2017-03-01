@@ -3,7 +3,7 @@ package com.hackerli.retrofit.module.showgirl;
 import android.support.annotation.NonNull;
 
 import com.hackerli.retrofit.api.ApiServiceFactory;
-import com.hackerli.retrofit.api.GankioService;
+import com.hackerli.retrofit.api.GankIoService;
 import com.hackerli.retrofit.data.GirlData;
 import com.hackerli.retrofit.data.entity.Girl;
 import com.hackerli.retrofit.db.AppDatabase;
@@ -29,7 +29,7 @@ public class GirlPresenter implements GirlContract.Presenter {
 
     private GirlData mGirlData = null;
     private GirlContract.View mView;
-    private GankioService mService;
+    private GankIoService mService;
     private static ArrayList<Girl> mLocalGirls = new ArrayList<>();
     private boolean shouldLoadFromInternet = true;
     private int start = 1;

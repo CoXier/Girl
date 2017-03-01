@@ -8,27 +8,30 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * Created by CoXier on 2016/5/24.
  */
 public class ApiServiceFactory {
-    private static GankioService mGankioService;
+    private static GankIoService mGankIoService;
     private static GitHubService mGitHubService;
 
-    public static GankioService buildGankioService() {
-        if (mGankioService == null) {
+    private static String GANK_BASE_URL = "http://gank.io/api/";
+    private static String GITHUB_BASE_URL = "https://api.github.com/";
+
+    public static GankIoService buildGankioService() {
+        if (mGankIoService == null) {
             Retrofit retfGank = new Retrofit.Builder()
-                    .baseUrl("http://gank.io/api/")
+                    .baseUrl(GANK_BASE_URL)
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
-            mGankioService = retfGank.create(GankioService.class);
+            mGankIoService = retfGank.create(GankIoService.class);
         }
-        return mGankioService;
+        return mGankIoService;
     }
 
     public static GitHubService buildGitHubService() {
         if (mGitHubService == null) {
-            Retrofit retroGithub = new Retrofit.Builder().baseUrl("https://api.github.com/")
+            Retrofit retroGitHub = new Retrofit.Builder().baseUrl(GITHUB_BASE_URL)
                     .addConverterFactory(GsonConverterFactory.create())
                     .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                     .build();
-            mGitHubService = retroGithub.create(GitHubService.class);
+            mGitHubService = retroGitHub.create(GitHubService.class);
         }
         return mGitHubService;
     }

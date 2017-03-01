@@ -7,7 +7,7 @@ import android.os.Bundle;
 /**
  * Created by CoXier on 2016/5/21.
  */
-public class MyLifecycleHandler implements Application.ActivityLifecycleCallbacks {
+public class LifecycleHandler implements Application.ActivityLifecycleCallbacks {
     private static int started = 0;
 
     @Override
