@@ -4,9 +4,7 @@
 
 ## 截图：
 
-<img src="/screenshots/s1.png" alt="screenshot" title="screenshot" width="250" height="436" />
-
-<img src="/screenshots/s2.png" alt="screenshot" title="screenshot" width="250" height="436" />   <img src="/screenshots/s3.png" alt="screenshot" title="screenshot" width="250" height="436" />
+<img src="/screenshots/s1.png" alt="screenshot" title="screenshot" width="250" height="436" /> <img src="/screenshots/s2.png" alt="screenshot" title="screenshot" width="250" height="436" />   <img src="/screenshots/s3.png" alt="screenshot" title="screenshot" width="250" height="436" />
 
 <img src="/screenshots/s4.png" alt="screenshot" title="screenshot" width="250" height="436" />
 
