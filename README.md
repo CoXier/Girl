@@ -2,20 +2,16 @@
 
 这个APP是用来学习Retrofit和RxJava的，学习的过程中也尝试使用了MVP模式，在解析html时使用了jsoup。
 
-## 下载
-<img src="/screenshots/link.png" alt="screenshot" title="screenshot" width="150" height="150" />  
+## 截图：
 
-### Girl特色
-应用截图：
-
-<img src="/screenshots/s0.png" alt="screenshot" title="screenshot" width="250" height="436" />   <img src="/screenshots/s1.png" alt="screenshot" title="screenshot" width="250" height="436" />
+<img src="/screenshots/s1.png" alt="screenshot" title="screenshot" width="250" height="436" />
 
 <img src="/screenshots/s2.png" alt="screenshot" title="screenshot" width="250" height="436" />   <img src="/screenshots/s3.png" alt="screenshot" title="screenshot" width="250" height="436" />
 
 <img src="/screenshots/s4.png" alt="screenshot" title="screenshot" width="250" height="436" />
 
 特点：
-* 个人觉得Girl还是小而美的，增加的特色：在干货页面，利用RxJava+Jsoup解析html，获取干货的作者姓名和作者头像。由于能力有限，我只展示了github，简书，csdn，伯乐上的作者姓名和头像。
+* 个人觉得Girl还是小而美的，增加的特色：在干货页面，利用RxJava+Jsoup解析html，获取干货的作者姓名和作者头像。由于能力有限，我只展示了github，简书的作者姓名和头像。
 * 在展示干货的UI上使用了Tag，可以正确的匹配一下干货的类型，比如：开源库，开源项目，知乎专栏。
 * 提供干货在线搜索功能，可以方便地根据关键词查找资源
 * 可以上传本地妹子的照片
