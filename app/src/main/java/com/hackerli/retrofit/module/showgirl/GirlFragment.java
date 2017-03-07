@@ -7,7 +7,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,12 +32,11 @@ import jp.wasabeef.recyclerview.adapters.ScaleInAnimationAdapter;
 public class GirlFragment extends BaseFragment implements GirlOnClickListener, GirlContract.View {
 
     @Bind(R.id.recl)
-    RecyclerView recyclerView;
+    RecyclerView mRecyclerView;
     @Bind(R.id.swipe_refresh_layout)
-    SwipeRefreshLayout swipeRefreshLayout;
+    SwipeRefreshLayout mSwipeRefreshLayout;
 
-    private int page = 1;
-    private int limit = 10;
+    private int mPage = 1;
     private List<Girl> mGirls = new ArrayList<>();
     private GirlAdapter mGirlAdapter;
     private GirlContract.Presenter mPresenter = new GirlPresenter(this);
@@ -55,24 +53,24 @@ public class GirlFragment extends BaseFragment implements GirlOnClickListener, G
         setSwipeRefreshLayout();
 
         // 进入之后先加载，故refresh
-        swipeRefreshLayout.measure(View.MEASURED_SIZE_MASK, View.MEASURED_HEIGHT_STATE_SHIFT);
+        mSwipeRefreshLayout.measure(View.MEASURED_SIZE_MASK, View.MEASURED_HEIGHT_STATE_SHIFT);
         onRefresh();
-        swipeRefreshLayout.setOnRefreshListener(this);
+        mSwipeRefreshLayout.setOnRefreshListener(this);
         return view;
     }
 
     @Override
     public void setRecyclerView() {
         mGirlAdapter = new GirlAdapter(this, mGirls);
-        recyclerView.setAdapter(new ScaleInAnimationAdapter(mGirlAdapter));
+        mRecyclerView.setAdapter(new ScaleInAnimationAdapter(mGirlAdapter));
         StaggeredGridLayoutManager gridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
-        recyclerView.setLayoutManager(gridLayoutManager);
-        recyclerView.addOnScrollListener(getOnBottomListener(gridLayoutManager));
+        mRecyclerView.setLayoutManager(gridLayoutManager);
+        mRecyclerView.addOnScrollListener(getOnBottomListener(gridLayoutManager));
     }
 
     @Override
     public void setSwipeRefreshLayout() {
-        swipeRefreshLayout.setColorSchemeResources(R.color.refresh_process1, R.color.refresh_process2, R.color.refresh_process3);
+        mSwipeRefreshLayout.setColorSchemeResources(R.color.refresh_process1, R.color.refresh_process2, R.color.refresh_process3);
 
     }
 
@@ -82,31 +80,32 @@ public class GirlFragment extends BaseFragment implements GirlOnClickListener, G
         for (Object girl : list) {
             mGirls.add((Girl) girl);
         }
-        if (recyclerView != null) {
-            recyclerView.requestLayout();
+        if (mRecyclerView != null) {
+            mRecyclerView.requestLayout();
         }
         if (mGirls.size() - size == 10) {
-            page++;
+            mPage++;
         }
     }
 
     @Override
     public void finishRefresh() {
-        swipeRefreshLayout.setRefreshing(false);
+        mSwipeRefreshLayout.setRefreshing(false);
     }
 
     @Override
     public void showSnackBar() {
-        SnackBarUtil.showSnackBar(recyclerView, this);
+        SnackBarUtil.showSnackBar(mRecyclerView, this);
     }
 
     @Override
     public void onRefresh() {
-        if (page <= limit) {
-            swipeRefreshLayout.setRefreshing(true);
-            mPresenter.loadMore(page);
+        int pageLimit = 10;
+        if (mPage <= pageLimit) {
+            mSwipeRefreshLayout.setRefreshing(true);
+            mPresenter.loadMore(mPage);
         } else {
-            swipeRefreshLayout.setRefreshing(false);
+            mSwipeRefreshLayout.setRefreshing(false);
         }
     }
 
@@ -131,21 +130,34 @@ public class GirlFragment extends BaseFragment implements GirlOnClickListener, G
      * (at your option) any later version.
      */
     RecyclerView.OnScrollListener getOnBottomListener(final StaggeredGridLayoutManager layoutManager) {
-        RecyclerView.OnScrollListener bottomListener = new RecyclerView.OnScrollListener() {
+        return new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 int[] lastVisiblePositions = new int[2];
                 lastVisiblePositions = layoutManager.findLastCompletelyVisibleItemPositions(lastVisiblePositions);
                 int right = lastVisiblePositions[1];
                 boolean isBottom = right > mGirlAdapter.getItemCount() - 7;
-                if (isBottom && !swipeRefreshLayout.isRefreshing()) {
+                if (isBottom && !mSwipeRefreshLayout.isRefreshing()) {
                     if (!mIsFirstTouchedBottom) {
                         onRefresh();
                     } else mIsFirstTouchedBottom = false;
                 }
             }
+
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                switch (newState) {
+                    case RecyclerView.SCROLL_STATE_DRAGGING:
+                        mGirlAdapter.setScrollState(true);
+                        break;
+                    case RecyclerView.SCROLL_STATE_IDLE:
+                    case RecyclerView.SCROLL_STATE_SETTLING:
+                        mGirlAdapter.setScrollState(false);
+                        break;
+                }
+            }
         };
-        return bottomListener;
     }
 
 

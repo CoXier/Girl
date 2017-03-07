@@ -46,10 +46,12 @@ public class GirlAdapter extends BaseRVAdapter<Girl,GirlAdapter.GirlHolder> {
     @Override
     public void onBindViewHolder(GirlHolder holder, int position) {
         Girl girl = mList.get(position);
-        Glide.with(mFragment)
-                .load(girl.getUrl())
-                .centerCrop()
-                .into(holder.imageView);
+        if (!isScrolling()) {
+            Glide.with(mFragment)
+                    .load(girl.getUrl())
+                    .centerCrop()
+                    .into(holder.imageView);
+        }
 
         String desc = girl.getDesc();
         holder.textView.setText(desc);

@@ -8,5 +8,12 @@ import android.view.View;
  */
 
 public abstract class BaseRVAdapter<T,H extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<H>{
+    private boolean mIsScrolling;
     protected abstract void setOnItemClickListener(View view, T data);
+    public boolean isScrolling(){
+        return mIsScrolling;
+    }
+    public void setScrollState(boolean isScrolling){
+        mIsScrolling = isScrolling;
+    }
 }
