@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.hackerli.retrofit.R;
+import com.hackerli.retrofit.base.BaseRVAdapter;
 import com.hackerli.retrofit.data.entity.Android;
 import com.hackerli.retrofit.data.entity.AndroidWrapper;
 
@@ -22,23 +23,22 @@ import me.gujun.android.taggroup.TagGroup;
 /**
  * Created by CoXier on 2016/5/2.
  */
-public class GankAdapter extends RecyclerView.Adapter<GankAdapter.GankHolder> {
+public class GankAdapter extends BaseRVAdapter<String,GankAdapter.GankHolder> {
     private List<AndroidWrapper> mAndroidWrappers;
     private Fragment mFragment;
-    private GankOnClickListener gankListener;
+    private GankOnClickListener mGankListener;
 
     public GankAdapter(Fragment mFragment, List<AndroidWrapper> mAndroidWrappers) {
         this.mFragment = mFragment;
         this.mAndroidWrappers = mAndroidWrappers;
-        gankListener = (GankOnClickListener) mFragment;
+        mGankListener = (GankOnClickListener) mFragment;
 
     }
 
     @Override
     public GankHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext  ()).inflate(R.layout.item_gank, parent, false);
-        GankHolder gankHolder = new GankHolder(v);
-        return gankHolder;
+        return new GankHolder(v);
     }
 
     @Override
@@ -48,7 +48,7 @@ public class GankAdapter extends RecyclerView.Adapter<GankAdapter.GankHolder> {
         holder.author.setText(author);
         holder.title.setText(android.getDesc());
 
-        setOnClickListener(holder.itemView, android.getUrl());
+        setOnItemClickListener(holder.itemView, android.getUrl());
         // 给每篇干货 设置标签
         setTag(holder.tagGroup, android.getDesc(), android.getUrl());
 
@@ -61,16 +61,6 @@ public class GankAdapter extends RecyclerView.Adapter<GankAdapter.GankHolder> {
     public int getItemCount() {
         return mAndroidWrappers.size();
     }
-
-    private void setOnClickListener(View itemView, final String url) {
-        itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (gankListener != null) gankListener.viewGankOnWebView(url);
-            }
-        });
-    }
-
 
     private void setAvatar(final GankHolder holder, final AndroidWrapper wrapper) {
         holder.imageView.setImageResource(android.R.color.transparent);
@@ -87,24 +77,34 @@ public class GankAdapter extends RecyclerView.Adapter<GankAdapter.GankHolder> {
 
     }
 
-    public void setTag(TagGroup tag, String title, String url) {
+    private void setTag(TagGroup tag, String title, String url) {
 
         if (title.contains("源码解析") || title.contains("分析源代码") || title.contains("源代码分析")) {
-            tag.setTags(new String("源码解析"));
+            tag.setTags("源码解析");
         } else if (url.contains("https://github.com/") && title.contains("项目")) {
-            tag.setTags(new String("开源项目"));
+            tag.setTags("开源项目");
         } else if (url.contains("https://github.com/")) {
-            tag.setTags(new String("开源库"));
+            tag.setTags("开源库");
         } else if (url.contains("https://zhuanlan.zhihu.com/")) {
-            tag.setTags(new String("知乎专栏"));
+            tag.setTags("知乎专栏");
         } else {
-            tag.setTags(new String("干货"));
+            tag.setTags("干货");
         }
 
 
     }
 
-    public class GankHolder extends RecyclerView.ViewHolder {
+    @Override
+    protected void setOnItemClickListener(View view, final String data) {
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mGankListener != null) mGankListener.viewGankOnWebView(data);
+            }
+        });
+    }
+
+    class GankHolder extends RecyclerView.ViewHolder {
         @Bind(R.id.iv_author)
         CircleImageView imageView;
         @Bind(R.id.tv_author)
@@ -115,7 +115,7 @@ public class GankAdapter extends RecyclerView.Adapter<GankAdapter.GankHolder> {
         TagGroup tagGroup;
         View itemView;
 
-        public GankHolder(View itemView) {
+        GankHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
             this.itemView = itemView;

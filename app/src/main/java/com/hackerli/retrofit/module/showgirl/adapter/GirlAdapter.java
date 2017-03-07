@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.hackerli.retrofit.R;
+import com.hackerli.retrofit.base.BaseRVAdapter;
 import com.hackerli.retrofit.data.entity.Girl;
 
 import java.util.List;
@@ -20,10 +21,10 @@ import butterknife.ButterKnife;
 /**
  * Created by CoXier on 2016/3/20.
  */
-public class GirlAdapter extends RecyclerView.Adapter<GirlAdapter.GirlHolder> {
+public class GirlAdapter extends BaseRVAdapter<Girl,GirlAdapter.GirlHolder> {
     private Fragment mFragment;
     private List<Girl> mList;
-    private static int widthPixels;
+    private static int mWidthPixels;
 
 
     private GirlOnClickListener mOnClickListener;
@@ -33,14 +34,13 @@ public class GirlAdapter extends RecyclerView.Adapter<GirlAdapter.GirlHolder> {
         this.mFragment = fragment;
         this.mList = mList;
         mOnClickListener = (GirlOnClickListener) mFragment;
-        widthPixels = mFragment.getResources().getDisplayMetrics().widthPixels;
+        mWidthPixels = mFragment.getResources().getDisplayMetrics().widthPixels;
     }
 
     @Override
     public GirlHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_girl, parent, false);
-        GirlHolder girlHolder = new GirlHolder(v);
-        return girlHolder;
+        return new GirlHolder(v);
     }
 
     @Override
@@ -53,7 +53,7 @@ public class GirlAdapter extends RecyclerView.Adapter<GirlAdapter.GirlHolder> {
 
         String desc = girl.getDesc();
         holder.textView.setText(desc);
-        setOnClickListener(holder, girl);
+        setOnItemClickListener(holder.imageView, girl);
     }
 
     @Override
@@ -61,14 +61,24 @@ public class GirlAdapter extends RecyclerView.Adapter<GirlAdapter.GirlHolder> {
         return mList.size();
     }
 
+    @Override
+    protected void setOnItemClickListener(View view, final Girl data) {
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mOnClickListener!=null)
+                    mOnClickListener.viewGirlPhoto(data);
+            }
+        });
+    }
 
-    public class GirlHolder extends RecyclerView.ViewHolder {
+    class GirlHolder extends RecyclerView.ViewHolder {
         @Bind(R.id.iv_girl)
         ImageView imageView;
         @Bind(R.id.tv_date)
         TextView textView;
 
-        public GirlHolder(View itemView) {
+        GirlHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
             float scale = (float) (Math.random() + 1);
@@ -76,26 +86,10 @@ public class GirlAdapter extends RecyclerView.Adapter<GirlAdapter.GirlHolder> {
                 scale = (float) (Math.random() + 1);
             }
             ViewGroup.LayoutParams params = imageView.getLayoutParams();
-            params.height = (int) (widthPixels * scale * 0.448);
+            params.height = (int) (mWidthPixels * scale * 0.448);
             imageView.setLayoutParams(params);
         }
 
     }
-
-    @Override
-    public void onViewRecycled(GirlHolder holder) {
-        super.onViewRecycled(holder);
-    }
-
-    public void setOnClickListener(GirlHolder girlHolder, final Girl girl) {
-        girlHolder.imageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mOnClickListener.viewGirlPhoto(girl);
-            }
-        });
-
-    }
-
 
 }
