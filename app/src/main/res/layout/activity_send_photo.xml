@@ -80,7 +80,7 @@
             android:layout_marginLeft="3dp"
             android:layout_marginTop="38dp"
             android:foreground="?android:attr/selectableItemBackground"
-            android:src="@drawable/inline_reply_dialog_send"
+            app:srcCompat="@drawable/ic_send"
              />
     </LinearLayout>
 

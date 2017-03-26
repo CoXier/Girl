@@ -1,31 +1,102 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.neenbedankt.android-apt'
+apply plugin: 'AndResGuard'
 
 android {
+    signingConfigs {
+        config {
+            keyAlias 'coxier'
+            keyPassword 'nishizhuljx123'
+            storeFile file('/home/coxier/Android/Coxier\'s_Key_Store.jks')
+            storePassword 'nishizhuljx123'
+            v2SigningEnabled false
+        }
+    }
     compileSdkVersion 25
     buildToolsVersion '23.0.3'
-
     defaultConfig {
-        applicationId "com.hackerli.retrofit"
-        minSdkVersion 15
+        applicationId "com.hackerli.girl"
+        minSdkVersion 17
         targetSdkVersion 25
         versionCode 2
         versionName "1.2"
+
+        resConfigs "en", "zh-rCN"
+        vectorDrawables.useSupportLibrary = true
     }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.config
         }
     }
-    packagingOptions{
+    packagingOptions {
         exclude 'META-INF/LICENSE.txt'
         exclude 'META-INF/NOTICE.txt'
     }
     lintOptions {
         abortOnError false
     }
+    splits {
+
+        // Configures multiple APKs based on ABI.
+        abi {
+
+            // Enables building multiple APKs per ABI.
+            enable true
+
+            // By default all ABIs are included, so use reset() and include to specify that we only
+            // want APKs for x86, armeabi-v7a, and mips.
+
+            // Resets the list of ABIs that Gradle should create APKs for to none.
+            reset()
+
+            // Specifies a list of ABIs that Gradle should create APKs for.
+            include "x86", "armeabi"
+
+            // Specifies that we do not want to also generate a universal APK that includes all ABIs.
+            universalApk false
+        }
+    }
 }
+
+
+andResGuard {
+    // mappingFile = file("./resource_mapping.txt")
+    mappingFile = null
+    // 当你使用v2签名的时候，7zip压缩是无法生效的。
+    use7zip = true
+    useSign = true
+    // 打开这个开关，会keep住所有资源的原始路径，只混淆资源的名字
+    keepRoot = false
+    def packageName = "com.hackerli.girl."
+    whiteList = [
+            packageName + "R.drawable.*",
+            packageName + "R.anim.*",
+            packageName + "R.array.*",
+            packageName + "R.menu.*",
+            packageName + "R.layout.*",
+            packageName + "R.color.*"
+
+    ]
+    compressFilePattern = [
+            "*.png",
+            "*.jpg",
+            "*.jpeg",
+            "*.gif",
+            "resources.arsc"
+    ]
+    sevenzip {
+        artifact = 'com.tencent.mm:SevenZip:1.2.0'
+        //path = "/usr/local/bin/7za"
+    }
+}
+
+
+
+
 
 def dbflow_version = "3.0.0-beta6"
 
@@ -54,8 +125,8 @@ dependencies {
     compile "com.github.Raizlabs.DBFlow:dbflow-sqlcipher:${dbflow_version}"
     compile 'jp.wasabeef:recyclerview-animators:2.2.1'
     compile 'com.github.coyarzun89:fabtransitionactivity:0.2.0'
-    compile 'org.jsoup:jsoup:1.9.1'
-    compile ('cn.leancloud.android:avoscloud-sdk:v3.+')
+    compile 'org.jsoup:jsoup:1.10.2'
+    compile 'cn.leancloud.android:avoscloud-sdk:v3.+'
 }
 
 

@@ -1,1 +1,3 @@
 /build
+*.apk
+redex-src-strings-map.txt

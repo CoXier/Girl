@@ -28,12 +28,12 @@
             android:layout_height="wrap_content"
             android:layout_gravity="right|bottom"
             android:layout_margin="16dp"
-            android:src="@drawable/ic_cloud_upload_white_24dp"
+            app:srcCompat="@drawable/ic_cloud_upload"
             app:borderWidth="0dp"
             app:fabSize="normal"
             app:layout_anchor="@id/vp"
             app:layout_anchorGravity="bottom|right|end"
-            app:layout_behavior="com.hackerli.retrofit.ui.ScrollAwareFABBehavior"
+            app:layout_behavior="com.hackerli.girl.ui.ScrollAwareFABBehavior"
             app:rippleColor="@color/colorAccent" />
     </android.support.design.widget.CoordinatorLayout>
 
