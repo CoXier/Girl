@@ -1,17 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.neenbedankt.android-apt'
-apply plugin: 'AndResGuard'
 
 android {
-    signingConfigs {
-        config {
-            keyAlias 'coxier'
-            keyPassword 'nishizhuljx123'
-            storeFile file('/home/coxier/Android/Coxier\'s_Key_Store.jks')
-            storePassword 'nishizhuljx123'
-            v2SigningEnabled false
-        }
-    }
     compileSdkVersion 25
     buildToolsVersion '23.0.3'
     defaultConfig {
@@ -29,7 +19,6 @@ android {
             minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.config
         }
     }
     packagingOptions {
@@ -61,42 +50,6 @@ android {
         }
     }
 }
-
-
-andResGuard {
-    // mappingFile = file("./resource_mapping.txt")
-    mappingFile = null
-    // 当你使用v2签名的时候，7zip压缩是无法生效的。
-    use7zip = true
-    useSign = true
-    // 打开这个开关，会keep住所有资源的原始路径，只混淆资源的名字
-    keepRoot = false
-    def packageName = "com.hackerli.girl."
-    whiteList = [
-            packageName + "R.drawable.*",
-            packageName + "R.anim.*",
-            packageName + "R.array.*",
-            packageName + "R.menu.*",
-            packageName + "R.layout.*",
-            packageName + "R.color.*"
-
-    ]
-    compressFilePattern = [
-            "*.png",
-            "*.jpg",
-            "*.jpeg",
-            "*.gif",
-            "resources.arsc"
-    ]
-    sevenzip {
-        artifact = 'com.tencent.mm:SevenZip:1.2.0'
-        //path = "/usr/local/bin/7za"
-    }
-}
-
-
-
-
 
 def dbflow_version = "3.0.0-beta6"
 
