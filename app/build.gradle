@@ -51,7 +51,9 @@ android {
     }
 }
 
-def dbflow_version = "3.0.0-beta6"
+ext{
+    db_flow_version = "3.0.0-beta6"
+}
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
@@ -72,14 +74,19 @@ dependencies {
     compile 'io.reactivex:rxjava:1.1.0'
     compile 'me.gujun.android.taggroup:library:1.4@aar'
     compile 'de.hdodenhof:circleimageview:2.0.0'
-    apt "com.github.Raizlabs.DBFlow:dbflow-processor:${dbflow_version}"
-    compile "com.github.Raizlabs.DBFlow:dbflow-core:${dbflow_version}"
-    compile "com.github.Raizlabs.DBFlow:dbflow:${dbflow_version}"
-    compile "com.github.Raizlabs.DBFlow:dbflow-sqlcipher:${dbflow_version}"
+    apt "com.github.Raizlabs.DBFlow:dbflow-processor:${db_flow_version}"
+    compile "com.github.Raizlabs.DBFlow:dbflow-core:${db_flow_version}"
+    compile "com.github.Raizlabs.DBFlow:dbflow:${db_flow_version}"
+    compile "com.github.Raizlabs.DBFlow:dbflow-sqlcipher:${db_flow_version}"
     compile 'jp.wasabeef:recyclerview-animators:2.2.1'
     compile 'com.github.coyarzun89:fabtransitionactivity:0.2.0'
     compile 'org.jsoup:jsoup:1.10.2'
     compile 'cn.leancloud.android:avoscloud-sdk:v3.+'
 }
 
+task deleteApk(type:Delete) {
+    delete fileTree('.') {
+        include '*.apk'
+    }
+}
 
