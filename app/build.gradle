@@ -84,7 +84,8 @@ dependencies {
     compile 'cn.leancloud.android:avoscloud-sdk:v3.+'
 }
 
-task deleteApk(type:Delete) {
+task deleteApks(type:Delete) {
+    group 'cleanApks'
     delete fileTree('.') {
         include '*.apk'
     }
