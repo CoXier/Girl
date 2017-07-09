@@ -24,17 +24,13 @@ import butterknife.ButterKnife;
 public class GirlAdapter extends BaseRVAdapter<Girl, GirlAdapter.GirlHolder> {
     private Fragment mFragment;
     private List<Girl> mList;
-    private static int mWidthPixels;
-
 
     private GirlOnClickListener mOnClickListener;
-
 
     public GirlAdapter(Fragment fragment, List<Girl> mList) {
         this.mFragment = fragment;
         this.mList = mList;
         mOnClickListener = (GirlOnClickListener) mFragment;
-        mWidthPixels = mFragment.getResources().getDisplayMetrics().widthPixels;
     }
 
     @Override
@@ -82,13 +78,6 @@ public class GirlAdapter extends BaseRVAdapter<Girl, GirlAdapter.GirlHolder> {
         GirlHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-            float scale = (float) (Math.random() + 1);
-            while (scale > 1.6 || scale < 1.1) {
-                scale = (float) (Math.random() + 1);
-            }
-            ViewGroup.LayoutParams params = imageView.getLayoutParams();
-            params.height = (int) (mWidthPixels * scale * 0.448);
-            imageView.setLayoutParams(params);
         }
 
     }
