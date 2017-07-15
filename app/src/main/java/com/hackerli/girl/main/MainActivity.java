@@ -28,7 +28,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity implements SheetLayout.OnFabAnimationEndListener{
+public class MainActivity extends AppCompatActivity implements SheetLayout.OnFabAnimationEndListener {
     @Bind(R.id.tab)
     TabLayout mTab;
     @Bind(R.id.vp)
@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity implements SheetLayout.OnFab
         ButterKnife.bind(this);
 
         setSupportActionBar(mToolbar);
-        getSupportActionBar().setTitle("gank.io");
+        getSupportActionBar().setTitle(getString(R.string.title_main_activity_toolbar));
         setTabs();
 
         initFabEvent();
@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity implements SheetLayout.OnFab
         });
     }
 
-    private void initPopupWindow(){
+    private void initPopupWindow() {
         mPopupWindow = new SearchWindow(this);
         mPopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
@@ -91,7 +91,7 @@ public class MainActivity extends AppCompatActivity implements SheetLayout.OnFab
         mFragments.add(new VideoFragment());
 
         mTitles = getResources().getStringArray(R.array.tabs_title);
-        TabsPagerAdapter adapter = new TabsPagerAdapter(getSupportFragmentManager(), mFragments,mTitles);
+        TabsPagerAdapter adapter = new TabsPagerAdapter(getSupportFragmentManager(), mFragments, mTitles);
         mVP.setAdapter(adapter);
         mVP.setOffscreenPageLimit(3);
         mTab.setupWithViewPager(mVP);
@@ -111,7 +111,7 @@ public class MainActivity extends AppCompatActivity implements SheetLayout.OnFab
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.action_search){
+        if (item.getItemId() == R.id.action_search) {
             mPopupWindow.show(mToolbar);
             mFab.hide();
         }
@@ -122,13 +122,13 @@ public class MainActivity extends AppCompatActivity implements SheetLayout.OnFab
     @Override
     public void onFabAnimationEnd() {
         Intent intent = new Intent(MainActivity.this, SendPhotoActivity.class);
-        startActivityForResult(intent,REQUEST_CODE);
+        startActivityForResult(intent, REQUEST_CODE);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode==REQUEST_CODE){
+        if (requestCode == REQUEST_CODE) {
             mSheetLayout.contractFab();
         }
     }

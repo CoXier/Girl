@@ -5,4 +5,5 @@
         <item>"Gank"</item>
         <item>"Video"</item>
     </string-array>
+    <string name="title_main_activity_toolbar">gank.io</string>
 </resources>

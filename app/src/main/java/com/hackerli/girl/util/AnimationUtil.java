@@ -1,9 +1,5 @@
 package com.hackerli.girl.util;
 
-/**
- * Created by CoXier on 2016/5/28.
- */
-
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;

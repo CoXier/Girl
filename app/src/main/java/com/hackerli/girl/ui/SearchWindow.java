@@ -39,7 +39,6 @@ public class SearchWindow extends PopupWindow {
         setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
         setHeight(ViewGroup.LayoutParams.MATCH_PARENT);
         setFocusable(true);
-//        setOutsideTouchable(true);
         contentView = new MaterialSearchView(context);
         contentView.setPopupWindow(this);
         contentView.setFocusable(true);
