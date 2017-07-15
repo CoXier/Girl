@@ -30,7 +30,9 @@ public class VideoPresenter implements VideoContract.Presenter {
 
     private boolean mNetworkBroken = false;
 
-    private final static String mYoukuChannel = "http://fun.youku.com/?spm=a2hfu.20023297.topNav.5~1~3!21~A";
+    private final static String sYoukuChannel = "http://fun.youku.com/?spm=a2hfu.20023297.topNav.5~1~3!21~A";
+
+    private final static String sUserAgent = "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:50.0) Gecko/20100101 Firefox/50.0";
 
     public VideoPresenter(VideoContract.View view) {
         this.mView = view;
@@ -44,7 +46,7 @@ public class VideoPresenter implements VideoContract.Presenter {
         mTasks = new ArrayList<>();
 
         LoadYoukuChannelTask channelTask = new LoadYoukuChannelTask();
-        channelTask.execute(mYoukuChannel);
+        channelTask.execute(sYoukuChannel);
     }
 
     private class LoadYoukuVideosTask extends AsyncTask<String, Void, Void> {
@@ -53,8 +55,7 @@ public class VideoPresenter implements VideoContract.Presenter {
             try {
                 mNetworkBroken = false;
                 Document document = Jsoup.connect(params[0])
-                        .userAgent("Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36")
-                        .header("Cookie", "__ysuid=14798669834357C8; ysestep=1; yseidcount=2; ystep=2; juid=01b4najpfp6mt; __aysid=1482546604362PFc; __ayspstp=2; __ali=14825466062231u8; __aliCount=1; cna=jPa7ECWH9FUCAd4UA4/SyKVz; ypvid=1482586265845XiGc1r; yseid=1482586265845sT67La; yseidtimeout=1482593465846; ycid=0; seid=01b4oge67o2no6; referhost=; seidtimeout=1482588065849; __ayft=1482586266347; __arpvid=1482586266347P6epCh-1482586266354; __arycid=cms-00-904-23747-0; __ayscnt=1; __arcms=cms-00-904-23747-0; __aypstp=1; ykss=9a785e58f70e26df5e2a41fd")
+                        .userAgent(sUserAgent)
                         .timeout(7000)
                         .get();
                 Elements elements = document.getElementsByClass("v-link");
@@ -118,8 +119,7 @@ public class VideoPresenter implements VideoContract.Presenter {
             try {
                 mNetworkBroken = false;
                 Document document = Jsoup.connect(params[0])
-                        .userAgent("Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:50.0) Gecko/20100101 Firefox/50.0")
-                        .header("Cookie", "__ysuid=1479897238517wnV; ysestep=5; yseidcount=2; ystep=6; juid=01b4najpfp6mt; __aysid=1482546604362PFc; __ayspstp=6; __ali=14825466062231u8; __aliCount=1; cna=jPa7ECWH9FUCAd4UA4/SyKVz")
+                        .userAgent(sUserAgent)
                         .timeout(7000)
                         .get();
                 Elements elements = document.getElementsByClass("g-content");

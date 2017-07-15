@@ -6,10 +6,12 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.hackerli.girl.BuildConfig;
 import com.hackerli.girl.R;
 import com.hackerli.girl.data.VideoData;
 import com.hackerli.girl.data.entity.Video;
@@ -30,6 +32,7 @@ import butterknife.ButterKnife;
  */
 public class VideoFragment extends Fragment implements VideoOnClickListener,VideoContract.View {
 
+    private static final String TAG = "VideoFragment";
 
     @Bind(R.id.recycle_video)
     RecyclerView recycleView;
@@ -72,6 +75,9 @@ public class VideoFragment extends Fragment implements VideoOnClickListener,Vide
     public void playVideo(Video video) {
         Intent intent = new Intent(getActivity(), WebActivity.class);
         intent.putExtra("url", video.getVideoUrl());
+        if (BuildConfig.DEBUG){
+            Log.d(TAG,"play url :" + video.getVideoUrl());
+        }
         startActivity(intent);
     }
 
