@@ -45,7 +45,6 @@ public class GirlAdapter extends BaseRVAdapter<Girl, GirlAdapter.GirlHolder> {
         Glide.with(mFragment)
                 .load(girl.getUrl())
                 .placeholder(R.drawable.ic_girl_placeholder)
-                .centerCrop()
                 .into(holder.imageView);
 
         String desc = girl.getDesc();
