@@ -103,6 +103,7 @@ task checkstyle(type:Checkstyle) {
     source 'src/main/java'
 }
 
-gradle.taskGraph.beforeTask { Task task ->
-    println "executing $task ..."
+// check code style after project evaluation
+afterEvaluate{
+    getTasksByName('checkstyle', false)[0].execute()
 }
