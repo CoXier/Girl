@@ -31,7 +31,7 @@ import okhttp3.Response;
  */
 
 public class SearchWindow extends PopupWindow {
-    private MaterialSearchView contentView;
+    private MaterialSearchView mContentView;
 
 
     public SearchWindow(final Context context) {
@@ -39,24 +39,24 @@ public class SearchWindow extends PopupWindow {
         setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
         setHeight(ViewGroup.LayoutParams.MATCH_PARENT);
         setFocusable(true);
-        contentView = new MaterialSearchView(context);
-        contentView.setPopupWindow(this);
-        contentView.setFocusable(true);
-        setContentView(contentView);
+        mContentView = new MaterialSearchView(context);
+        mContentView.setPopupWindow(this);
+        mContentView.setFocusable(true);
+        setContentView(mContentView);
         setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         initContentView();
     }
 
     private void initContentView() {
-        contentView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
+        mContentView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 // search data by keyword
                 if (!query.isEmpty()) {
                     searchData(query);
-                    contentView.hideKeyboard();
+                    mContentView.hideKeyboard();
                 } else {
-                    contentView.clearData();
+                    mContentView.clearData();
                 }
                 return true;
             }
@@ -71,19 +71,19 @@ public class SearchWindow extends PopupWindow {
 
     @Override
     public void dismiss() {
-        contentView.closeSearch();
-        contentView.clearData();
+        mContentView.closeSearch();
+        mContentView.clearData();
         super.dismiss();
     }
 
     public void show(View view) {
         if (!isShowing()) {
             showAtLocation(view, Gravity.TOP, 0, 0);
-            contentView.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
+            mContentView.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
                 @Override
                 public void onLayoutChange(View view, int i, int i1, int i2, int i3, int i4, int i5, int i6, int i7) {
-                    contentView.removeOnLayoutChangeListener(this);
-                    contentView.showSearch();
+                    mContentView.removeOnLayoutChangeListener(this);
+                    mContentView.showSearch();
                 }
             });
         }
@@ -115,7 +115,7 @@ public class SearchWindow extends PopupWindow {
                     handler.post(new Runnable() {
                         @Override
                         public void run() {
-                            contentView.setSuggestions(searchResults);
+                            mContentView.setSuggestions(searchResults);
                         }
                     });
 

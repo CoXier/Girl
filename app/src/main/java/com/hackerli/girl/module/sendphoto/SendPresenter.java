@@ -34,9 +34,9 @@ public class SendPresenter implements SendContract.Presenter {
     public void sendPhoto(String uri, final String desc, final String name) {
         mView.clearPhoto();
         mView.showProgressDialog();
-        String fileName = System.nanoTime()+".jpg";
+        String fileName = System.nanoTime() + ".jpg";
         try {
-             final AVFile file = AVFile.withAbsoluteLocalPath(fileName, uri);
+            final AVFile file = AVFile.withAbsoluteLocalPath(fileName, uri);
             file.saveInBackground(new SaveCallback() {
                 @Override
                 public void done(AVException e) {
@@ -45,11 +45,11 @@ public class SendPresenter implements SendContract.Presenter {
                         public void call(Subscriber<? super String> subscriber) {
                             OkHttpClient okHttpClient = new OkHttpClient();
                             RequestBody requestBody = new FormBody.Builder()
-                                    .add("url",file.getUrl())
-                                    .add("desc",desc)
-                                    .add("who",name)
-                                    .add("type","福利")
-                                    .add("debug","false")
+                                    .add("url", file.getUrl())
+                                    .add("desc", desc)
+                                    .add("who", name)
+                                    .add("type", "福利")
+                                    .add("debug", "false")
                                     .build();
                             Request request = new Request.Builder()
                                     .url("https://gank.io/api/add2gank")
@@ -66,9 +66,9 @@ public class SendPresenter implements SendContract.Presenter {
                     observable.subscribe(new Action1<String>() {
                         @Override
                         public void call(String s) {
-                            if (s.contains("true")){
+                            if (s.contains("true")) {
                                 mView.dismissProgressDialog("上传失败");
-                            }else{
+                            } else {
                                 mView.dismissProgressDialog("上传成功");
 
                             }

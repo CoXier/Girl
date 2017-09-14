@@ -4,31 +4,31 @@ package com.hackerli.girl.data.entity;
  * Created by CoXier on 2016/5/26.
  */
 public class SearchResult {
-    private String source;
-    private String title;
-    private String url;
+    private String mSource;
+    private String mTitle;
+    private String mUrl;
 
     public String getSource() {
-        return source;
+        return mSource;
     }
 
     public void setSource(String source) {
-        this.source = source;
+        this.mSource = source;
     }
 
     public String getTitle() {
-        return title;
+        return mTitle;
     }
 
     public void setTitle(String title) {
-        this.title = title;
+        this.mTitle = title;
     }
 
     public String getUrl() {
-        return url;
+        return mUrl;
     }
 
     public void setUrl(String url) {
-        this.url = url;
+        this.mUrl = url;
     }
 }

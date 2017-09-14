@@ -17,7 +17,7 @@ import butterknife.ButterKnife;
 public class WebActivity extends AppCompatActivity {
 
     @Bind(R.id.wv_gank)
-    WebView webview;
+    WebView mWebView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,11 +27,11 @@ public class WebActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         String url = intent.getStringExtra("url");
-        WebSettings settings = webview.getSettings();
+        WebSettings settings = mWebView.getSettings();
         settings.setJavaScriptEnabled(true);
-        webview.setWebViewClient(new MyWebViewClient());
-        webview.setWebChromeClient(new WebChromeClient());
-        webview.loadUrl(url);
+        mWebView.setWebViewClient(new MyWebViewClient());
+        mWebView.setWebChromeClient(new WebChromeClient());
+        mWebView.loadUrl(url);
     }
 
     class MyWebViewClient extends WebViewClient {
@@ -44,8 +44,8 @@ public class WebActivity extends AppCompatActivity {
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK && webview.canGoBack()) {
-            webview.goBack();
+        if (keyCode == KeyEvent.KEYCODE_BACK && mWebView.canGoBack()) {
+            mWebView.goBack();
             return true;
         }
         return super.onKeyDown(keyCode, event);
@@ -53,7 +53,7 @@ public class WebActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-        webview.destroy();
+        mWebView.destroy();
         super.onDestroy();
     }
 }

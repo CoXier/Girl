@@ -8,12 +8,13 @@ import com.google.gson.annotations.SerializedName;
 public class GitUser {
 
     @SerializedName("avatar_url")
-    private String imageUrl;
+    private String mImageUrl;
+
     public String getImageUrl() {
-        return imageUrl;
+        return mImageUrl;
     }
 
     public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
+        this.mImageUrl = imageUrl;
     }
 }

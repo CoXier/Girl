@@ -9,11 +9,11 @@ import java.util.List;
  */
 
 public interface VideoContract {
-    interface View{
-        void showVideos(List<Video> videos,String head);
+    interface View {
+        void showVideos(List<Video> videos, String head);
     }
 
-    interface Presenter{
+    interface Presenter {
         void loadYoukuVideos();
     }
 

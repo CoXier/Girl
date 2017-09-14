@@ -140,7 +140,9 @@ public class GirlFragment extends BaseFragment implements GirlOnClickListener, G
                 if (isBottom && !mSwipeRefreshLayout.isRefreshing()) {
                     if (!mIsFirstTouchedBottom) {
                         onRefresh();
-                    } else mIsFirstTouchedBottom = false;
+                    } else {
+                        mIsFirstTouchedBottom = false;
+                    }
                 }
             }
 
@@ -154,6 +156,8 @@ public class GirlFragment extends BaseFragment implements GirlOnClickListener, G
                     case RecyclerView.SCROLL_STATE_IDLE:
                     case RecyclerView.SCROLL_STATE_SETTLING:
                         mGirlAdapter.setScrollState(false);
+                        break;
+                    default:
                         break;
                 }
             }

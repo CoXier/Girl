@@ -45,12 +45,12 @@ public class GankAdapter extends BaseRVAdapter<String, GankAdapter.GankHolder> {
     public void onBindViewHolder(GankHolder holder, int position) {
         Android android = mAndroidWrappers.get(position).getAndroid();
         String author = android.getWho() == null ? "无名好汉" : android.getWho();
-        holder.author.setText(author);
-        holder.title.setText(android.getDesc());
+        holder.mAuthor.setText(author);
+        holder.mTitle.setText(android.getDesc());
 
-        setOnItemClickListener(holder.itemView, android.getUrl());
+        setOnItemClickListener(holder.mItemView, android.getUrl());
         // 给每篇干货 设置标签
-        setTag(holder.tagGroup, android.getDesc(), android.getUrl());
+        setTag(holder.mTagGroup, android.getDesc(), android.getUrl());
 
         // 作者的头像
         setAvatar(holder, mAndroidWrappers.get(position));
@@ -63,11 +63,11 @@ public class GankAdapter extends BaseRVAdapter<String, GankAdapter.GankHolder> {
     }
 
     private void setAvatar(final GankHolder holder, final AndroidWrapper wrapper) {
-        holder.imageView.setImageResource(android.R.color.transparent);
+        holder.mImageView.setImageResource(android.R.color.transparent);
         if (wrapper.getAvatarUrl() == null) {
-            holder.imageView.setImageResource(R.drawable.ic_person);
+            holder.mImageView.setImageResource(R.drawable.ic_person);
         } else {
-            Glide.with(mFragment).load(wrapper.getAvatarUrl()).into(holder.imageView);
+            Glide.with(mFragment).load(wrapper.getAvatarUrl()).into(holder.mImageView);
         }
 
     }
@@ -101,19 +101,19 @@ public class GankAdapter extends BaseRVAdapter<String, GankAdapter.GankHolder> {
 
     class GankHolder extends RecyclerView.ViewHolder {
         @Bind(R.id.iv_author)
-        CircleImageView imageView;
+        CircleImageView mImageView;
         @Bind(R.id.tv_author)
-        TextView author;
+        TextView mAuthor;
         @Bind(R.id.tv_title)
-        TextView title;
+        TextView mTitle;
         @Bind(R.id.tag_group)
-        TagGroup tagGroup;
-        View itemView;
+        TagGroup mTagGroup;
+        View mItemView;
 
         GankHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-            this.itemView = itemView;
+            this.mItemView = itemView;
         }
     }
 

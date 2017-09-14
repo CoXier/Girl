@@ -45,11 +45,11 @@ public class GirlAdapter extends BaseRVAdapter<Girl, GirlAdapter.GirlHolder> {
         Glide.with(mFragment)
                 .load(girl.getUrl())
                 .placeholder(R.drawable.ic_girl_placeholder)
-                .into(holder.imageView);
+                .into(holder.mImageView);
 
         String desc = girl.getDesc();
-        holder.textView.setText(desc);
-        setOnItemClickListener(holder.imageView, girl);
+        holder.mTextView.setText(desc);
+        setOnItemClickListener(holder.mImageView, girl);
     }
 
     @Override
@@ -70,9 +70,9 @@ public class GirlAdapter extends BaseRVAdapter<Girl, GirlAdapter.GirlHolder> {
 
     class GirlHolder extends RecyclerView.ViewHolder {
         @Bind(R.id.iv_girl)
-        ImageView imageView;
+        ImageView mImageView;
         @Bind(R.id.tv_date)
-        TextView textView;
+        TextView mTextView;
 
         GirlHolder(View itemView) {
             super(itemView);

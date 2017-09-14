@@ -5,12 +5,19 @@ package com.hackerli.girl.data.entity;
  */
 public class Android {
 
+    @SuppressWarnings("checkstyle:membername")
     private String createdAt;
+    @SuppressWarnings("checkstyle:membername")
     private String desc;
+    @SuppressWarnings("checkstyle:membername")
     private String publishedAt;
+    @SuppressWarnings("checkstyle:membername")
     private String source;
+    @SuppressWarnings("checkstyle:membername")
     private String type;
+    @SuppressWarnings("checkstyle:membername")
     private String url;
+    @SuppressWarnings("checkstyle:membername")
     private String who;
 
     public String getCreatedAt() {

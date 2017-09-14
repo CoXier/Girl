@@ -66,14 +66,14 @@ public class MaterialSearchView extends FrameLayout {
     private SearchViewListener mSearchViewListener;
 
     private ListAdapter mAdapter;
-    private List<SearchResult> emptyList = new ArrayList<>();
+    private List<SearchResult> mEmptyList = new ArrayList<>();
 
     private SavedState mSavedState;
-    private boolean submit = false;
+    private boolean mSubmit = false;
 
-    private boolean ellipsize = false;
+    private boolean mEllipsize = false;
 
-    private Drawable suggestionIcon;
+    private Drawable mSuggestionIcon;
 
     private Context mContext;
 
@@ -141,7 +141,7 @@ public class MaterialSearchView extends FrameLayout {
         view.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("TAG","tmmt");
+                Log.d("TAG", "tmmt");
             }
         });
         mSearchTopBar = (RelativeLayout) mSearchLayout.findViewById(R.id.search_top_bar);
@@ -155,7 +155,6 @@ public class MaterialSearchView extends FrameLayout {
         mBackBtn.setOnClickListener(mOnClickListener);
         mEmptyBtn.setOnClickListener(mOnClickListener);
         mTintView.setOnClickListener(mOnClickListener);
-
 
 
         initSearchView();
@@ -248,7 +247,7 @@ public class MaterialSearchView extends FrameLayout {
         }
     }
 
-    public void hideKeyboard(){
+    public void hideKeyboard() {
         hideKeyboard(mSearchSrcTextView);
     }
 
@@ -303,7 +302,7 @@ public class MaterialSearchView extends FrameLayout {
     }
 
     public void setSuggestionIcon(Drawable drawable) {
-        suggestionIcon = drawable;
+        mSuggestionIcon = drawable;
     }
 
     public void setSuggestionBackground(Drawable background) {
@@ -332,7 +331,7 @@ public class MaterialSearchView extends FrameLayout {
     }
 
     public void setSubmitOnClick(boolean submit) {
-        this.submit = submit;
+        this.mSubmit = submit;
     }
 
     public void setOnItemClickListener(AdapterView.OnItemClickListener listener) {
@@ -367,7 +366,7 @@ public class MaterialSearchView extends FrameLayout {
     }
 
     public void clearData() {
-        mAdapter = new SearchAdapter(emptyList);
+        mAdapter = new SearchAdapter(mEmptyList);
         mSuggestionsListView.setAdapter(mAdapter);
     }
 
@@ -522,7 +521,7 @@ public class MaterialSearchView extends FrameLayout {
      * @param ellipsize
      */
     public void setEllipsize(boolean ellipsize) {
-        this.ellipsize = ellipsize;
+        this.mEllipsize = ellipsize;
     }
 
     @Override
@@ -548,8 +547,8 @@ public class MaterialSearchView extends FrameLayout {
         Parcelable superState = super.onSaveInstanceState();
 
         mSavedState = new SavedState(superState);
-        mSavedState.query = mUserQuery != null ? mUserQuery.toString() : null;
-        mSavedState.isSearchOpen = this.mIsSearchOpen;
+        mSavedState.mQuery = mUserQuery != null ? mUserQuery.toString() : null;
+        mSavedState.mIsSearchOpen = this.mIsSearchOpen;
 
         return mSavedState;
     }
@@ -563,17 +562,17 @@ public class MaterialSearchView extends FrameLayout {
 
         mSavedState = (SavedState) state;
 
-        if (mSavedState.isSearchOpen) {
+        if (mSavedState.mIsSearchOpen) {
             showSearch(false);
-            setQuery(mSavedState.query, false);
+            setQuery(mSavedState.mQuery, false);
         }
 
         super.onRestoreInstanceState(mSavedState.getSuperState());
     }
 
     static class SavedState extends BaseSavedState {
-        String query;
-        boolean isSearchOpen;
+        String mQuery;
+        boolean mIsSearchOpen;
 
         SavedState(Parcelable superState) {
             super(superState);
@@ -581,15 +580,15 @@ public class MaterialSearchView extends FrameLayout {
 
         private SavedState(Parcel in) {
             super(in);
-            this.query = in.readString();
-            this.isSearchOpen = in.readInt() == 1;
+            this.mQuery = in.readString();
+            this.mIsSearchOpen = in.readInt() == 1;
         }
 
         @Override
         public void writeToParcel(Parcel out, int flags) {
             super.writeToParcel(out, flags);
-            out.writeString(query);
-            out.writeInt(isSearchOpen ? 1 : 0);
+            out.writeString(mQuery);
+            out.writeInt(mIsSearchOpen ? 1 : 0);
         }
 
         //required field that makes Parcelables from a Parcel
@@ -608,22 +607,22 @@ public class MaterialSearchView extends FrameLayout {
     public interface OnQueryTextListener {
 
         /**
-         * Called when the user submits the query. This could be due to a key press on the
-         * keyboard or due to pressing a submit button.
+         * Called when the user submits the mQuery. This could be due to a key press on the
+         * keyboard or due to pressing a mSubmit button.
          * The listener can override the standard behavior by returning true
-         * to indicate that it has handled the submit request. Otherwise return false to
+         * to indicate that it has handled the mSubmit request. Otherwise return false to
          * let the SearchView handle the submission by launching any associated intent.
          *
-         * @param query the query text that is to be submitted
-         * @return true if the query has been handled by the listener, false to let the
+         * @param query the mQuery text that is to be submitted
+         * @return true if the mQuery has been handled by the listener, false to let the
          * SearchView perform the default action.
          */
         boolean onQueryTextSubmit(String query);
 
         /**
-         * Called when the query text is changed by the user.
+         * Called when the mQuery text is changed by the user.
          *
-         * @param newText the new content of the query text field.
+         * @param newText the new content of the mQuery text field.
          * @return false if the SearchView should perform the default action of showing any
          * suggestions if available, true if the action was handled by the listener.
          */

@@ -10,25 +10,20 @@ import android.telephony.TelephonyManager;
  * Created by Administrator on 2016/4/8.
  */
 public class NetWorkUtil {
-    ConnectivityManager manager;
-    NetworkInfo networkInfo;
+    private NetworkInfo mNetworkInfo;
 
     public NetWorkUtil(Context context) {
-        this.manager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        networkInfo = manager.getActiveNetworkInfo();
+        ConnectivityManager manager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        mNetworkInfo = manager.getActiveNetworkInfo();
     }
 
 
     public boolean isNetConnected() {
-        if (networkInfo != null)
-            return networkInfo.isConnected();
-        else return false;
+        return mNetworkInfo != null && mNetworkInfo.isConnected();
     }
 
     public String getNetType() {
-        if (isNetConnected())
-            return networkInfo.getTypeName();
-        else return "NO_INTERNET";
+        return isNetConnected() ? mNetworkInfo.getTypeName() : "NO_INTERNET";
     }
 
     public
@@ -39,7 +34,7 @@ public class NetWorkUtil {
             case "WIFI":
                 return "WIFI";
             case "MOBILE":
-                switch (networkInfo.getSubtype()) {
+                switch (mNetworkInfo.getSubtype()) {
                     case TelephonyManager.NETWORK_TYPE_GPRS: // 联通2g
                     case TelephonyManager.NETWORK_TYPE_CDMA: // 电信2g
                     case TelephonyManager.NETWORK_TYPE_EDGE: // 移动2g

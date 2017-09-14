@@ -14,22 +14,22 @@ import java.util.List;
 /**
  * Created by CoXier on 2016/5/28.
  */
-public class SearchAdapter extends BaseAdapter{
+public class SearchAdapter extends BaseAdapter {
 
-    List<SearchResult> results;
+    private List<SearchResult> mResults;
 
     public SearchAdapter(List<SearchResult> results) {
-        this.results = results;
+        this.mResults = results;
     }
 
     @Override
     public int getCount() {
-        return results.size();
+        return mResults.size();
     }
 
     @Override
     public SearchResult getItem(int position) {
-        return results.get(position);
+        return mResults.get(position);
     }
 
     @Override
@@ -39,9 +39,9 @@ public class SearchAdapter extends BaseAdapter{
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_search,null);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_search, null);
         TextView textView = (TextView) view.findViewById(R.id.search_item);
-        textView.setText(results.get(position).getTitle());
+        textView.setText(mResults.get(position).getTitle());
         return view;
     }
 }

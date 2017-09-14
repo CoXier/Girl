@@ -30,9 +30,9 @@ public class GirlPresenter implements GirlContract.Presenter {
     private GirlData mGirlData = null;
     private GirlContract.View mView;
     private GankIoService mService;
-    private static ArrayList<Girl> mLocalGirls = new ArrayList<>();
-    private boolean shouldLoadFromInternet = true;
-    private int start = 1;
+    private static ArrayList<Girl> sLocalGirls = new ArrayList<>();
+    private boolean mShouldLoadFromInternet = true;
+    private int mStart = 1;
 
     public GirlPresenter(GirlContract.View baseView) {
         this.mView = baseView;
@@ -49,8 +49,8 @@ public class GirlPresenter implements GirlContract.Presenter {
         SQLite.select().from(Girl.class).async().queryResultCallback(new QueryTransaction.QueryResultCallback<Girl>() {
             @Override
             public void onQueryResult(QueryTransaction transaction, @NonNull CursorResult<Girl> tResult) {
-                mLocalGirls = (ArrayList<Girl>) tResult.toListClose();
-                orderGirlByTime(mLocalGirls);
+                sLocalGirls = (ArrayList<Girl>) tResult.toListClose();
+                orderGirlByTime(sLocalGirls);
             }
         }).execute();
     }
@@ -62,9 +62,9 @@ public class GirlPresenter implements GirlContract.Presenter {
     @Override
     public void loadMore(int page) {
 
-        if (shouldLoadFromInternet || mLocalGirls.size()<100) {
+        if (mShouldLoadFromInternet || sLocalGirls.size() < 100) {
             loadFromInternet(page);
-        }else {
+        } else {
             loadFromLocal(page);
         }
 
@@ -73,8 +73,8 @@ public class GirlPresenter implements GirlContract.Presenter {
     private void loadFromLocal(int page) {
         int i = 0;
         List<Girl> newGirl = new ArrayList<>();
-        while(i<10){
-            Girl girl = mLocalGirls.get((page-start)*10+i);
+        while (i < 10) {
+            Girl girl = sLocalGirls.get((page - mStart) * 10 + i);
             newGirl.add(girl);
             i++;
         }
@@ -83,7 +83,7 @@ public class GirlPresenter implements GirlContract.Presenter {
     }
 
     private void loadFromInternet(int page) {
-        start = page;
+        mStart = page;
         final Call<GirlData> girlDataCall = mService.getGirls(page);
         girlDataCall.enqueue(new Callback<GirlData>() {
             @Override
@@ -91,10 +91,10 @@ public class GirlPresenter implements GirlContract.Presenter {
                 mGirlData = response.body();
                 List<Girl> newGirls = mGirlData.getGirls();
                 // check if newGirls should be added into local girls
-                if (checkShouldAdded(newGirls)){
+                if (checkShouldAdded(newGirls)) {
                     addGirlsToDB(newGirls);
-                }else{
-                    shouldLoadFromInternet = false;
+                } else {
+                    mShouldLoadFromInternet = false;
                 }
                 mView.showMore(newGirls);
                 mView.finishRefresh();
@@ -110,21 +110,22 @@ public class GirlPresenter implements GirlContract.Presenter {
 
     private void addGirlsToDB(List<Girl> newGirls) {
         ProcessModelTransaction<Girl> processModelTransaction
-                        = new ProcessModelTransaction.Builder<>(new ProcessModelTransaction.ProcessModel<Girl>() {
-                    @Override
-                    public void processModel(Girl model) {
-                        model.save();
-                        mLocalGirls.add(model);
-                    }
-                }).addAll(newGirls).build();
-                Transaction transaction = FlowManager.getDatabase(AppDatabase.class).beginTransactionAsync(processModelTransaction).build();
-                transaction.execute();
+                = new ProcessModelTransaction.Builder<>(new ProcessModelTransaction.ProcessModel<Girl>() {
+            @Override
+            public void processModel(Girl model) {
+                model.save();
+                sLocalGirls.add(model);
+            }
+        }).addAll(newGirls).build();
+        Transaction transaction = FlowManager.getDatabase(AppDatabase.class)
+                .beginTransactionAsync(processModelTransaction).build();
+        transaction.execute();
     }
 
     private boolean checkShouldAdded(List<Girl> newGirls) {
-        for(int i=newGirls.size()-1;i>-1;i--){
+        for (int i = newGirls.size() - 1; i > -1; i--) {
             Girl newGirl = newGirls.get(i);
-            for (Girl girl: mLocalGirls){
+            for (Girl girl : sLocalGirls) {
                 if (girl.getUrl().equals(newGirl.getUrl()))
                     return false;
             }

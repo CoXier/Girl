@@ -30,9 +30,9 @@ public class VideoPresenter implements VideoContract.Presenter {
 
     private boolean mNetworkBroken = false;
 
-    private final static String sYoukuChannel = "http://fun.youku.com/?spm=a2hfu.20023297.topNav.5~1~3!21~A";
+    private final static String YOUKU_CHANNEL = "http://fun.youku.com/?spm=a2hfu.20023297.topNav.5~1~3!21~A";
 
-    private final static String sUserAgent = "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:50.0) Gecko/20100101 Firefox/50.0";
+    private final static String USER_AGENT = "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:50.0) Gecko/20100101 Firefox/50.0";
 
     public VideoPresenter(VideoContract.View view) {
         this.mView = view;
@@ -46,7 +46,7 @@ public class VideoPresenter implements VideoContract.Presenter {
         mTasks = new ArrayList<>();
 
         LoadYoukuChannelTask channelTask = new LoadYoukuChannelTask();
-        channelTask.execute(sYoukuChannel);
+        channelTask.execute(YOUKU_CHANNEL);
     }
 
     private class LoadYoukuVideosTask extends AsyncTask<String, Void, Void> {
@@ -55,7 +55,7 @@ public class VideoPresenter implements VideoContract.Presenter {
             try {
                 mNetworkBroken = false;
                 Document document = Jsoup.connect(params[0])
-                        .userAgent(sUserAgent)
+                        .userAgent(USER_AGENT)
                         .timeout(7000)
                         .get();
                 Elements elements = document.getElementsByClass("v-link");
@@ -119,7 +119,7 @@ public class VideoPresenter implements VideoContract.Presenter {
             try {
                 mNetworkBroken = false;
                 Document document = Jsoup.connect(params[0])
-                        .userAgent(sUserAgent)
+                        .userAgent(USER_AGENT)
                         .timeout(7000)
                         .get();
                 Elements elements = document.getElementsByClass("g-content");

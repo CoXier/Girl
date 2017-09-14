@@ -5,41 +5,41 @@ package com.hackerli.girl.data.entity;
  */
 public class Video {
 
-    private String VideoTitle;
-    private String videoPhotoUrl;
-    private String videoUrl;
+    private String mVideoTitle;
+    private String mVideoPhotoUrl;
+    private String mVideoUrl;
 
-    public Video(){
+    public Video() {
 
     }
 
     public Video(String videoUrl, String videoTitle, String videoPhotoUrl) {
-        this.videoUrl = videoUrl;
-        VideoTitle = videoTitle;
-        this.videoPhotoUrl = videoPhotoUrl;
+        this.mVideoUrl = videoUrl;
+        this.mVideoTitle = videoTitle;
+        this.mVideoPhotoUrl = videoPhotoUrl;
     }
 
     public String getVideoTitle() {
-        return VideoTitle;
+        return mVideoTitle;
     }
 
-    public void setVideoTitle(String VideoTitle) {
-        this.VideoTitle = VideoTitle;
+    public void setVideoTitle(String videoTitle) {
+        this.mVideoTitle = videoTitle;
     }
 
     public String getVideoPhotoUrl() {
-        return videoPhotoUrl;
+        return mVideoPhotoUrl;
     }
 
     public void setVideoPhotoUrl(String videoPhotoUrl) {
-        this.videoPhotoUrl = videoPhotoUrl;
+        this.mVideoPhotoUrl = videoPhotoUrl;
     }
 
     public String getVideoUrl() {
-        return videoUrl;
+        return mVideoUrl;
     }
 
     public void setVideoUrl(String videoUrl) {
-        this.videoUrl = videoUrl;
+        this.mVideoUrl = videoUrl;
     }
 }

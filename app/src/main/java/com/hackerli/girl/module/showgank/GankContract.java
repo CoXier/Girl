@@ -11,12 +11,12 @@ import java.util.List;
  * Created by CoXier on 2016/5/7.
  */
 public interface GankContract {
-    interface View extends BaseView<Presenter>{
-        public void showMore(@Nullable List list);
+    interface View extends BaseView<Presenter> {
+        void showMore(@Nullable List list);
 
-        public void finishRefresh();
+        void finishRefresh();
 
-        public void showSnackBar();
+        void showSnackBar();
     }
 
 

@@ -30,12 +30,12 @@ import butterknife.ButterKnife;
 /**
  * Created by CoXier on 2016/5/2.
  */
-public class VideoFragment extends Fragment implements VideoOnClickListener,VideoContract.View {
+public class VideoFragment extends Fragment implements VideoOnClickListener, VideoContract.View {
 
     private static final String TAG = "VideoFragment";
 
     @Bind(R.id.recycle_video)
-    RecyclerView recycleView;
+    RecyclerView mRecycleView;
 
     private ArrayList<VideoData> mVideoList;
 
@@ -56,9 +56,9 @@ public class VideoFragment extends Fragment implements VideoOnClickListener,Vide
         mVideoAdapter = new VideoAdapter(this);
         mVideoList = new ArrayList<>();
         mVideoAdapter.setVideoDatas(mVideoList);
-        GridLayoutManager manager = new GridLayoutManager(getActivity(),2);
-        recycleView.setLayoutManager(manager);
-        recycleView.setAdapter(mVideoAdapter);
+        GridLayoutManager manager = new GridLayoutManager(getActivity(), 2);
+        mRecycleView.setLayoutManager(manager);
+        mRecycleView.setAdapter(mVideoAdapter);
 
         mPresenter = new VideoPresenter(this);
         mPresenter.loadYoukuVideos();
@@ -75,8 +75,8 @@ public class VideoFragment extends Fragment implements VideoOnClickListener,Vide
     public void playVideo(Video video) {
         Intent intent = new Intent(getActivity(), WebActivity.class);
         intent.putExtra("url", video.getVideoUrl());
-        if (BuildConfig.DEBUG){
-            Log.d(TAG,"play url :" + video.getVideoUrl());
+        if (BuildConfig.DEBUG) {
+            Log.d(TAG, "play url :" + video.getVideoUrl());
         }
         startActivity(intent);
     }
@@ -84,15 +84,15 @@ public class VideoFragment extends Fragment implements VideoOnClickListener,Vide
     @Override
     public void refreshCategory(int index) {
         long time = System.nanoTime();
-        Collections.shuffle(mVideoList.get(index).getVideos(),new Random(time));
+        Collections.shuffle(mVideoList.get(index).getVideos(), new Random(time));
         mVideoAdapter.notifyDataSetChanged();
     }
 
     @Override
-    public void showVideos(List<Video> videos,String head) {
+    public void showVideos(List<Video> videos, String head) {
         ArrayList<Video> videoArrayList = new ArrayList<>();
         videoArrayList.addAll(videos);
-        VideoData videoData = new VideoData(videoArrayList,head);
+        VideoData videoData = new VideoData(videoArrayList, head);
         mVideoList.add(videoData);
         mVideoAdapter.setVideoDatas(mVideoList);
         mVideoAdapter.notifyDataSetChanged();

@@ -1,5 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.neenbedankt.android-apt'
+apply plugin: 'checkstyle'
+
 
 android {
     compileSdkVersion 25
@@ -91,3 +93,16 @@ task deleteApks(type:Delete) {
     }
 }
 
+task checkstyle(type:Checkstyle) {
+    description 'Runs Checkstyle inspection against girl sourcesets.'
+    group = 'Code Quality'
+    configFile rootProject.file('checkstyle.xml')
+    ignoreFailures = false
+    showViolations true
+    classpath = files()
+    source 'src/main/java'
+}
+
+gradle.taskGraph.beforeTask { Task task ->
+    println "executing $task ..."
+}

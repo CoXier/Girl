@@ -32,9 +32,9 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoHolder>
     private ArrayList<VideoData> mVideoDatas;
 
 
-    private static int VIDEO_NORMAL = 0;
-    private static int VIDEO_HEAD = 1;
-    private static int VIDEO_FOOT = 2;
+    private static int sVideoNormal = 0;
+    private static int sVideoHead = 1;
+    private static int sVideoFoot = 2;
 
 
     public VideoAdapter(Fragment mFragment) {
@@ -45,9 +45,9 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoHolder>
     @Override
     public VideoHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view;
-        if (viewType == VIDEO_NORMAL) {
+        if (viewType == sVideoNormal) {
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_video, parent, false);
-        } else if (viewType == VIDEO_HEAD) {
+        } else if (viewType == sVideoHead) {
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_video_head, parent, false);
         } else {
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_video_foot, parent, false);
@@ -60,20 +60,20 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoHolder>
     public void onBindViewHolder(final VideoHolder holder, int position) {
         int type = getItemViewType(position);
         final int index = position / 6;
-        if (type == VIDEO_NORMAL) {
+        if (type == sVideoNormal) {
             Video video = mVideoDatas.get(index).getVideos().get(position - index * 6 - 1);
-            holder.tvTitle.setText(video.getVideoTitle());
-            Glide.with(mFragment).load(video.getVideoPhotoUrl()).into(holder.imageView);
+            holder.mTVTitle.setText(video.getVideoTitle());
+            Glide.with(mFragment).load(video.getVideoPhotoUrl()).into(holder.mImageView);
 
-            setUpCardViewListener(holder.cardView, video);
-        } else if (type == VIDEO_HEAD) {
-            holder.tvHead.setText(mVideoDatas.get(index).getChannel());
+            setUpCardViewListener(holder.mCardView, video);
+        } else if (type == sVideoHead) {
+            holder.mTVHead.setText(mVideoDatas.get(index).getChannel());
         } else {
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
 
-                    refreshCategory(index, holder.footImageView, holder.footTextView);
+                    refreshCategory(index, holder.mFootImageView, holder.mFootTextView);
 
                 }
             });
@@ -82,7 +82,10 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoHolder>
     }
 
     private void refreshCategory(final int index, View imageView, final TextView textView) {
-        RotateAnimation anim = new RotateAnimation(0, 360, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+        RotateAnimation anim =
+                new RotateAnimation(0, 360,
+                        Animation.RELATIVE_TO_SELF, 0.5f,
+                        Animation.RELATIVE_TO_SELF, 0.5f);
 
         //Setup anim with desired properties
         anim.setInterpolator(new LinearInterpolator());
@@ -119,10 +122,10 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoHolder>
     public int getItemViewType(int position) {
         int index = position % 6;
         if (index == 0)
-            return VIDEO_HEAD;
+            return sVideoHead;
         else if (index == 5)
-            return VIDEO_FOOT;
-        return VIDEO_NORMAL;
+            return sVideoFoot;
+        return sVideoNormal;
     }
 
     @Override
@@ -133,7 +136,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoHolder>
             gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
                 @Override
                 public int getSpanSize(int position) {
-                    if (getItemViewType(position) == VIDEO_HEAD || getItemViewType(position) == VIDEO_FOOT)
+                    if (getItemViewType(position) == sVideoHead || getItemViewType(position) == sVideoFoot)
                         return gridLayoutManager.getSpanCount();
                     return 1;
                 }
@@ -157,26 +160,26 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoHolder>
 
     class VideoHolder extends RecyclerView.ViewHolder {
         @Bind(R.id.card)
-        CardView cardView;
+        CardView mCardView;
         @Bind(R.id.iv_video)
-        ImageView imageView;
+        ImageView mImageView;
         @Bind(R.id.tv_video_title)
-        TextView tvTitle;
+        TextView mTVTitle;
 
-        TextView tvHead;
+        TextView mTVHead;
 
-        ImageView footImageView;
-        TextView footTextView;
+        ImageView mFootImageView;
+        TextView mFootTextView;
 
         VideoHolder(View itemView, int type) {
             super(itemView);
-            if (type == VIDEO_NORMAL)
+            if (type == sVideoNormal)
                 ButterKnife.bind(this, itemView);
-            else if (type == VIDEO_HEAD) {
-                tvHead = (TextView) itemView.findViewById(R.id.tv_video_head);
+            else if (type == sVideoHead) {
+                mTVHead = (TextView) itemView.findViewById(R.id.tv_video_head);
             } else {
-                footImageView = (ImageView) itemView.findViewById(R.id.iv_refresh_category);
-                footTextView = (TextView) itemView.findViewById(R.id.tv_refresh_category);
+                mFootImageView = (ImageView) itemView.findViewById(R.id.iv_refresh_category);
+                mFootTextView = (TextView) itemView.findViewById(R.id.tv_refresh_category);
             }
         }
     }

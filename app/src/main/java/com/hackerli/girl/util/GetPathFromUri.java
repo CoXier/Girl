@@ -14,6 +14,7 @@ import android.provider.MediaStore;
  */
 public class GetPathFromUri {
     private Context mContext;
+
     public String getPath(Uri uri, Context context) {
         // DocumentProvider
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -28,20 +29,14 @@ public class GetPathFromUri {
                     if ("primary".equalsIgnoreCase(type)) {
                         return Environment.getExternalStorageDirectory() + "/" + split[1];
                     }
-
-                    // TODO handle non-primary volumes
-                }
-                // DownloadsProvider
-                else if (isDownloadsDocument(uri)) {
+                } else if (isDownloadsDocument(uri)) {
 
                     final String id = DocumentsContract.getDocumentId(uri);
                     final Uri contentUri = ContentUris.withAppendedId(
                             Uri.parse("content://downloads/public_downloads"), Long.valueOf(id));
 
                     return getDataColumn(contentUri, null, null);
-                }
-                // MediaProvider
-                else if (isMediaDocument(uri)) {
+                } else if (isMediaDocument(uri)) {
                     final String docId = DocumentsContract.getDocumentId(uri);
                     final String[] split = docId.split(":");
                     final String type = split[0];
@@ -60,13 +55,9 @@ public class GetPathFromUri {
 
                     return getDataColumn(contentUri, selection, selectionArgs);
                 }
-            }
-            // MediaStore (and general)
-            else if ("content".equalsIgnoreCase(uri.getScheme())) {
+            } else if ("content".equalsIgnoreCase(uri.getScheme())) {
                 return getDataColumn(uri, null, null);
-            }
-            // File
-            else if ("file".equalsIgnoreCase(uri.getScheme())) {
+            } else if ("file".equalsIgnoreCase(uri.getScheme())) {
                 return uri.getPath();
             }
         }
@@ -94,8 +85,8 @@ public class GetPathFromUri {
             cursor = mContext.getContentResolver().query(uri, projection, selection, selectionArgs,
                     null);
             if (cursor != null && cursor.moveToFirst()) {
-                final int column_index = cursor.getColumnIndexOrThrow(column);
-                return cursor.getString(column_index);
+                final int columnIndex = cursor.getColumnIndexOrThrow(column);
+                return cursor.getString(columnIndex);
             }
         } finally {
             if (cursor != null)

@@ -10,27 +10,27 @@ import java.util.List;
  */
 
 public class VideoData {
-    private List<Video> videos;
-    private String channel;
+    private List<Video> mVideos;
+    private String mChannel;
 
     public VideoData(List<Video> videos, String channel) {
-        this.videos = videos;
-        this.channel = channel;
+        this.mVideos = videos;
+        this.mChannel = channel;
     }
 
     public List<Video> getVideos() {
-        return videos;
+        return mVideos;
     }
 
     public void setVideos(ArrayList<Video> videos) {
-        this.videos = videos;
+        this.mVideos = videos;
     }
 
     public String getChannel() {
-        return channel;
+        return mChannel;
     }
 
     public void setChannel(String channel) {
-        this.channel = channel;
+        this.mChannel = channel;
     }
 }

@@ -30,11 +30,11 @@ import jp.wasabeef.recyclerview.adapters.SlideInBottomAnimationAdapter;
  */
 public class GankFragment extends BaseFragment implements GankOnClickListener, GankContract.View {
     @Bind(R.id.gank_refresh_layout)
-    SwipeRefreshLayout swipeRefreshLayout;
+    SwipeRefreshLayout mSwipeRefreshLayout;
     @Bind(R.id.recycle_gank)
-    RecyclerView recyclerView;
+    RecyclerView mRecyclerView;
 
-    private int page = 1;
+    private int mPage = 1;
     private List<AndroidWrapper> mWrappers = new ArrayList<>();
     private GankAdapter mAdapter;
     private GankContract.Presenter mPresenter = new GankPresenter(this);
@@ -50,11 +50,11 @@ public class GankFragment extends BaseFragment implements GankOnClickListener, G
         setRecyclerView();
         setSwipeRefreshLayout();
 
-        swipeRefreshLayout.measure(View.MEASURED_SIZE_MASK, View.MEASURED_HEIGHT_STATE_SHIFT);
+        mSwipeRefreshLayout.measure(View.MEASURED_SIZE_MASK, View.MEASURED_HEIGHT_STATE_SHIFT);
         // 第一次调用createView
 
         onRefresh();
-        swipeRefreshLayout.setOnRefreshListener(this);
+        mSwipeRefreshLayout.setOnRefreshListener(this);
         return v;
     }
 
@@ -66,7 +66,7 @@ public class GankFragment extends BaseFragment implements GankOnClickListener, G
         }
         mAdapter.notifyDataSetChanged();
         if (mWrappers.size() - size == 10) {
-            page++;
+            mPage++;
         }
     }
 
@@ -78,24 +78,24 @@ public class GankFragment extends BaseFragment implements GankOnClickListener, G
 
     @Override
     public void finishRefresh() {
-        if (swipeRefreshLayout != null) {
-            swipeRefreshLayout.setRefreshing(false);
+        if (mSwipeRefreshLayout != null) {
+            mSwipeRefreshLayout.setRefreshing(false);
         }
     }
 
     @Override
     public void showSnackBar() {
-        SnackBarUtil.showSnackBar(recyclerView, this);
+        SnackBarUtil.showSnackBar(mRecyclerView, this);
     }
 
     @Override
     public void onRefresh() {
-        // we limit page size < 10
-        if (page < 10) {
-            swipeRefreshLayout.setRefreshing(true);
-            mPresenter.loadMore(page);
+        // we limit mPage size < 10
+        if (mPage < 10) {
+            mSwipeRefreshLayout.setRefreshing(true);
+            mPresenter.loadMore(mPage);
         } else {
-            swipeRefreshLayout.setRefreshing(false);
+            mSwipeRefreshLayout.setRefreshing(false);
         }
     }
 
@@ -104,15 +104,15 @@ public class GankFragment extends BaseFragment implements GankOnClickListener, G
         mAdapter = new GankAdapter(this, mWrappers);
         SlideInBottomAnimationAdapter animationAdapter = new SlideInBottomAnimationAdapter(mAdapter);
         animationAdapter.setDuration(800);
-        recyclerView.setAdapter(animationAdapter);
+        mRecyclerView.setAdapter(animationAdapter);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.addOnScrollListener(getOnBottomListener(layoutManager));
+        mRecyclerView.setLayoutManager(layoutManager);
+        mRecyclerView.addOnScrollListener(getOnBottomListener(layoutManager));
     }
 
     @Override
     public void setSwipeRefreshLayout() {
-        swipeRefreshLayout.setColorSchemeResources(R.color.refresh_process1, R.color.refresh_process2, R.color.refresh_process3);
+        mSwipeRefreshLayout.setColorSchemeResources(R.color.refresh_process1, R.color.refresh_process2, R.color.refresh_process3);
     }
 
     // if user have reached bottom ,we should load more
@@ -122,10 +122,12 @@ public class GankFragment extends BaseFragment implements GankOnClickListener, G
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 int lastVisiblePosition = layoutManager.findLastCompletelyVisibleItemPosition();
                 boolean isBottom = lastVisiblePosition > mAdapter.getItemCount() - 4;
-                if (isBottom && !swipeRefreshLayout.isRefreshing()) {
+                if (isBottom && !mSwipeRefreshLayout.isRefreshing()) {
                     if (!mIsFirstTouchedBottom) {
                         onRefresh();
-                    } else mIsFirstTouchedBottom = false;
+                    } else {
+                        mIsFirstTouchedBottom = false;
+                    }
                 }
             }
         };

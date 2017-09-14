@@ -50,7 +50,7 @@ public class SendPhotoActivity extends AppCompatActivity implements SendContract
 
     private SendPresenter mPresenter;
     private Uri mPhotoUri;
-    private static int RESULT_LOAD_IMG = 1;
+    private static int sResultLoadImg = 1;
     private boolean mHasSelectedPhoto = false;
     private ProgressDialog mDialog;
     private Bitmap mBitmap;
@@ -109,13 +109,13 @@ public class SendPhotoActivity extends AppCompatActivity implements SendContract
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent, "选择文件"), RESULT_LOAD_IMG);
+        startActivityForResult(Intent.createChooser(intent, "选择文件"), sResultLoadImg);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == RESULT_LOAD_IMG && resultCode == RESULT_OK
+        if (requestCode == sResultLoadImg && resultCode == RESULT_OK
                 && null != data) {
             mPhotoUri = data.getData();
             ContentResolver contentResolver = getContentResolver();
@@ -123,7 +123,7 @@ public class SendPhotoActivity extends AppCompatActivity implements SendContract
                 BitmapFactory.Options options = new BitmapFactory.Options();
                 options.inJustDecodeBounds = false;
                 options.inSampleSize = 4;
-                mBitmap = BitmapFactory.decodeStream(contentResolver.openInputStream(mPhotoUri),null,options);
+                mBitmap = BitmapFactory.decodeStream(contentResolver.openInputStream(mPhotoUri), null, options);
                 showPickedPhoto(mBitmap);
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
@@ -187,7 +187,7 @@ public class SendPhotoActivity extends AppCompatActivity implements SendContract
             }
         };
         Handler handler = new Handler();
-        handler.postDelayed(runnable,400);
+        handler.postDelayed(runnable, 400);
 
     }
 
@@ -198,18 +198,18 @@ public class SendPhotoActivity extends AppCompatActivity implements SendContract
 
     @OnClick(R.id.imageView_send)
     public void onClick() {
-        if (mHasSelectedPhoto){
+        if (mHasSelectedPhoto) {
             String desc = mTextPhotoDesc.getText().toString();
             String name = mTextPhotoName.getText().toString();
-            if (!desc.isEmpty()&&!name.isEmpty()){
+            if (!desc.isEmpty() && !name.isEmpty()) {
                 GetPathFromUri getPathFromUri = new GetPathFromUri();
-                String uri = getPathFromUri.getPath(mPhotoUri,this);
-                mPresenter.sendPhoto(uri,desc,name);
-            }else {
-                ToastUtil.showToast(this,"请输入信息");
+                String uri = getPathFromUri.getPath(mPhotoUri, this);
+                mPresenter.sendPhoto(uri, desc, name);
+            } else {
+                ToastUtil.showToast(this, "请输入信息");
             }
-        }else {
-            ToastUtil.showToast(this,"未添加照片");
+        } else {
+            ToastUtil.showToast(this, "未添加照片");
         }
     }
 }

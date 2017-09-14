@@ -37,7 +37,7 @@ import uk.co.senab.photoview.PhotoViewAttacher;
  */
 public class GirlPhotoFragment extends DialogFragment {
     @Bind(R.id.iv_fr_girl)
-    PhotoView photoView;
+    PhotoView mPhotoView;
 
 
     public GirlPhotoFragment() {
@@ -65,27 +65,28 @@ public class GirlPhotoFragment extends DialogFragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         Glide.with(getActivity())
                 .load(getArguments().getString("photoUrl"))
-                .into(photoView);
+                .into(mPhotoView);
         setupPhotoEvent();
 
         super.onViewCreated(view, savedInstanceState);
     }
 
     private void setupPhotoEvent() {
-        photoView.setOnViewTapListener(new PhotoViewAttacher.OnViewTapListener() {
+        mPhotoView.setOnViewTapListener(new PhotoViewAttacher.OnViewTapListener() {
             @Override
             public void onViewTap(View view, float x, float y) {
                 dismiss();
             }
         });
 
-        photoView.setOnLongClickListener(new View.OnLongClickListener() {
+        mPhotoView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
                 NetWorkUtil netWorkUtil = new NetWorkUtil(getActivity());
                 if (netWorkUtil.isNetConnected()) {
                     // 获取存储权限
-                    if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                    if (ContextCompat.checkSelfPermission(getActivity(),
+                            Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                         requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
                     } else {
                         saveBitmap(getArguments().getString("photoUrl"), getArguments().getString("desc"));
@@ -122,7 +123,7 @@ public class GirlPhotoFragment extends DialogFragment {
                         // 通知图库更新
                         Intent scannerIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, uri);
                         getActivity().sendBroadcast(scannerIntent);
-                        ToastUtil.showToast(getActivity(),"保存至" + uri.toString());
+                        ToastUtil.showToast(getActivity(), "保存至" + uri.toString());
                     }
                 });
             }
@@ -149,7 +150,7 @@ public class GirlPhotoFragment extends DialogFragment {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 saveBitmap(getArguments().getString("photoUrl"), getArguments().getString("desc"));
             } else {
-                ToastUtil.showToast(getActivity(),"没有相关权限");
+                ToastUtil.showToast(getActivity(), "没有相关权限");
             }
 
         }

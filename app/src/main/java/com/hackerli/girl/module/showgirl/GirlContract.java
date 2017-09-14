@@ -11,15 +11,15 @@ import java.util.List;
  * Created by CoXier on 2016/5/7.
  */
 public interface GirlContract {
-    interface View extends BaseView<GirlContract.Presenter>{
-        public void showMore(@Nullable List list);
+    interface View extends BaseView<GirlContract.Presenter> {
+        void showMore(@Nullable List list);
 
-        public void finishRefresh();
+        void finishRefresh();
 
-        public void showSnackBar();
+        void showSnackBar();
     }
 
-    interface Presenter extends BasePresenter{
+    interface Presenter extends BasePresenter {
 
     }
 }

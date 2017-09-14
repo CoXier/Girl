@@ -77,12 +77,12 @@ public class GankPresenter implements GankContract.Presenter {
         for (int i = 0; i < size; i++) {
             final Android android = androidList.get(i);
             String url = android.getUrl();
-            if(url == null) continue;
+            if (url == null) continue;
             if (url.contains("https://github.com/")) {
                 setGitHubAvatar(url, android, wrapperList, size);
-            }  else if (url.contains("http://www.jianshu.com")) {
+            } else if (url.contains("http://www.jianshu.com")) {
                 setJianShuAvatar(url, android, wrapperList, size);
-            }  else {
+            } else {
                 AndroidWrapper wrapper = new AndroidWrapper(android, null);
                 wrapperList.add(wrapper);
             }
@@ -130,9 +130,9 @@ public class GankPresenter implements GankContract.Presenter {
     private void setGitHubAvatar(String url, final Android android, final List<AndroidWrapper> wrapperList, final int size) {
         String author;
         int start = url.indexOf("/", 19);
-        if (start == -1){
+        if (start == -1) {
             author = url.substring(19);
-        }else {
+        } else {
             author = url.substring(19, start);
         }
         android.setWho(author);
