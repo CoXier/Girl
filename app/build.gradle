@@ -1,7 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.neenbedankt.android-apt'
-apply plugin: 'checkstyle'
-
+apply from: 'checkstyle.gradle'
 
 android {
     compileSdkVersion 25
@@ -84,26 +83,4 @@ dependencies {
     compile 'com.github.coyarzun89:fabtransitionactivity:0.2.0'
     compile 'org.jsoup:jsoup:1.10.2'
     compile 'cn.leancloud.android:avoscloud-sdk:v3.+'
-}
-
-task deleteApks(type:Delete) {
-    group 'cleanApks'
-    delete fileTree('.') {
-        include '*.apk'
-    }
-}
-
-task checkstyle(type:Checkstyle) {
-    description 'Runs Checkstyle inspection against girl sourcesets.'
-    group = 'Code Quality'
-    configFile rootProject.file('checkstyle.xml')
-    ignoreFailures = false
-    showViolations true
-    classpath = files()
-    source 'src/main/java'
-}
-
-// check code style after project evaluation
-afterEvaluate{
-    getTasksByName('checkstyle', false)[0].execute()
 }

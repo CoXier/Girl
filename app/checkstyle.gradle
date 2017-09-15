@@ -1,0 +1,16 @@
+apply plugin: 'checkstyle'
+
+task Checkstyle(type: Checkstyle) {
+    description 'Runs Checkstyle inspection against girl sourcesets.'
+    group = 'Code Quality'
+    configFile rootProject.file('checkstyle.xml')
+    ignoreFailures = false
+    showViolations true
+    classpath = files()
+    source 'src/main/java'
+}
+
+// check code style after project evaluation
+afterEvaluate { project ->
+    getTasksByName('Checkstyle', false)[0].execute()
+}
