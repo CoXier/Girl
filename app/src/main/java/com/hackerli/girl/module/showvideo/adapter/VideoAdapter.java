@@ -26,7 +26,7 @@ import butterknife.ButterKnife;
 /**
  * Created by CoXier on 2016/5/7.
  */
-public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoHolder> {
+public class VideoAdapter extends RecyclerView.Adapter {
     private Fragment mFragment;
     private VideoOnClickListener mClickListener;
     private ArrayList<VideoData> mVideoDatas;
@@ -43,38 +43,39 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoHolder>
     }
 
     @Override
-    public VideoHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view;
         if (viewType == sVideoNormal) {
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_video, parent, false);
+            return new NormalVideoHolder(view);
         } else if (viewType == sVideoHead) {
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_video_head, parent, false);
+            return new HeadViewHolder(view);
         } else {
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_video_foot, parent, false);
+            return new FootViewHolder(view);
         }
-        VideoHolder videoHolder = new VideoHolder(view, viewType);
-        return videoHolder;
     }
 
     @Override
-    public void onBindViewHolder(final VideoHolder holder, int position) {
+    public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
         int type = getItemViewType(position);
         final int index = position / 6;
         if (type == sVideoNormal) {
+            NormalVideoHolder normalVideoHolder = (NormalVideoHolder) holder;
             Video video = mVideoDatas.get(index).getVideos().get(position - index * 6 - 1);
-            holder.mTVTitle.setText(video.getVideoTitle());
-            Glide.with(mFragment).load(video.getVideoPhotoUrl()).into(holder.mImageView);
-
-            setUpCardViewListener(holder.mCardView, video);
+            normalVideoHolder.mTVTitle.setText(video.getVideoTitle());
+            Glide.with(mFragment).load(video.getVideoPhotoUrl()).into(normalVideoHolder.mImageView);
+            setUpCardViewListener(normalVideoHolder.mCardView, video);
         } else if (type == sVideoHead) {
-            holder.mTVHead.setText(mVideoDatas.get(index).getChannel());
+            HeadViewHolder headViewHolder = (HeadViewHolder) holder;
+            headViewHolder.mTVHead.setText(mVideoDatas.get(index).getChannel());
         } else {
-            holder.itemView.setOnClickListener(new View.OnClickListener() {
+            final FootViewHolder footViewHolder = (FootViewHolder) holder;
+            footViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
-                    refreshCategory(index, holder.mFootImageView, holder.mFootTextView);
-
+                    refreshCategory(index, footViewHolder.mFootImageView, footViewHolder.mFootTextView);
                 }
             });
         }
@@ -121,11 +122,13 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoHolder>
     @Override
     public int getItemViewType(int position) {
         int index = position % 6;
-        if (index == 0)
+        if (index == 0) {
             return sVideoHead;
-        else if (index == 5)
+        } else if (index == 5) {
             return sVideoFoot;
-        return sVideoNormal;
+        } else {
+            return sVideoNormal;
+        }
     }
 
     @Override
@@ -158,7 +161,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoHolder>
         this.mVideoDatas = videoDatas;
     }
 
-    class VideoHolder extends RecyclerView.ViewHolder {
+    class NormalVideoHolder extends RecyclerView.ViewHolder {
         @Bind(R.id.card)
         CardView mCardView;
         @Bind(R.id.iv_video)
@@ -166,21 +169,30 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoHolder>
         @Bind(R.id.tv_video_title)
         TextView mTVTitle;
 
+        NormalVideoHolder(View itemView) {
+            super(itemView);
+            ButterKnife.bind(this, itemView);
+        }
+    }
+
+    class HeadViewHolder extends RecyclerView.ViewHolder {
         TextView mTVHead;
 
+        HeadViewHolder(View itemView) {
+            super(itemView);
+            mTVHead = (TextView) itemView;
+        }
+    }
+
+    class FootViewHolder extends RecyclerView.ViewHolder {
+        @Bind(R.id.iv_refresh_category)
         ImageView mFootImageView;
+        @Bind(R.id.tv_refresh_category)
         TextView mFootTextView;
 
-        VideoHolder(View itemView, int type) {
+        FootViewHolder(View itemView) {
             super(itemView);
-            if (type == sVideoNormal)
-                ButterKnife.bind(this, itemView);
-            else if (type == sVideoHead) {
-                mTVHead = (TextView) itemView.findViewById(R.id.tv_video_head);
-            } else {
-                mFootImageView = (ImageView) itemView.findViewById(R.id.iv_refresh_category);
-                mFootTextView = (TextView) itemView.findViewById(R.id.tv_refresh_category);
-            }
+            ButterKnife.bind(this, itemView);
         }
     }
 
