@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.hackerli.girl.R;
+import com.hackerli.girl.anim.SimpleAnimationListener;
 import com.hackerli.girl.base.BaseViewHolder;
 import com.hackerli.girl.data.VideoData;
 import com.hackerli.girl.data.entity.Video;
@@ -73,7 +74,7 @@ public class VideoAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         anim.setInterpolator(new LinearInterpolator());
         anim.setDuration(600); //Put desired duration per anim cycle here, in milliseconds
 
-        anim.setAnimationListener(new Animation.AnimationListener() {
+        anim.setAnimationListener(new SimpleAnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
                 textView.setText("嘿咻嘿咻～");
@@ -83,11 +84,6 @@ public class VideoAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             public void onAnimationEnd(Animation animation) {
                 mClickListener.refreshCategory(index);
                 textView.setText("换一波推荐");
-            }
-
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-
             }
         });
 
