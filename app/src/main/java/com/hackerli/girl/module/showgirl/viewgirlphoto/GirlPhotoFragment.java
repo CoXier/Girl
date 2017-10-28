@@ -82,8 +82,7 @@ public class GirlPhotoFragment extends DialogFragment {
         mPhotoView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                NetWorkUtil netWorkUtil = new NetWorkUtil(getActivity());
-                if (netWorkUtil.isNetConnected()) {
+                if (NetWorkUtil.isNetConnected(getActivity())) {
                     // 获取存储权限
                     if (ContextCompat.checkSelfPermission(getActivity(),
                             Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
