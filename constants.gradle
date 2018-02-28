@@ -1,0 +1,10 @@
+project.ext {
+
+    minSdkVersion = 17
+    targetSdkVersion = 25
+    compileSdkVersion = 25
+    buildToolsVersion = '26.0.2'
+
+    supportLibraryVersion = '25.3.1'
+    db_flow_version = '3.0.0-beta6'
+}
