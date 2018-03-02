@@ -10,23 +10,16 @@ import com.hackerli.girl.data.AndroidData;
 import com.hackerli.girl.data.entity.Android;
 import com.hackerli.girl.data.entity.AndroidWrapper;
 import com.hackerli.girl.data.entity.GitUser;
+import com.hackerli.girl.util.RegexUtil;
 
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-
-import java.io.IOException;
-import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
 /**
@@ -80,8 +73,6 @@ public class GankPresenter implements GankContract.Presenter {
             if (url == null) continue;
             if (url.contains("https://github.com/")) {
                 setGitHubAvatar(url, android, wrapperList, size);
-            } else if (url.contains("http://www.jianshu.com")) {
-                setJianShuAvatar(url, android, wrapperList, size);
             } else {
                 AndroidWrapper wrapper = new AndroidWrapper(android, null);
                 wrapperList.add(wrapper);
@@ -90,51 +81,8 @@ public class GankPresenter implements GankContract.Presenter {
 
     }
 
-    private void setJianShuAvatar(final String url, final Android android, final List<AndroidWrapper> wrapperList, final int size) {
-        Observable observable = Observable.create(new Observable.OnSubscribe<String>() {
-            @Override
-            public void call(Subscriber<? super String> subscriber) {
-                try {
-                    Document document = Jsoup.connect(url)
-                            .userAgent("Mozilla")
-                            .timeout(8000)
-                            .get();
-                    Element container = document.getElementsByClass("author").get(0);
-                    Element avatar = container.getElementsByClass("avatar").get(0);
-                    String imgSrc = avatar.select("[src]").toString();
-                    int end = imgSrc.indexOf("\"", 10);
-                    String avatarUrl = imgSrc.substring(10, end);
-                    android.setWho(container.select("a[class^=author-name blue-link]").text());
-                    AndroidWrapper androidWrapper = new AndroidWrapper(android, avatarUrl);
-                    wrapperList.add(androidWrapper);
-                    subscriber.onNext(avatarUrl);
-
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
-        observable.subscribe(new Action1<String>() {
-            @Override
-            public void call(String s) {
-                if (wrapperList.size() == size) {
-                    mGankView.showMore(wrapperList);
-                    mGankView.finishRefresh();
-                }
-            }
-        });
-    }
-
     private void setGitHubAvatar(String url, final Android android, final List<AndroidWrapper> wrapperList, final int size) {
-        String author;
-        int start = url.indexOf("/", 19);
-        if (start == -1) {
-            author = url.substring(19);
-        } else {
-            author = url.substring(19, start);
-        }
+        String author = RegexUtil.parse("github.com/([^/]+)/", url, 1);
         android.setWho(author);
         mGitHubService.getAvatar(author)
                 .subscribeOn(Schedulers.io())

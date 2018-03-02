@@ -11,13 +11,10 @@ public class ApiServiceFactory {
     private static GankIoService sGankIoService;
     private static GitHubService sGitHubService;
 
-    private static String sGankBaseURL = "http://gank.io/api/";
-    private static String sGithubBaseURL = "https://api.github.com/";
-
     public static GankIoService buildGankioService() {
         if (sGankIoService == null) {
             Retrofit retfGank = new Retrofit.Builder()
-                    .baseUrl(sGankBaseURL)
+                    .baseUrl(GankIoService.BASE_URL)
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
             sGankIoService = retfGank.create(GankIoService.class);
@@ -27,7 +24,7 @@ public class ApiServiceFactory {
 
     public static GitHubService buildGitHubService() {
         if (sGitHubService == null) {
-            Retrofit retroGitHub = new Retrofit.Builder().baseUrl(sGithubBaseURL)
+            Retrofit retroGitHub = new Retrofit.Builder().baseUrl(GitHubService.BASE_URL)
                     .addConverterFactory(GsonConverterFactory.create())
                     .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                     .build();

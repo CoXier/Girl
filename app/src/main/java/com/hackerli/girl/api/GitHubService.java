@@ -10,6 +10,8 @@ import rx.Observable;
  * Created by CoXier on 2016/5/4.
  */
 public interface GitHubService {
+    String BASE_URL = "https://api.github.com/";
+
     String CLIENT_ID = "b78af009a1b1cfe46317";
     String CLIENT_SECRET = "6d96f809338d479ed86614dd09983195119d338c";
 

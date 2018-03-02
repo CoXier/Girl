@@ -12,6 +12,8 @@ import retrofit2.http.Path;
  * Created by Administrator on 2016/3/19.
  */
 public interface GankIoService {
+    String BASE_URL = "http://gank.io/api/";
+
     @GET("data/福利/10/{page}")
     Call<GirlData> getGirls(@Path("page")int page);
 
