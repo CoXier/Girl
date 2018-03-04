@@ -18,9 +18,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by XoCier on 2016/3/20.
@@ -84,11 +84,24 @@ public class GirlPresenter implements GirlContract.Presenter {
 
     private void loadFromInternet(int page) {
         mStart = page;
-        final Call<GirlData> girlDataCall = mService.getGirls(page);
-        girlDataCall.enqueue(new Callback<GirlData>() {
+        mService.getGirls(page)
+        .subscribeOn(Schedulers.io())
+        .observeOn(AndroidSchedulers.mainThread())
+        .subscribe(new Subscriber<GirlData>() {
             @Override
-            public void onResponse(Call<GirlData> call, Response<GirlData> response) {
-                mGirlData = response.body();
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                mView.finishRefresh();
+                mView.showSnackBar();
+            }
+
+            @Override
+            public void onNext(GirlData girlData) {
+                mGirlData = girlData;
                 List<Girl> newGirls = mGirlData.getGirls();
                 // check if newGirls should be added into local girls
                 if (checkShouldAdded(newGirls)) {
@@ -98,12 +111,6 @@ public class GirlPresenter implements GirlContract.Presenter {
                 }
                 mView.showMore(newGirls);
                 mView.finishRefresh();
-            }
-
-            @Override
-            public void onFailure(Call<GirlData> call, Throwable t) {
-                mView.finishRefresh();
-                mView.showSnackBar();
             }
         });
     }

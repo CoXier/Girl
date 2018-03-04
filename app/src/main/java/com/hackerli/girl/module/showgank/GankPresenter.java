@@ -15,9 +15,6 @@ import com.hackerli.girl.util.RegexUtil;
 import java.util.ArrayList;
 import java.util.List;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -47,20 +44,26 @@ public class GankPresenter implements GankContract.Presenter {
 
     @Override
     public void loadMore(int page) {
-        final Call<AndroidData> androidDataCall = mGankioService.getAndroidData(page);
-        androidDataCall.enqueue(new Callback<AndroidData>() {
-            @Override
-            public void onResponse(Call<AndroidData> call, Response<AndroidData> response) {
-                mAndroidData = response.body();
-                setAvatarUrlAndShow(mAndroidData);
-            }
+        mGankioService.getAndroidData(page)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<AndroidData>() {
+                    @Override
+                    public void onCompleted() {
 
-            @Override
-            public void onFailure(Call<AndroidData> call, Throwable t) {
-                mGankView.finishRefresh();
-                mGankView.showSnackBar();
-            }
-        });
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        mGankView.finishRefresh();
+                        mGankView.showSnackBar();
+                    }
+
+                    @Override
+                    public void onNext(AndroidData androidData) {
+                        setAvatarUrlAndShow(androidData);
+                    }
+                });
     }
 
     private void setAvatarUrlAndShow(AndroidData mAndroidData) {

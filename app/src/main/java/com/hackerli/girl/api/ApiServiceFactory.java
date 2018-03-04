@@ -16,6 +16,7 @@ public class ApiServiceFactory {
             Retrofit retfGank = new Retrofit.Builder()
                     .baseUrl(GankIoService.BASE_URL)
                     .addConverterFactory(GsonConverterFactory.create())
+                    .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                     .build();
             sGankIoService = retfGank.create(GankIoService.class);
         }
