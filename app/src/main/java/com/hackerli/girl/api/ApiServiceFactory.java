@@ -13,25 +13,34 @@ public class ApiServiceFactory {
 
     public static GankIoService buildGankioService() {
         if (sGankIoService == null) {
-            Retrofit retfGank = new Retrofit.Builder()
-                    .baseUrl(GankIoService.BASE_URL)
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                    .build();
-            sGankIoService = retfGank.create(GankIoService.class);
+            sGankIoService = buildService(GankIoService.class);
         }
         return sGankIoService;
     }
 
     public static GitHubService buildGitHubService() {
         if (sGitHubService == null) {
-            Retrofit retroGitHub = new Retrofit.Builder().baseUrl(GitHubService.BASE_URL)
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                    .build();
-            sGitHubService = retroGitHub.create(GitHubService.class);
+            sGitHubService = buildService(GitHubService.class);
         }
         return sGitHubService;
+    }
+
+    private static <T> T buildService(Class<T> clazz) {
+        String baseUrl = getBaseUrl(clazz);
+        Retrofit retrofit = new Retrofit.Builder().baseUrl(baseUrl)
+                .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .build();
+        return retrofit.create(clazz);
+    }
+
+    private static String getBaseUrl(Class clazz) {
+        if (clazz.isAnnotationPresent(BaseUrl.class)) {
+            BaseUrl baseUrl = (BaseUrl) clazz.getAnnotation(BaseUrl.class);
+            return baseUrl.value();
+        }
+        throw new IllegalArgumentException(clazz.getSimpleName()
+                + " doesn't have @BaseUrl annotation");
     }
 
 }
