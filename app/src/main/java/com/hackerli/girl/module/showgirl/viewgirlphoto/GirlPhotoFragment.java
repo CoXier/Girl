@@ -23,7 +23,7 @@ import com.hackerli.girl.util.ToastUtil;
 import java.io.File;
 import java.io.IOException;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -36,7 +36,7 @@ import uk.co.senab.photoview.PhotoViewAttacher;
  * Created by Administrator on 2016/3/30.
  */
 public class GirlPhotoFragment extends DialogFragment {
-    @Bind(R.id.iv_fr_girl)
+    @BindView(R.id.iv_fr_girl)
     PhotoView mPhotoView;
 
 

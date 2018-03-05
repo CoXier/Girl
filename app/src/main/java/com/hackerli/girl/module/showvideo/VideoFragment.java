@@ -24,8 +24,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 /**
  * Created by CoXier on 2016/5/2.
@@ -34,7 +35,7 @@ public class VideoFragment extends Fragment implements VideoOnClickListener, Vid
 
     private static final String TAG = "VideoFragment";
 
-    @Bind(R.id.recycle_video)
+    @BindView(R.id.recycle_video)
     RecyclerView mRecycleView;
 
     private ArrayList<VideoData> mVideoList;
@@ -43,11 +44,14 @@ public class VideoFragment extends Fragment implements VideoOnClickListener, Vid
 
     private VideoContract.Presenter mPresenter;
 
+    private Unbinder mUnbinder;
+
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_video, container, false);
-        ButterKnife.bind(this, view);
+        mUnbinder = ButterKnife.bind(this, view);
         initRecycleView();
         return view;
     }
@@ -67,7 +71,7 @@ public class VideoFragment extends Fragment implements VideoOnClickListener, Vid
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        ButterKnife.unbind(this);
+        mUnbinder.unbind();
     }
 
 

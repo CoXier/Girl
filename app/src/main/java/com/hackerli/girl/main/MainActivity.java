@@ -25,19 +25,20 @@ import com.hackerli.girl.ui.SearchWindow;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 public class MainActivity extends AppCompatActivity implements SheetLayout.OnFabAnimationEndListener {
-    @Bind(R.id.tab)
+    @BindView(R.id.tab)
     TabLayout mTab;
-    @Bind(R.id.vp)
+    @BindView(R.id.vp)
     ViewPager mVP;
-    @Bind(R.id.fla_upload)
+    @BindView(R.id.fla_upload)
     FloatingActionButton mFab;
-    @Bind(R.id.toolbar)
+    @BindView(R.id.toolbar)
     Toolbar mToolbar;
-    @Bind(R.id.bottom_sheet)
+    @BindView(R.id.bottom_sheet)
     SheetLayout mSheetLayout;
 
     SearchWindow mPopupWindow;
@@ -46,13 +47,13 @@ public class MainActivity extends AppCompatActivity implements SheetLayout.OnFab
     String[] mTitles;
 
     private static final int REQUEST_CODE = 1;
-
+    private Unbinder mUnbinder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ButterKnife.bind(this);
+        mUnbinder = ButterKnife.bind(this);
 
         setSupportActionBar(mToolbar);
         getSupportActionBar().setTitle(getString(R.string.title_main_activity_toolbar));
@@ -99,7 +100,7 @@ public class MainActivity extends AppCompatActivity implements SheetLayout.OnFab
 
     @Override
     protected void onDestroy() {
-        ButterKnife.unbind(this);
+        mUnbinder.unbind();
         super.onDestroy();
     }
 

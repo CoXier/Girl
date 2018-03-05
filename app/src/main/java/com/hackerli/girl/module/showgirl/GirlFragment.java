@@ -22,8 +22,9 @@ import com.hackerli.girl.util.SnackBarUtil;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 import jp.wasabeef.recyclerview.adapters.ScaleInAnimationAdapter;
 
 /**
@@ -31,9 +32,9 @@ import jp.wasabeef.recyclerview.adapters.ScaleInAnimationAdapter;
  */
 public class GirlFragment extends BaseFragment implements GirlOnClickListener, GirlContract.View {
 
-    @Bind(R.id.recl)
+    @BindView(R.id.recl)
     RecyclerView mRecyclerView;
-    @Bind(R.id.swipe_refresh_layout)
+    @BindView(R.id.swipe_refresh_layout)
     SwipeRefreshLayout mSwipeRefreshLayout;
 
     private int mPage = 1;
@@ -43,11 +44,13 @@ public class GirlFragment extends BaseFragment implements GirlOnClickListener, G
 
     private boolean mIsFirstTouchedBottom = true;
 
+    private Unbinder mUnbinder;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_girl, container, false);
-        ButterKnife.bind(this, view);
+        mUnbinder = ButterKnife.bind(this, view);
 
         setRecyclerView();
         setSwipeRefreshLayout();
@@ -119,7 +122,7 @@ public class GirlFragment extends BaseFragment implements GirlOnClickListener, G
 
     @Override
     public void onDestroyView() {
-        ButterKnife.unbind(this);
+        mUnbinder.unbind();
         super.onDestroyView();
     }
 

@@ -15,7 +15,7 @@ import com.hackerli.girl.data.entity.Girl;
 
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -69,9 +69,9 @@ public class GirlAdapter extends BaseRVAdapter<Girl, GirlAdapter.GirlHolder> {
     }
 
     class GirlHolder extends RecyclerView.ViewHolder {
-        @Bind(R.id.iv_girl)
+        @BindView(R.id.iv_girl)
         ImageView mImageView;
-        @Bind(R.id.tv_date)
+        @BindView(R.id.tv_date)
         TextView mTextView;
 
         GirlHolder(View itemView) {

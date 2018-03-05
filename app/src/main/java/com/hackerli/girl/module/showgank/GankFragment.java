@@ -21,17 +21,18 @@ import com.hackerli.girl.web.WebActivity;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 import jp.wasabeef.recyclerview.adapters.SlideInBottomAnimationAdapter;
 
 /**
  * Created by CoXier on 2016/5/2.
  */
 public class GankFragment extends BaseFragment implements GankOnClickListener, GankContract.View {
-    @Bind(R.id.gank_refresh_layout)
+    @BindView(R.id.gank_refresh_layout)
     SwipeRefreshLayout mSwipeRefreshLayout;
-    @Bind(R.id.recycle_gank)
+    @BindView(R.id.recycle_gank)
     RecyclerView mRecyclerView;
 
     private int mPage = 1;
@@ -40,12 +41,13 @@ public class GankFragment extends BaseFragment implements GankOnClickListener, G
     private GankContract.Presenter mPresenter = new GankPresenter(this);
 
     private boolean mIsFirstTouchedBottom = true;
+    private Unbinder mUnbinder;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_gank, container, false);
-        ButterKnife.bind(this, v);
+        mUnbinder = ButterKnife.bind(this, v);
 
         setRecyclerView();
         setSwipeRefreshLayout();
@@ -72,7 +74,7 @@ public class GankFragment extends BaseFragment implements GankOnClickListener, G
 
     @Override
     public void onDestroyView() {
-        ButterKnife.unbind(this);
+        mUnbinder.unbind();
         super.onDestroyView();
     }
 

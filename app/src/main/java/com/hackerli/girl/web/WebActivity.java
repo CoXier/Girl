@@ -11,12 +11,12 @@ import android.webkit.WebViewClient;
 
 import com.hackerli.girl.R;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class WebActivity extends AppCompatActivity {
 
-    @Bind(R.id.wv_gank)
+    @BindView(R.id.wv_gank)
     WebView mWebView;
 
     @Override

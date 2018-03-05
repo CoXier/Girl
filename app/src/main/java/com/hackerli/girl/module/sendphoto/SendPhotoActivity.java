@@ -28,24 +28,24 @@ import com.hackerli.girl.util.ToastUtil;
 
 import java.io.FileNotFoundException;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class SendPhotoActivity extends AppCompatActivity implements SendContract.View {
 
-    @Bind(R.id.toolbar_actionbar)
+    @BindView(R.id.toolbar_actionbar)
     Toolbar mToolbar;
 
-    @Bind(R.id.imageView_pick)
+    @BindView(R.id.imageView_pick)
     ImageView mImageViewPick;
-    @Bind(R.id.text_photo_desc)
+    @BindView(R.id.text_photo_desc)
     TextInputEditText mTextPhotoDesc;
-    @Bind(R.id.text_photo_name)
+    @BindView(R.id.text_photo_name)
     TextInputEditText mTextPhotoName;
-    @Bind(R.id.imageView_send)
+    @BindView(R.id.imageView_send)
     ImageView mImageViewSend;
-    @Bind(R.id.cardView_wrapper)
+    @BindView(R.id.cardView_wrapper)
     CardView mCardViewWrapper;
 
     private SendPresenter mPresenter;

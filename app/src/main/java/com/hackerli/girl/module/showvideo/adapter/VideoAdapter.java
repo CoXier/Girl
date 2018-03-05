@@ -22,7 +22,7 @@ import com.hackerli.girl.data.entity.Video;
 
 import java.util.ArrayList;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -130,11 +130,11 @@ public class VideoAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     }
 
     class NormalVideoHolder extends BaseViewHolder {
-        @Bind(R.id.card)
+        @BindView(R.id.card)
         CardView mCardView;
-        @Bind(R.id.iv_video)
+        @BindView(R.id.iv_video)
         ImageView mImageView;
-        @Bind(R.id.tv_video_title)
+        @BindView(R.id.tv_video_title)
         TextView mTVTitle;
 
         NormalVideoHolder(View itemView) {
@@ -177,9 +177,9 @@ public class VideoAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     }
 
     class FootViewHolder extends BaseViewHolder {
-        @Bind(R.id.iv_refresh_category)
+        @BindView(R.id.iv_refresh_category)
         ImageView mFootImageView;
-        @Bind(R.id.tv_refresh_category)
+        @BindView(R.id.tv_refresh_category)
         TextView mFootTextView;
 
         FootViewHolder(View itemView) {

@@ -15,7 +15,7 @@ import com.hackerli.girl.data.entity.AndroidWrapper;
 
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
 import me.gujun.android.taggroup.TagGroup;
@@ -100,13 +100,13 @@ public class GankAdapter extends BaseRVAdapter<String, GankAdapter.GankHolder> {
     }
 
     class GankHolder extends RecyclerView.ViewHolder {
-        @Bind(R.id.iv_author)
+        @BindView(R.id.iv_author)
         CircleImageView mImageView;
-        @Bind(R.id.tv_author)
+        @BindView(R.id.tv_author)
         TextView mAuthor;
-        @Bind(R.id.tv_title)
+        @BindView(R.id.tv_title)
         TextView mTitle;
-        @Bind(R.id.tag_group)
+        @BindView(R.id.tag_group)
         TagGroup mTagGroup;
         View mItemView;
 
