@@ -21,14 +21,20 @@ import com.hackerli.girl.network.NetworkComponent;
 import com.hackerli.girl.util.ToastUtil;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import okhttp3.Call;
-import okhttp3.Callback;
 import okhttp3.OkHttpClient;
+import okhttp3.Request;
 import okhttp3.Response;
+import rx.Observable;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+import rx.functions.Func1;
+import rx.schedulers.Schedulers;
 import uk.co.senab.photoview.PhotoView;
 import uk.co.senab.photoview.PhotoViewAttacher;
 
@@ -96,39 +102,64 @@ public class GirlPhotoFragment extends DialogFragment {
         });
     }
 
-    private void saveBitmap(String photoUrl, final String desc) {
-        OkHttpClient client = new OkHttpClient();
-        okhttp3.Request request = new okhttp3.Request.Builder().url(photoUrl).build();
-        client.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                File appDir = new File(Environment.getExternalStorageDirectory(), "Girl");
-                if (!appDir.exists()) {
-                    appDir.mkdir();
-                }
-                final File file = new File(appDir, desc + ".jpg");
-                okio.BufferedSink bufferedSink = okio.Okio.buffer(okio.Okio.sink(file));
-                bufferedSink.writeAll(response.body().source());
-                bufferedSink.close();
-                getActivity().runOnUiThread(new Runnable() {
+    private void saveBitmap(final String photoUrl, final String desc) {
+        Observable.create(new CallOnSubscribe(photoUrl))
+                .subscribeOn(Schedulers.io())
+                .flatMap(new Func1<Response, Observable<File>>() {
                     @Override
-                    public void run() {
+                    public Observable<File> call(Response response) {
+                        File appDir = new File(Environment.getExternalStorageDirectory(), "Girl");
+                        if (!appDir.exists()) {
+                            appDir.mkdir();
+                        }
+                        final File file = new File(appDir, desc + ".jpg");
+                        okio.BufferedSink bufferedSink = null;
+                        try {
+                            bufferedSink = okio.Okio.buffer(okio.Okio.sink(file));
+                            bufferedSink.writeAll(response.body().source());
+                            bufferedSink.close();
+                        } catch (FileNotFoundException e) {
+                            e.printStackTrace();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        return Observable.just(file);
+                    }
+                }).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<File>() {
+                    @Override
+                    public void call(File file) {
                         Uri uri = Uri.fromFile(file);
                         // 通知图库更新
                         Intent scannerIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, uri);
-                        getActivity().sendBroadcast(scannerIntent);
-                        ToastUtil.showToast(getActivity(), "保存至" + uri.toString());
+                        if (getActivity() != null) {
+                            getActivity().sendBroadcast(scannerIntent);
+                            ToastUtil.showToast(getActivity(), "保存至" + uri.toString());
+                        }
                     }
                 });
-            }
-        });
     }
 
+    private static class CallOnSubscribe implements Observable.OnSubscribe<Response> {
+        String mPhotoUrl;
+
+
+        CallOnSubscribe(String photoUrl) {
+            this.mPhotoUrl = photoUrl;
+        }
+
+        @Override
+        public void call(Subscriber<? super Response> subscriber) {
+            OkHttpClient client = NetworkComponent.getInstance().getClient();
+            Request request = new okhttp3.Request.Builder().url(mPhotoUrl).build();
+            try {
+                Response response = client.newCall(request).execute();
+                subscriber.onNext(response);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
     @Override
     public void onResume() {
