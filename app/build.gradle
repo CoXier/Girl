@@ -1,5 +1,4 @@
 apply plugin: 'com.android.application'
-apply plugin: 'com.neenbedankt.android-apt'
 apply from: 'checkstyle.gradle'
 apply from: '../constants.gradle'
 
@@ -55,41 +54,41 @@ android {
 
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    testCompile 'junit:junit:4.12'
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    testImplementation 'junit:junit:4.12'
 
     // Support library
-    compile "com.android.support:appcompat-v7:${project.supportLibraryVersion}"
-    compile "com.android.support:design:${project.supportLibraryVersion}"
-    compile "com.android.support:recyclerview-v7:${project.supportLibraryVersion}"
-    compile "com.android.support:cardview-v7:${project.supportLibraryVersion}"
-    compile "com.android.support:support-v4:${project.supportLibraryVersion}"
+    implementation "com.android.support:appcompat-v7:${project.supportLibraryVersion}"
+    implementation "com.android.support:design:${project.supportLibraryVersion}"
+    implementation "com.android.support:recyclerview-v7:${project.supportLibraryVersion}"
+    implementation "com.android.support:cardview-v7:${project.supportLibraryVersion}"
+    implementation "com.android.support:support-v4:${project.supportLibraryVersion}"
 
     // RxAndroid and Retrofit
-    compile 'com.squareup.retrofit2:retrofit:2.0.0'
-    compile 'com.google.code.gson:gson:2.7'
-    compile 'com.squareup.retrofit2:converter-gson:2.0.0'
-    compile 'com.squareup.retrofit2:adapter-rxjava:2.0.0'
-    compile 'io.reactivex:rxandroid:1.1.0'
-    compile 'io.reactivex:rxjava:1.1.0'
+    implementation 'com.squareup.retrofit2:retrofit:2.0.0'
+    implementation 'com.google.code.gson:gson:2.7'
+    implementation 'com.squareup.retrofit2:converter-gson:2.0.0'
+    implementation 'com.squareup.retrofit2:adapter-rxjava:2.0.0'
+    implementation 'io.reactivex:rxandroid:1.1.0'
+    implementation 'io.reactivex:rxjava:1.1.0'
 
 
     // Rom
-    apt "com.github.Raizlabs.DBFlow:dbflow-processor:${project.db_flow_version}"
-    compile "com.github.Raizlabs.DBFlow:dbflow-core:${project.db_flow_version}"
-    compile "com.github.Raizlabs.DBFlow:dbflow:${project.db_flow_version}"
-    compile "com.github.Raizlabs.DBFlow:dbflow-sqlcipher:${project.db_flow_version}"
+    annotationProcessor "com.github.Raizlabs.DBFlow:dbflow-processor:${project.db_flow_version}"
+    implementation "com.github.Raizlabs.DBFlow:dbflow-core:${project.db_flow_version}"
+    implementation "com.github.Raizlabs.DBFlow:dbflow:${project.db_flow_version}"
+    implementation "com.github.Raizlabs.DBFlow:dbflow-sqlcipher:${project.db_flow_version}"
 
     // Tool
-    compile 'com.jakewharton:butterknife:7.0.1'
+    implementation 'com.jakewharton:butterknife:7.0.1'
 
 
-    compile 'jp.wasabeef:recyclerview-animators:2.2.1'
-    compile 'com.github.coyarzun89:fabtransitionactivity:0.2.0'
-    compile 'org.jsoup:jsoup:1.10.2'
-    compile 'cn.leancloud.android:avoscloud-sdk:v3.+'
-    compile 'com.github.bumptech.glide:glide:3.7.0'
-    compile 'com.commit451:PhotoView:1.2.5'
-    compile 'me.gujun.android.taggroup:library:1.4@aar'
-    compile 'de.hdodenhof:circleimageview:2.0.0'
+    implementation 'jp.wasabeef:recyclerview-animators:2.2.1'
+    implementation 'com.github.coyarzun89:fabtransitionactivity:0.2.0'
+    implementation 'org.jsoup:jsoup:1.10.2'
+    implementation 'cn.leancloud.android:avoscloud-sdk:v3.+'
+    implementation 'com.github.bumptech.glide:glide:3.7.0'
+    implementation 'com.commit451:PhotoView:1.2.5'
+    implementation 'me.gujun.android.taggroup:library:1.4@aar'
+    implementation 'de.hdodenhof:circleimageview:2.0.0'
 }
