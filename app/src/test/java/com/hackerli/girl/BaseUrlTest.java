@@ -1,10 +1,8 @@
 package com.hackerli.girl;
 
-import com.hackerli.girl.api.BaseUrl;
+import com.hackerli.girl.network.api.BaseUrl;
 
 import org.junit.Test;
-
-import static org.junit.Assert.*;
 
 
 /**
@@ -15,7 +13,7 @@ public class BaseUrlTest {
     @Test
     public void check_baseUrl() {
         try {
-            Class c = Class.forName("com.hackerli.girl.api.GankIoService");
+            Class c = Class.forName("com.hackerli.girl.network.api.GankIoService");
 
             if (c.isAnnotationPresent(BaseUrl.class)) {
                 BaseUrl baseUrl = (BaseUrl) c.getAnnotation(BaseUrl.class);

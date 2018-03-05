@@ -1,4 +1,4 @@
-package com.hackerli.girl.api;
+package com.hackerli.girl.network.api;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

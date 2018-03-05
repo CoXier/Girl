@@ -1,4 +1,4 @@
-package com.hackerli.girl.api;
+package com.hackerli.girl.network.api;
 
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;

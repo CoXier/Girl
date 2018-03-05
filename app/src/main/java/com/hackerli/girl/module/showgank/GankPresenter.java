@@ -3,9 +3,9 @@ package com.hackerli.girl.module.showgank;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.hackerli.girl.api.ApiServiceFactory;
-import com.hackerli.girl.api.GankIoService;
-import com.hackerli.girl.api.GitHubService;
+import com.hackerli.girl.network.api.ApiServiceFactory;
+import com.hackerli.girl.network.api.GankIoService;
+import com.hackerli.girl.network.api.GitHubService;
 import com.hackerli.girl.data.AndroidData;
 import com.hackerli.girl.data.entity.Android;
 import com.hackerli.girl.data.entity.AndroidWrapper;

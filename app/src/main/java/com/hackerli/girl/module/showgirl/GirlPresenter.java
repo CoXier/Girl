@@ -2,8 +2,8 @@ package com.hackerli.girl.module.showgirl;
 
 import android.support.annotation.NonNull;
 
-import com.hackerli.girl.api.ApiServiceFactory;
-import com.hackerli.girl.api.GankIoService;
+import com.hackerli.girl.network.api.ApiServiceFactory;
+import com.hackerli.girl.network.api.GankIoService;
 import com.hackerli.girl.data.GirlData;
 import com.hackerli.girl.data.entity.Girl;
 import com.hackerli.girl.db.AppDatabase;
