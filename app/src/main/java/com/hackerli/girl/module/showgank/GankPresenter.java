@@ -17,7 +17,6 @@ import java.util.List;
 
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 /**
  * Created by CoXier on 2016/5/2.
@@ -45,7 +44,6 @@ public class GankPresenter implements GankContract.Presenter {
     @Override
     public void loadMore(int page) {
         mGankioService.getAndroidData(page)
-                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<AndroidData>() {
                     @Override
@@ -88,7 +86,6 @@ public class GankPresenter implements GankContract.Presenter {
         String author = RegexUtil.parse("github.com/([^/]+)/", url, 1);
         android.setWho(author);
         mGitHubService.getAvatar(author)
-                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<GitUser>() {
                     @Override

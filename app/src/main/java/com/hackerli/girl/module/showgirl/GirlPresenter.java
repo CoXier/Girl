@@ -20,7 +20,6 @@ import java.util.List;
 
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 /**
  * Created by XoCier on 2016/3/20.
@@ -85,7 +84,6 @@ public class GirlPresenter implements GirlContract.Presenter {
     private void loadFromInternet(int page) {
         mStart = page;
         mService.getGirls(page)
-        .subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
         .subscribe(new Subscriber<GirlData>() {
             @Override

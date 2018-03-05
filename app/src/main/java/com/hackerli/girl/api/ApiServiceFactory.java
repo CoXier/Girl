@@ -3,6 +3,7 @@ package com.hackerli.girl.api;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by CoXier on 2016/5/24.
@@ -29,7 +30,7 @@ public class ApiServiceFactory {
         String baseUrl = getBaseUrl(clazz);
         Retrofit retrofit = new Retrofit.Builder().baseUrl(baseUrl)
                 .addConverterFactory(GsonConverterFactory.create())
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.createWithScheduler(Schedulers.io()))
                 .build();
         return retrofit.create(clazz);
     }
