@@ -17,7 +17,7 @@ import android.view.WindowManager;
 
 import com.bumptech.glide.Glide;
 import com.hackerli.girl.R;
-import com.hackerli.girl.util.NetWorkUtil;
+import com.hackerli.girl.network.NetworkComponent;
 import com.hackerli.girl.util.ToastUtil;
 
 import java.io.File;
@@ -82,7 +82,7 @@ public class GirlPhotoFragment extends DialogFragment {
         mPhotoView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                if (NetWorkUtil.isNetConnected(getActivity())) {
+                if (NetworkComponent.isNetConnected(getActivity())) {
                     // 获取存储权限
                     if (ContextCompat.checkSelfPermission(getActivity(),
                             Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {

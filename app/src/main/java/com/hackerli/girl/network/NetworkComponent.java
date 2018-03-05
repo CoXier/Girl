@@ -1,13 +1,30 @@
-package com.hackerli.girl.util;
+package com.hackerli.girl.network;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
 /**
- * 网络工具
+ * Created by lijianxin on 2018/3/5.
  */
-public class NetWorkUtil {
+
+public class NetworkComponent {
+    private static NetworkComponent sInstance;
+
+    private NetworkComponent() {
+
+    }
+
+    public static NetworkComponent getInstance() {
+        if (sInstance == null) {
+            synchronized (sInstance) {
+                if (sInstance == null) {
+                    sInstance = new NetworkComponent();
+                }
+            }
+        }
+        return sInstance;
+    }
 
     public static boolean isNetConnected(Context context) {
         if (context == null) return false;
@@ -19,5 +36,4 @@ public class NetWorkUtil {
         }
         return networkInfo != null && networkInfo.isConnected();
     }
-
 }
