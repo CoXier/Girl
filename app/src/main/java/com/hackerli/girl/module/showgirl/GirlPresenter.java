@@ -18,8 +18,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+
 
 /**
  * Created by XoCier on 2016/3/20.
@@ -84,33 +86,38 @@ public class GirlPresenter implements GirlContract.Presenter {
     private void loadFromInternet(int page) {
         mStart = page;
         mService.getGirls(page)
-        .observeOn(AndroidSchedulers.mainThread())
-        .subscribe(new Subscriber<GirlData>() {
-            @Override
-            public void onCompleted() {
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<GirlData>() {
+                    @Override
+                    public void onError(Throwable e) {
+                        mView.finishRefresh();
+                        mView.showSnackBar();
+                    }
 
-            }
+                    @Override
+                    public void onComplete() {
 
-            @Override
-            public void onError(Throwable e) {
-                mView.finishRefresh();
-                mView.showSnackBar();
-            }
+                    }
 
-            @Override
-            public void onNext(GirlData girlData) {
-                mGirlData = girlData;
-                List<Girl> newGirls = mGirlData.getGirls();
-                // check if newGirls should be added into local girls
-                if (checkShouldAdded(newGirls)) {
-                    addGirlsToDB(newGirls);
-                } else {
-                    mShouldLoadFromInternet = false;
-                }
-                mView.showMore(newGirls);
-                mView.finishRefresh();
-            }
-        });
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(GirlData girlData) {
+                        mGirlData = girlData;
+                        List<Girl> newGirls = mGirlData.getGirls();
+                        // check if newGirls should be added into local girls
+                        if (checkShouldAdded(newGirls)) {
+                            addGirlsToDB(newGirls);
+                        } else {
+                            mShouldLoadFromInternet = false;
+                        }
+                        mView.showMore(newGirls);
+                        mView.finishRefresh();
+                    }
+                });
     }
 
     private void addGirlsToDB(List<Girl> newGirls) {

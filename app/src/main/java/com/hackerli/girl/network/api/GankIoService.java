@@ -4,9 +4,9 @@ package com.hackerli.girl.network.api;
 import com.hackerli.girl.data.AndroidData;
 import com.hackerli.girl.data.GirlData;
 
+import io.reactivex.Observable;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
-import rx.Observable;
 
 
 /**

@@ -2,9 +2,9 @@ package com.hackerli.girl.network.api;
 
 import com.hackerli.girl.data.entity.GitUser;
 
+import io.reactivex.Observable;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
-import rx.Observable;
 
 /**
  * Created by CoXier on 2016/5/4.

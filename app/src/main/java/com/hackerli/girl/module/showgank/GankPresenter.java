@@ -15,8 +15,10 @@ import com.hackerli.girl.util.RegexUtil;
 import java.util.ArrayList;
 import java.util.List;
 
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+
 
 /**
  * Created by CoXier on 2016/5/2.
@@ -45,16 +47,22 @@ public class GankPresenter implements GankContract.Presenter {
     public void loadMore(int page) {
         mGankioService.getAndroidData(page)
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<AndroidData>() {
-                    @Override
-                    public void onCompleted() {
-
-                    }
+                .subscribe(new Observer<AndroidData>() {
 
                     @Override
                     public void onError(Throwable e) {
                         mGankView.finishRefresh();
                         mGankView.showSnackBar();
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
                     }
 
                     @Override
@@ -87,24 +95,31 @@ public class GankPresenter implements GankContract.Presenter {
         android.setWho(author);
         mGitHubService.getAvatar(author)
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<GitUser>() {
-                    @Override
-                    public void onCompleted() {
-                        if (wrapperList.size() == size) {
-                            mGankView.showMore(wrapperList);
-                            mGankView.finishRefresh();
-                        }
-                    }
+                .subscribe(new Observer<GitUser>() {
+
 
                     @Override
-                    public void onError(Throwable e) {
-                        Log.e("TAG", e.toString());
+                    public void onSubscribe(Disposable d) {
+
                     }
 
                     @Override
                     public void onNext(GitUser gitUser) {
                         AndroidWrapper wrapper = new AndroidWrapper(android, gitUser.getImageUrl());
                         wrapperList.add(wrapper);
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        Log.e("TAG", t.toString());
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        if (wrapperList.size() == size) {
+                            mGankView.showMore(wrapperList);
+                            mGankView.finishRefresh();
+                        }
                     }
                 });
     }
