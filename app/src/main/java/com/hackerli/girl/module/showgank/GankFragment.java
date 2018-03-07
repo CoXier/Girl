@@ -75,6 +75,7 @@ public class GankFragment extends BaseFragment implements GankOnClickListener, G
     @Override
     public void onDestroyView() {
         mUnbinder.unbind();
+        mPresenter.unSubscribe();
         super.onDestroyView();
     }
 

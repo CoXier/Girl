@@ -3,6 +3,8 @@ package com.hackerli.girl.base;
 /**
  * Created by CoXier on 2016/5/2.
  */
-public  interface BasePresenter {
-     void loadMore(int page);
+public interface BasePresenter {
+    void loadMore(int page);
+
+    void unSubscribe();
 }

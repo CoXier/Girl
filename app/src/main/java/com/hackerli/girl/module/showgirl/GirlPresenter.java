@@ -71,6 +71,11 @@ public class GirlPresenter implements GirlContract.Presenter {
 
     }
 
+    @Override
+    public void unSubscribe() {
+
+    }
+
     private void loadFromLocal(int page) {
         int i = 0;
         List<Girl> newGirl = new ArrayList<>();
