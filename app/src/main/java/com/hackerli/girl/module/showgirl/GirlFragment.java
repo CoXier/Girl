@@ -123,6 +123,7 @@ public class GirlFragment extends BaseFragment implements GirlOnClickListener, G
     @Override
     public void onDestroyView() {
         mUnbinder.unbind();
+        mPresenter.unSubscribe();
         super.onDestroyView();
     }
 
