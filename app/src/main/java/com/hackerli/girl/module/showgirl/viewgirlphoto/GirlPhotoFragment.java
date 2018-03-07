@@ -108,7 +108,7 @@ public class GirlPhotoFragment extends DialogFragment {
     private void saveBitmap(final String photoUrl, final String desc) {
         Observable.create(new CallOnSubscribe(photoUrl))
                 .subscribeOn(Schedulers.io())
-                .flatMap(new Response2FileMapper(desc))
+                .map(new Response2FileMapper(desc))
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new ResultConsumer(getActivity()));
     }
@@ -140,7 +140,7 @@ public class GirlPhotoFragment extends DialogFragment {
     /**
      * Convert response to file.
      */
-    private static class Response2FileMapper implements Function<Response, Observable<File>> {
+    private static class Response2FileMapper implements Function<Response, File> {
         String mDesc;
 
         Response2FileMapper(String desc) {
@@ -148,7 +148,7 @@ public class GirlPhotoFragment extends DialogFragment {
         }
 
         @Override
-        public Observable<File> apply(Response response) throws Exception {
+        public File apply(Response response) throws Exception {
             File appDir = new File(Environment.getExternalStorageDirectory(), "Girl");
             if (!appDir.exists()) {
                 appDir.mkdir();
@@ -164,7 +164,7 @@ public class GirlPhotoFragment extends DialogFragment {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            return Observable.just(file);
+            return file;
         }
     }
 
