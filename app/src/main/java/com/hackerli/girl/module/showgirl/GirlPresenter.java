@@ -18,7 +18,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 
@@ -120,13 +119,10 @@ public class GirlPresenter implements GirlContract.Presenter {
 
     private void addGirlsToDB(List<Girl> newGirls) {
         ProcessModelTransaction<Girl> processModelTransaction
-                = new ProcessModelTransaction.Builder<>(new ProcessModelTransaction.ProcessModel<Girl>() {
-            @Override
-            public void processModel(Girl model) {
-                model.save();
-                sLocalGirls.add(model);
-            }
-        }).addAll(newGirls).build();
+                = new ProcessModelTransaction.Builder<>((ProcessModelTransaction.ProcessModel<Girl>) model -> {
+                    model.save();
+                    sLocalGirls.add(model);
+                }).addAll(newGirls).build();
         Transaction transaction = FlowManager.getDatabase(AppDatabase.class)
                 .beginTransactionAsync(processModelTransaction).build();
         transaction.execute();
