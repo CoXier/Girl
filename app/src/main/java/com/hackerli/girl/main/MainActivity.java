@@ -18,7 +18,6 @@ import com.hackerli.girl.R;
 import com.hackerli.girl.module.sendphoto.SendPhotoActivity;
 import com.hackerli.girl.module.showgank.GankFragment;
 import com.hackerli.girl.module.showgirl.GirlFragment;
-import com.hackerli.girl.module.showgirl.GirlPresenter;
 import com.hackerli.girl.module.showvideo.VideoFragment;
 import com.hackerli.girl.ui.SearchWindow;
 
@@ -61,8 +60,6 @@ public class MainActivity extends AppCompatActivity implements SheetLayout.OnFab
 
         initFabEvent();
         initPopupWindow();
-        // load data from db while app is starting
-        GirlPresenter.setLocalGirl();
     }
 
     private void initFabEvent() {
